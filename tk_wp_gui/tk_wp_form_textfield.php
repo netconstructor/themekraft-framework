@@ -1,6 +1,6 @@
 <?php
 
-class TK_WP_ADMIN_FORM_TEXTFIELD extends TK_FORM_TEXTFIELD{
+class TK_WP_FORM_TEXTFIELD extends TK_FORM_TEXTFIELD{
 	
 	var $option_group;
 	
@@ -18,7 +18,7 @@ class TK_WP_ADMIN_FORM_TEXTFIELD extends TK_FORM_TEXTFIELD{
 }
 
 function tk_wp_admin_form_textfield( $id, $name, $extra = '', $option_group = '' ){
-	$textfield = new TK_WP_ADMIN_FORM_TEXTFIELD( $id, $name, $extra, $option_group );
+	$textfield = new TK_WP_FORM_TEXTFIELD( $id, $name, $extra, $option_group );
 	return $textfield->get_html();
 }
 

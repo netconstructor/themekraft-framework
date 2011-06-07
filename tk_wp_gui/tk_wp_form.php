@@ -1,6 +1,6 @@
 <?php
 
-class TK_WP_ADMIN_FORM extends TK_HTML_FORM{
+class TK_WP_FORM extends TK_HTML_FORM{
 	
 	var $option_group;
 	
