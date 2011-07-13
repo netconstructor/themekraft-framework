@@ -15,6 +15,7 @@ class TK_WP_JQUERYUI{
 		$this->wp_components = array();
 		$this->enqueued_components = array();
 		$this->init_known_jqueryui_components();
+		
 		$this->register_components();
 	}
 	
@@ -23,6 +24,8 @@ class TK_WP_JQUERYUI{
 			wp_deregister_script( 'dtheme-ajax-js' ); // For Buddypress bug on accordion
 		}
 		
+		// echo $this->wp_version;
+				
 		// loading jQuery core
 		wp_enqueue_script( 'jquery-ui' );
 		
@@ -30,37 +33,54 @@ class TK_WP_JQUERYUI{
 			wp_enqueue_style( 'jquery-ui-css', plugin_dir_url( __FILE__ ) . 'jquery/jquery-ui.css' );
 		}
 		
+		$jqueryui_url = '';
+		
 		foreach( $components AS $component ){
-			$jqueryui_url = $this->jqueryui[ $this->wp_version ][ $component ]['url'];	
-			$jqueryui_version = $this->jqueryui[ $this->wp_version ][ $component ]['version'];
+			
+			if( isset( $this->jqueryui[ $this->wp_version ][ $component ]['url'] ) ){
+				$jqueryui_url = $this->jqueryui[ $this->wp_version ][ $component ]['url'];
+			}
+			if( isset( $this->jqueryui[ $this->wp_version ][ $component ]['version'] ) ){	
+				$jqueryui_version = $this->jqueryui[ $this->wp_version ][ $component ]['version'];
+			}
 			
 			if( $jqueryui_url == '' ){
-				$jqueryui_url = $this->jqueryui[ '3.1.3' ][ $component ]['url'];
-				$jqueryui_version = $this->jqueryui[ '3.1.3' ][ $component ]['version'];	
+				if( isset( $this->jqueryui[ '3.2' ][ $component ]['url'] ) ){
+					$jqueryui_url = $this->jqueryui[ '3.2' ][ $component ]['url'];
+				}
+				if( isset(  $this->jqueryui[ '3.2' ][ $component ]['version'] ) ){
+					$jqueryui_version = $this->jqueryui[ '3.2' ][ $component ]['version'];
+				}	
 			}
+			
 			/* echo '<pre>';
 			print_r($this->depencies[ $component ]);
 			echo '</pre>';
 			*/
-			if( count( $this->depencies[ $component ] ) > 0 ){
-				foreach( $this->depencies[ $component ] AS $required_component ){
-					
-					if( in_array( $required_component, $this->known_components) && !in_array( $required_component,  $this->enqueued_components ) ){
-						$this->add_enqueued_jqueryui_component( $required_component );
-						wp_enqueue_script( $required_component );
+			
+			if( isset( $this->depencies[ $component ] ) ){
+				if( count( $this->depencies[ $component ] ) > 0 ){
+					foreach( $this->depencies[ $component ] AS $required_component ){
+						
+						if( in_array( $required_component, $this->known_components) && !in_array( $required_component,  $this->enqueued_components ) ){
+							$this->add_enqueued_jqueryui_component( $required_component );
+							wp_enqueue_script( $required_component );
+							
+							// echo 'Enqueuing script: ' . $required_component . '<br />';
+						}
 					}
 				}
 			}
 			
 			if( !in_array( $component,  $this->wp_components ) ){
 				wp_register_script( $component, $jqueryui_url, array( 'jquery' ) , $jqueryui_version, true );
+				// echo 'Registering script: ' . $component . ' (' . $jqueryui_url . ')<br />';
 			}
 						
 			if( !in_array( $component,  $this->enqueued_components ) ){
 				$this->add_enqueued_jqueryui_component( $component );
 				wp_enqueue_script( $component );
-				
-				// echo "Queueing: " . $component . '<br>';
+				 // echo 'Enqueing script: ' . $component . '<br />';
 			}
 			
 		}
@@ -71,7 +91,7 @@ class TK_WP_JQUERYUI{
 	}
 	
 	public function add_jqueryui_component( $component_name, $wp_version, $jqueryui_component_url, $jqueryui_version = '' ){
-		if( !in_array( $component, $this->known_components ) ) {
+		// if( !in_array( $component_name, $this->known_components ) ) {
 			$this->jqueryui[ $wp_version ][ $component_name ]['url'] = $jqueryui_component_url;
 			
 			if( $jqueryui_version != '' ){
@@ -81,9 +101,6 @@ class TK_WP_JQUERYUI{
 			$this->add_known_jqueryui_component( $component_name );
 			
 			return TRUE;
-		}else{
-			return FALSE;
-		}
 	}
 	
 	public function add_depency( $component_name, $components = array() ){
@@ -92,10 +109,15 @@ class TK_WP_JQUERYUI{
 	
 	private function register_components(){
 		$this->add_jqueryui_component( 'jquery-ui-accordion', '3.1.3', plugin_dir_url( __FILE__ ) . 'jquery/1.8.9/jquery.ui.accordion.js', '1.8.9' );
-		$this->add_depency( 'jquery-ui-accordion', array( 'jquery-ui-widget' ) );
-
+		$this->add_jqueryui_component( 'jquery-ui-accordion', '3.2', plugin_dir_url( __FILE__ ) . 'jquery/1.8.12/jquery.ui.accordion.js', '1.8.12' );
+		$this->add_jqueryui_component( 'jquery-ui-accordion', '3.2.1', plugin_dir_url( __FILE__ ) . 'jquery/1.8.12/jquery.ui.accordion.js', '1.8.12' );
+		
 		$this->add_jqueryui_component( 'jquery-ui-autocomplete', '3.1.3', plugin_dir_url( __FILE__ ) . 'jquery/1.8.9/jquery.ui.autocomplete.js', '1.8.9' );
-		$this->add_depency( 'jquery-ui-autocomplete', array( 'jquery-ui-widget', 'jquery-ui-position' ) );		
+		$this->add_jqueryui_component( 'jquery-ui-autocomplete', '3.2', plugin_dir_url( __FILE__ ) . 'jquery/1.8.12/jquery.ui.autocomplete.js', '1.8.12' );
+		$this->add_jqueryui_component( 'jquery-ui-autocomplete', '3.2.1', plugin_dir_url( __FILE__ ) . 'jquery/1.8.12/jquery.ui.autocomplete.js', '1.8.12' );
+		
+		$this->add_depency( 'jquery-ui-accordion', array( 'jquery-ui-widget' ) );		
+		$this->add_depency( 'jquery-ui-autocomplete', array( 'jquery-ui-widget', 'jquery-ui-position' ) );					
 	}
 	
 	private function init_known_jqueryui_components(){
