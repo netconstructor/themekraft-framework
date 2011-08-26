@@ -44,23 +44,12 @@ class TK_WP_JQUERYUI_TABS extends TK_HTML{
 	}
 }
 
-function tk_jqueryui_tabs(){
-	global $tk_jqueryui_tabs;
-	$tk_jqueryui_tabs = new	TK_JQUERYUI_TABS();	
-}
-
-function tk_jqueryui_tabs_add_element( $id, $title, $content ){
-	global $tk_jqueryui_tabs;
-	$tk_jqueryui_tabs->add_element( $id, $title, $content );
-}
-function tk_jqueryui_tabs_get_html(){
-	global $tk_jqueryui_tabs;
+function tk_jqueryui_tabs( $elements ){
+	$tk_jqueryui_tabs = new	TK_WP_JQUERYUI_TABS();	
+	foreach ( $elements AS $element ){
+		$tk_jqueryui_tabs->add_tab( $element['id'], $element['title'], $element['content'] );
+	}
 	return $tk_jqueryui_tabs->get_html();
-}
-
-function tk_jqueryui_tabs_write_html(){
-	global $tk_jqueryui_tabs;
-	$tk_jqueryui_tabs->write_html();
 }
 
 ?>

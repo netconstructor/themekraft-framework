@@ -147,4 +147,9 @@ class TK_WP_JQUERYUI{
 	}	
 }
 
+function tk_jqueryui( $components = array() ){
+	$tk_jquery_ui = new TK_WP_JQUERYUI();
+	$tk_jquery_ui->load_jqueryui( $components  );
+}
+
 ?>
