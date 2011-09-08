@@ -4,13 +4,53 @@ class TK_FORM_CHECKBOX extends TK_FORM_ELEMENT{
 	var $extra;
 	var $checked;
 	
-	public function __construct( $name, $value, $id = '' , $checked = false, $extra = '' ){
-		parent::__construct( $name, $value, $id );
+	/**
+	 * PHP 4 constructor
+	 *
+	 * @package Themekraft Framework
+	 * @since 0.1.0
+	 * 
+	 * @param array $args Array of [ $id Id, $name Name, $value Value, $checked Checked value, $extra Extra checkbox code   ]
+	 */
+	function tk_form_checkbox( $args ){
+		$this->__construct( $args );
+	}
+	
+	/**
+	 * PHP 5 constructor
+	 *
+	 * @package Themekraft Framework
+	 * @since 0.1.0
+	 * 
+	 * @param array $args Array of [ $id Id, $name Name, $value Value, $checked Checked value, $extra Extra checkbox code   ]
+	 */
+	function __construct( $args ){
+		$defaults = array(
+			'id' => '',
+			'name' => '',
+			'value' => '',
+			'checked' => false,
+			'extra' => ''
+		);
+		
+		$args = wp_parse_args($args, $defaults);
+		extract( $args , EXTR_SKIP );
+		
+		parent::__construct( $args );
+		
 		$this->extra = $extra;
 		$this->checked = $checked;
 	}
 	
-	public function get_html(){
+	/**
+	 * Getting HTML of checkbox
+	 *
+	 * @package Themekraft Framework
+	 * @since 0.1.0
+	 * 
+	 * @return string $html The HTML of checkbox
+	 */
+	function get_html(){
 		if( $this->id != '' ) $id = ' id="' . $this->id . '"';
 		if( $this->name != '' ) $name = ' name="' . $this->name . '"';
 		if( $this->value != '' ) $value = ' value="' . $this->value . '"';
@@ -22,10 +62,9 @@ class TK_FORM_CHECKBOX extends TK_FORM_ELEMENT{
 		return $html;
 	}
 }
-
-function tk_form_checkbox( $name, $value, $id = '' , $checked = false,  $extra = '' ){
-	$textfield = new TK_FORM_CHECKBOX( $name, $value, $id, $extra );
-	return $textfield->get_html();
+function tk_form_checkbox( $args ){
+	$checkbox = new TK_FORM_CHECKBOX( $args );
+	return $checkbox->get_html();
 }
 
 ?>

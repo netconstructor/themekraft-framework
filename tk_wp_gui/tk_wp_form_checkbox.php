@@ -4,8 +4,42 @@ class TK_WP_FORM_CHECKBOX extends TK_FORM_CHECKBOX{
 	
 	var $option_group;
 	
-	public function __construct( $name, $option_group, $id = '', $extra = '' ){
+	/**
+	 * PHP 4 constructor
+	 *
+	 * @package Themekraft Framework
+	 * @since 0.1.0
+	 * 
+	 * @param string $name Name of checkbox
+	 * @param string $option_group Name of optiongroup where checkbox have to be saved
+	 * @param array $args Array of [ $id Id, $extra Extra checkbox code   ]
+	 */
+	function tk_wp_form_checkbox( $name, $option_group, $args = array()){
+		$this->__construct( $args );
+	}
+	
+	/**
+	 * PHP 5 constructor
+	 *
+	 * @package Themekraft Framework
+	 * @since 0.1.0
+	 * 
+	 * @param string $name Name of checkbox
+	 * @param string $option_group Name of optiongroup where checkbox have to be saved
+	 * @param array $args Array of [ $id Id, $extra Extra checkbox code   ]
+	 */
+	function __construct( $name, $option_group, $args = array() ){
 		global $post;
+		
+		$defaults = array(
+			'id' => '',
+			'value' => '',
+			'checked' => false,
+			'extra' => ''
+		);
+		
+		$args = wp_parse_args($args, $defaults);
+		extract( $args , EXTR_SKIP );
 		
 		if( $post != '' ){
 
@@ -28,14 +62,15 @@ class TK_WP_FORM_CHECKBOX extends TK_FORM_CHECKBOX{
 		if( $value != '' ){
 			$checked = TRUE;
 		}
-				
-		parent::__construct( $field_name , $value, $id, $checked, $extra );
+		
+		$args['name'] = $name;
+		parent::__construct( $args );
 
 	}		
 }
-function tk_wp_form_checkbox(  $name, $option_group, $id = '', $extra = '' ){
-	$textfield = new TK_WP_FORM_CHECKBOX( $name, $option_group, $id, $extra );
-	return $textfield->get_html();
+function tk_wp_form_checkbox( $name, $option_group, $args = array() ){
+	$checkbox = new TK_WP_FORM_CHECKBOX( $name, $option_group, $args  );
+	return $checkbox->get_html();
 }
 
 ?>

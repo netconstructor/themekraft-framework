@@ -1,10 +1,43 @@
 <?php 
 
 class TK_WP_FORM_SELECT extends TK_FORM_SELECT{
+	
 	var $option_group;
 	
-	public function __construct( $name, $option_group, $id = '', $extra = '' ){
+	/**
+	 * PHP 4 constructor
+	 *
+	 * @package Themekraft Framework
+	 * @since 0.1.0
+	 * 
+	 * @param string $name Name of select field
+	 * @param string $option_group Name of optiongroup where select field have to be saved
+	 * @param array $args Array of [ $id , $extra Extra select field code   ]
+	 */
+	function tk_wp_form_select( $name, $option_group, $args = array() ){
+		$this->__construct( $name, $option_group, $args );
+	}
+	
+	/**
+	 * PHP 5 constructor
+	 *
+	 * @package Themekraft Framework
+	 * @since 0.1.0
+	 * 
+	 * @param string $name Name of select field
+	 * @param string $option_group Name of optiongroup where select field have to be saved
+	 * @param array $args Array of [ $id , $extra Extra select field code   ]
+	 */
+	function __construct( $name, $option_group, $args = array() ){
 		global $post;
+		
+		$defaults = array(
+			'id' => '',
+			'extra' => ''
+		);
+		
+		$args = wp_parse_args($args, $defaults);
+		extract( $args , EXTR_SKIP );
 		
 		if( $post != '' ){
 
@@ -21,7 +54,8 @@ class TK_WP_FORM_SELECT extends TK_FORM_SELECT{
 			
 			$value = $value[ $name ];
 		} 
-				
+		
+		$args['name'] = $name;
 		parent::__construct( $field_name, $value, $id, $extra );
 
 	}			

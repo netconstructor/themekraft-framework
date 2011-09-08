@@ -1,19 +1,57 @@
 <?php
 
 class TK_WP_JQUERYUI_TABS extends TK_HTML{
-
-	public function __construct(){
+	
+	/**
+	 * PHP 4 constructor
+	 *
+	 * @package Themekraft Framework
+	 * @since 0.1.0
+	 * 
+	 */
+	function tk_wp_jqueryui_tabs(){
+		$this->__construct();
+	}
+	
+	/**
+	 * PHP 5 constructor
+	 *
+	 * @package Themekraft Framework
+	 * @since 0.1.0
+	 * 
+	 */
+	function __construct(){
 		parent::__construct();
 		
 		$jqueryui = new TK_WP_JQUERYUI();
 		$jqueryui->load_jqueryui( array( 'jquery-ui-tabs' ) );
 	}
 	
-	public function add_tab( $id, $name, $content ){
-		$element = array( 'id'=> $id, 'name' => $name, 'content' => $content );
+	/**
+	 * Adding tab
+	 *
+	 * @package Themekraft Framework
+	 * @since 0.1.0
+	 * 
+	 * @param string $id Id of the tab
+	 * @param string $title Title of the tab
+	 * @param string $content Content which appears in the tab
+	 * 
+	 */
+	public function add_tab( $id, $title, $content ){
+		$element = array( 'id'=> $id, 'title' => $title, 'content' => $content );
 		$this->add_element( $element );
 	}
 	
+	/**
+	 * Getting the tabs html
+	 *
+	 * @package Themekraft Framework
+	 * @since 0.1.0
+	 * 
+	 * @return string $html The tabs as html
+	 * 
+	 */
 	public function get_html(){
 		
 		$id = substr( md5( time() * rand() ), 0, 8 );
@@ -29,13 +67,26 @@ class TK_WP_JQUERYUI_TABS extends TK_HTML{
 		
 		$html.= '<ul>';
 		
+		$html = apply_filters( 'tk_wp_jqueryui_tabs_before_tabs', $html );
+		$html = apply_filters( 'tk_wp_jqueryui_tabs_before_tabs_' . $element['id'], $html );
+		
 		foreach( $this->elements AS $element ){
-			$html.= '<li><a href="#' . $element['id'] . '" >' . $element['name'] . '</a></li>';
+			$html.= '<li><a href="#' . $element['id'] . '" >' . $element['title'] . '</a></li>';
 		}
+		
+		$html = apply_filters( 'tk_wp_jqueryui_tabs_after_tabs', $html );
+		$html = apply_filters( 'tk_wp_jqueryui_tabs_after_tabs_' . $element['id'], $html );
+		
 		$html.= '</ul>';
 		
 		foreach( $this->elements AS $element ){
-			$html.= '<div id="' . $element['id'] . '" >' . $element['content'] . '</div>';
+			$html.= '<div id="' . $element['id'] . '" >';
+			$html = apply_filters( 'tk_wp_jqueryui_tabs_before_content', $html );
+			$html = apply_filters( 'tk_wp_jqueryui_tabs_before_content_' . $element['id'], $html );
+			$html.= $element['content'];
+			$html = apply_filters( 'tk_wp_jqueryui_tabs_after_content', $html );
+			$html = apply_filters( 'tk_wp_jqueryui_tabs_after_content_' . $element['id'], $html );
+			$html.= '</div>';
 		}
 		
 		$html.= '</div>';

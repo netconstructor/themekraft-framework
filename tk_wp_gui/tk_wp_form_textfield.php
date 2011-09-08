@@ -4,8 +4,40 @@ class TK_WP_FORM_TEXTFIELD extends TK_FORM_TEXTFIELD{
 	
 	var $option_group;
 	
-	public function __construct( $name, $option_group, $id = '', $extra = '' ){
+	/**
+	 * PHP 4 constructor
+	 *
+	 * @package Themekraft Framework
+	 * @since 0.1.0
+	 * 
+	 * @param string $name Name of textfield
+	 * @param string $option_group Name of optiongroup where textfield have to be saved
+	 * @param array $args Array of [ $id , $value,  $extra Extra textfield code   ]
+	 */
+	function tk_wp_form_textfield( $name, $option_group, $args = array() ){
+		$this->__construct( $name, $option_group, $args );
+	}
+	
+	/**
+	 * PHP 5 constructor
+	 *
+	 * @package Themekraft Framework
+	 * @since 0.1.0
+	 * 
+	 * @param string $name Name of textfield
+	 * @param string $option_group Name of optiongroup where textfield have to be saved
+	 * @param array $args Array of [ $id,  $extra Extra textfield code   ]
+	 */
+	function __construct( $name, $option_group, $args = array() ){
 		global $post;
+		
+		$defaults = array(
+			'id' => '',
+			'extra' => ''
+		);
+		
+		$args = wp_parse_args($args, $defaults);
+		extract( $args , EXTR_SKIP );
 		
 		if( $post != '' ){
 
@@ -22,15 +54,16 @@ class TK_WP_FORM_TEXTFIELD extends TK_FORM_TEXTFIELD{
 			
 			$value = $value[ $name ];
 		} 
-				
-		parent::__construct( $field_name , $value, $id, $extra );
+		
+		$args['name'] = $name;
+		parent::__construct( $args );
 
 	}
 		
 }
 
-function tk_wp_form_textfield( $name, $option_group, $id = '',  $extra = '' ){
-	$textfield = new TK_WP_FORM_TEXTFIELD( $name, $option_group, $id, $extra );
+function tk_wp_form_textfield( $name, $option_group, $args = array() ){
+	$textfield = new TK_WP_FORM_TEXTFIELD( $name, $option_group, $args );
 	return $textfield->get_html();
 }
 

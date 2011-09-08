@@ -9,7 +9,23 @@ class TK_WP_JQUERYUI{
 	var $depencies;
 	var $wp_version;
 	
-	public function __construct(){
+	/**
+	 * PHP 4 constructor
+	 *
+	 * @package Themekraft Framework
+	 * @since 0.1.0
+	 */
+	function tk_wp_jquery(){
+		$this->__construct();
+	}
+	
+	/**
+	 * PHP 5 constructor
+	 *
+	 * @package Themekraft Framework
+	 * @since 0.1.0
+	 */
+	function __construct(){
 		$this->wp_version = $GLOBALS['wp_version'];
 		$this->known_components = array();
 		$this->wp_components = array();
@@ -19,7 +35,23 @@ class TK_WP_JQUERYUI{
 		$this->register_components();
 	}
 	
-	public function load_jqueryui( $components = array (), $css = true ){
+	/**
+	 * jQueryui loader
+	 *
+	 * @package Themekraft Framework
+	 * @since 0.1.0
+	 * 
+	 * @param array $components Array with the component names
+	 * @param array $args Array of [ $css Put on false if no css should be included ]
+	 */
+	function load_jqueryui( $components = array (), $args = array() ){
+		$defaults = array(
+			'css' => 'true'
+		);
+		
+		$args = wp_parse_args($args, $defaults);
+		extract( $args , EXTR_SKIP );
+		
 		if( defined( 'BP_VERSION' ) && in_array( 'jquery-ui-accordion', $components ) ){
 			wp_deregister_script( 'dtheme-ajax-js' ); // For Buddypress bug on accordion
 		}
@@ -86,11 +118,29 @@ class TK_WP_JQUERYUI{
 		}
 	} 
 	
-	private function get_jqueryui_component( $component_name, $wp_version ){
+	/**
+	 * Getting jQueryui component ???
+	 *
+	 * @package Themekraft Framework
+	 * @since 0.1.0
+	 * 
+	 * @param array $components Array with the component names
+	 * @param array $args Array of [ $css Put on false if no css should be included ]
+	 */
+	function get_jqueryui_component( $component_name, $wp_version ){
 		$url = $this->jqueryui[ $wp_version ][ $component_name ]['url'];
 	}
 	
-	public function add_jqueryui_component( $component_name, $wp_version, $jqueryui_component_url, $jqueryui_version = '' ){
+	/**
+	 * Adding jQueryui component
+	 *
+	 * @package Themekraft Framework
+	 * @since 0.1.0
+	 * 
+	 * @param array $components Array with the component names
+	 * @param array $args Array of [ $css Put on false if no css should be included ]
+	 */
+	function add_jqueryui_component( $component_name, $wp_version, $jqueryui_component_url, $jqueryui_version = '' ){
 		// if( !in_array( $component_name, $this->known_components ) ) {
 			$this->jqueryui[ $wp_version ][ $component_name ]['url'] = $jqueryui_component_url;
 			
@@ -103,11 +153,11 @@ class TK_WP_JQUERYUI{
 			return TRUE;
 	}
 	
-	public function add_depency( $component_name, $components = array() ){
+	function add_depency( $component_name, $components = array() ){
 		$this->depencies[ $component_name ] =  $components;
 	}
 	
-	private function register_components(){
+	function register_components(){
 		$this->add_jqueryui_component( 'jquery-ui-accordion', '3.1.3', plugin_dir_url( __FILE__ ) . 'jquery/1.8.9/jquery.ui.accordion.js', '1.8.9' );
 		$this->add_jqueryui_component( 'jquery-ui-accordion', '3.2', plugin_dir_url( __FILE__ ) . 'jquery/1.8.12/jquery.ui.accordion.js', '1.8.12' );
 		$this->add_jqueryui_component( 'jquery-ui-accordion', '3.2.1', plugin_dir_url( __FILE__ ) . 'jquery/1.8.12/jquery.ui.accordion.js', '1.8.12' );
@@ -120,7 +170,7 @@ class TK_WP_JQUERYUI{
 		$this->add_depency( 'jquery-ui-autocomplete', array( 'jquery-ui-widget', 'jquery-ui-position' ) );					
 	}
 	
-	private function init_known_jqueryui_components(){
+	function init_known_jqueryui_components(){
 		$this->add_wp_jqueryui_component( 'jquery-ui-core' );
 		$this->add_wp_jqueryui_component( 'jquery-ui-button' );
 		$this->add_wp_jqueryui_component( 'jquery-ui-dialog' );
@@ -134,15 +184,15 @@ class TK_WP_JQUERYUI{
 		$this->add_wp_jqueryui_component( 'jquery-ui-widget' );		
 	}
 	
-	public function add_known_jqueryui_component( $component_name ){
+	function add_known_jqueryui_component( $component_name ){
 		array_push( $this->known_components, $component_name );
 	}
 	
-	public function add_wp_jqueryui_component( $component_name ){
+	function add_wp_jqueryui_component( $component_name ){
 		array_push( $this->wp_components, $component_name );
 		$this->add_known_jqueryui_component( $component_name );
 	}
-	public function add_enqueued_jqueryui_component( $component_name ){
+	function add_enqueued_jqueryui_component( $component_name ){
 		array_push( $this->enqueued_components, $component_name );
 	}	
 }
