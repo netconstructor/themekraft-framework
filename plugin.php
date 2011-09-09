@@ -19,7 +19,7 @@ function tk_init(){
 	 */
 	require_once( 'loader.php' ); // Get the loader script 
 	
-	$args['option_groups'] = array( 'test_options' );	// Selecting option groups for forms
+	$args['option_groups'] = array( 'test_options' );	// Adding option groups for forms
 	tk_framework( $args );	// Initializing framework	
 }
 add_action( 'init', 'tk_init' );
@@ -44,13 +44,13 @@ function tk_framework_test(){
 	/*
 	* Creating tabs
 	*/
-	echo tk_jqueryui_tabs( 'mytabs', $content );
+	echo tk_tabs( 'mytabs', $content );
 	
 	echo "<h3>Accordion</h3>";
 	/*
 	* Creating accordion
 	*/
-	echo tk_jquery_accordion( 'myaccordion', $content );
+	echo tk_accordion( 'myaccordion', $content );
 	
 		
 	echo "<h3>Forms & Fields</h3>";
@@ -61,7 +61,24 @@ function tk_framework_test(){
 	
 	tk_form_start( 'test_options' ); // Starting form
 	
-	echo tk_form_textfield( 'test_textfeld' ); // Adding textfield
+	// Textfield
+	echo tk_form_textfield( 'test_textfeld' ); 
+	
+	// Checkbox
+	echo tk_form_checkbox( 'test_checkbox' );
+	
+	// Select box
+	$options = array( 'Eins', 'Zwei', 'Drei' );
+	echo tk_form_select( 'test_select', $options );
+	
+	/*
+	 * If you want to add values to your selectbox try this
+	 * 
+	 $options = array( array( 'name' => 'Eins', 'value' => '1') , array( 'name' => 'Zwei', 'value' => '2'), array( 'name' => 'Drei', 'value' => '3') );
+	 echo tk_form_select( 'test_select', $options );
+	 */
+	
+	// Button
 	echo tk_form_button( 'Send' ); // Adding button
 	
 	tk_form_end(); // End form
@@ -77,14 +94,6 @@ function tk_framework_test(){
 	 
 	tk_form_end();
 	 
-	 */
-	
-		
-	
-	/*
-	$form = new TK_WP_Form( 'test_options', 'myform' );
-	$form->add_element( tk_form_textfield( 'test_textfeld', 'test_options' ) . tk_form_button( array( 'value' => 'Send') ) );
-	$form->write_html();
 	 */
 }
 

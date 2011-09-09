@@ -102,7 +102,7 @@ class TK_Jqueryui_Tabs extends TK_HTML{
 	}
 }
 
-function tk_jqueryui_tabs( $id, $elements ){	
+function tk_tabs( $id, $elements ){	
 	$tabs = new	TK_Jqueryui_Tabs( $id );	
 	foreach ( $elements AS $element ){
 		$tabs->add_tab( $element['id'], $element['title'], $element['content'] );

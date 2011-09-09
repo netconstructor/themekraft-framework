@@ -50,7 +50,7 @@ class TK_Form_select extends TK_Form_element{
 	 * @param string $option The option to show in list
 	 * @param array $args Array of [ $value Value, $extra Extra option code ]
 	 */
-	function add_option( $option, $args ){
+	function add_option( $option, $args = array() ){
 		$defaults = array(
 			'value' => '',
 			'extra' => ''

@@ -62,13 +62,15 @@ class TK_WP_Form_Checkbox extends TK_Form_Checkbox{
 			$checked = TRUE;
 		}
 		
-		$args['name'] = $name;
+		$args['name'] = $field_name;
+		$args['checked'] = $checked;
+		
 		parent::__construct( $args );
 
 	}		
 }
-function tk_form_checkbox( $name, $option_group, $args = array() ){
-	$checkbox = new TK_WP_Form_Checkbox( $name, $option_group, $args  );
+function tk_form_checkbox( $name, $args = array() ){
+	$checkbox = new TK_WP_Form_Checkbox( $name, $args  );
 	return $checkbox->get_html();
 }
 

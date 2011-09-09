@@ -54,10 +54,29 @@ class TK_WP_Form_Select extends TK_Form_Select{
 			$value = $value[ $name ];
 		} 
 		
-		$args['name'] = $name;
-		parent::__construct( $field_name, $value, $id, $extra );
+		$args['name'] = $field_name;
+		$args['value'] = $value;
+		
+		parent::__construct( $args );
 
 	}			
+}
+
+function tk_form_select( $name, $options, $args = array() ){
+	$select = new TK_WP_Form_Select( $name, $args );
+	foreach ( $options AS $option ){
+		if( !is_array( $option) ){
+			$select->add_option( $option );
+		}else{
+			$option_name = $option['name'];
+			$args = array(
+				'value' => $option['value'],
+				'extra' => $option['extra']
+			);
+			$select->add_option( $option_name, $args );
+		}
+	}
+	return $select->get_html();	
 }
 
 ?>

@@ -109,7 +109,7 @@ class TK_Jqueryui_Accordion extends TK_HTML{
 	}	
 	
 }
-function tk_jquery_accordion( $id, $elements ){
+function tk_accordion( $id, $elements ){
 	$accordion = new TK_Jqueryui_Accordion( $id );	
 	
 	foreach ( $elements AS $element ){
