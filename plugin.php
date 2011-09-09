@@ -55,6 +55,8 @@ function tk_framework_test(){
 		
 	echo "<h3>Forms & Fields</h3>";
 	
+	
+	
 	/*
 	* Creating a form
 	*/
@@ -62,14 +64,17 @@ function tk_framework_test(){
 	tk_form_start( 'test_options' ); // Starting form
 	
 	// Textfield
-	echo tk_form_textfield( 'test_textfeld' ); 
+	echo tk_form_textfield( 'test_textfeld' ) . '<br />'; 
 	
 	// Checkbox
-	echo tk_form_checkbox( 'test_checkbox' );
+	echo tk_form_checkbox( 'test_checkbox' ) . '<br />';
+	
+	// Colorpicker
+	echo tk_form_colorpicker( 'test_colorpicker' ) . '<br />'; 
 	
 	// Select box
 	$options = array( 'Eins', 'Zwei', 'Drei' );
-	echo tk_form_select( 'test_select', $options );
+	echo tk_form_select( 'test_select', $options ) . '<br />';
 	
 	/*
 	 * If you want to add values to your selectbox try this

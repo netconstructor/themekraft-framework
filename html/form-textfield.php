@@ -2,6 +2,8 @@
 
 class TK_Form_Textfield extends TK_Form_Element{
 	var $extra;
+	var $before_textfield;
+	var $after_textfield;
 	
 	/**
 	 * PHP 4 constructor
@@ -28,7 +30,9 @@ class TK_Form_Textfield extends TK_Form_Element{
 			'id' => '',
 			'name' => '',
 			'value' => '',
-			'extra' => ''
+			'extra' => '',
+			'before_textfield' => '',
+			'after_textfield' => ''
 		);
 		
 		$args = wp_parse_args($args, $defaults);
@@ -37,6 +41,9 @@ class TK_Form_Textfield extends TK_Form_Element{
 		parent::__construct( $args );
 		
 		$this->extra = $extra;
+		
+		$this->before_textfield = $before_textfield;
+		$this->after_textfield = $after_textfield;		
 	}
 	
 	/**
@@ -53,7 +60,9 @@ class TK_Form_Textfield extends TK_Form_Element{
 		if( $this->value != '' ) $value = ' value="' . $this->value . '"';
 		if( $this->extra != '' ) $extra = $this->extra;
 		
-		$html = '<input' . $id . $name . $value . $extra . ' />';
+		$html = $this->before_textfield;
+		$html.= '<input' . $id . $name . $value . $extra . ' />';
+		$html.= $this->after_textfield;
 		
 		return $html;
 	}

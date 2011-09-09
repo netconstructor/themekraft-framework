@@ -11,7 +11,6 @@ class TK_WP_Form_Textfield extends TK_Form_Textfield{
 	 * @since 0.1.0
 	 * 
 	 * @param string $name Name of textfield
-	 * @param string $option_group Name of optiongroup where textfield have to be saved
 	 * @param array $args Array of [ $id , $value,  $extra Extra textfield code   ]
 	 */
 	function tk_wp_form_textfield( $name, $args = array() ){
@@ -33,7 +32,9 @@ class TK_WP_Form_Textfield extends TK_Form_Textfield{
 		$defaults = array(
 			'id' => '',
 			'extra' => '',
-			'option_group' => $tk_form_instance_option_group
+			'option_group' => $tk_form_instance_option_group,
+			'before_textfield' => '',
+			'after_textfield' => ''
 		);
 		
 		$args = wp_parse_args( $args, $defaults );
