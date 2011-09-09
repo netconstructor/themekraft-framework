@@ -14,44 +14,60 @@ Site Wide Only: false
 function tk_init(){
 	define( 'TK_FRAMEWORK_URL', plugin_dir_url( __FILE__ ) );
 	
-	require_once( 'tk.php' );
+	// Include the loader script
+	require_once( 'loader.php' );
 	
-	// Initializing framework data
-	tk_framework();
-
-	// Adding all needed jquery scripts you need in your scripts 
-	tk_jqueryui( array( 'jquery-ui-tabs', 'jquery-ui-accordion', 'jquery-ui-autocomplete' ) );
+	// Adding all needed jquery scripts
+	tk_framework( array( 'jquery-ui-tabs', 'jquery-ui-accordion' ) );
+	
+	/*
+	* Adding test option group for form fields
+	*/
+	
 }
 add_action( 'init', 'tk_init' );
+
+function tk_test_option_group(){
+	tk_register_wp_option_group( 'test_options' );
+}
+add_action( 'admin_init', 'tk_test_option_group' );
 
 function tk_framework_test(){
 	
 	echo "<h2>Framework test page</h2>";
 
 	// Content array which fillls elements
-	$content_array = array(
-		array(
-			'id' => 1,
-			'title' => 'Title 1',
-			'content' => 'Content in area 1'
-		),
-		array(
-			'id' => 2,
-			'title' => 'Title 2',
-			'content' => 'Content in area 2'
-		)
+	$content[] = array(
+		'id' => 1,
+		'title' => 'Title 1',
+		'content' => 'Content in area 1'
+	);
+	$content[] = array(
+		'id' => 2,
+		'title' => 'Title 2',
+		'content' => 'Content in area 2'
 	);
 
+	echo "<h3>Tabs</h3>";
 	/*
 	* Creating tabs
 	*/
-	echo tk_jqueryui_tabs( $content_array );
+	echo tk_jqueryui_tabs( 'mytabs', $content );
 	
-	
+	echo "<h3>Accordion</h3>";
 	/*
 	* Creating accordion
 	*/
-	echo tk_wp_jquery_accordion( $content_array );		
+	echo tk_jquery_accordion( 'myaccordion', $content );
+	
+		
+	echo "<h3>Forms & Fields</h3>";
+	/*
+	* Creating a form
+	*/
+	$form = new TK_WP_Form( 'test_options', 'myform' );
+	$form->add_element( tk_wp_form_textfield( 'test_textfeld', 'test_options' ) . tk_form_button( array( 'value' => 'Send') ) );
+	$form->write_html();
 }
 
 // Just for showing menue for test site

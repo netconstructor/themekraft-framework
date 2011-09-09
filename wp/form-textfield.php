@@ -38,7 +38,7 @@ class TK_WP_Form_Textfield extends TK_Form_Textfield{
 		
 		$args = wp_parse_args($args, $defaults);
 		extract( $args , EXTR_SKIP );
-		
+
 		if( $post != '' ){
 
 			$option_group_value = get_post_meta( $post->ID , $option_group , true );
@@ -55,7 +55,8 @@ class TK_WP_Form_Textfield extends TK_Form_Textfield{
 			$value = $value[ $name ];
 		} 
 		
-		$args['name'] = $name;
+		$args['name'] = $field_name;
+		$args['value'] = $value;
 		parent::__construct( $args );
 
 	}

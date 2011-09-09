@@ -1,16 +1,6 @@
 <?php
 	
-class tk_framework{
-	
-	/**
-	 * PHP 4 constructor
-	 *
-	 * @package Themekraft Framework
-	 * @since 0.1.0
-	 */
-	function __construct(){
-		$this->includes();
-	}
+class TK_Framework{
 	
 	/**
 	 * PHP 4 constructor
@@ -23,14 +13,25 @@ class tk_framework{
 	}
 	
 	/**
+	 * PHP 5 constructor
+	 *
+	 * @package Themekraft Framework
+	 * @since 0.1.0
+	 */
+	function __construct(){
+		$this->includes();
+	}
+	
+	/**
 	 * Includes files for framework
 	 *
 	 * @package Themekraft Framework
 	 * @since 0.1.0
 	 */	
 	function includes(){
+		
 		require_once( 'html/html.php' );
-		require_once( 'html/html-form.php' );
+		require_once( 'html/form.php' );
 		require_once( 'html/form-element.php' );
 		require_once( 'html/form-button.php' );
 		require_once( 'html/form-textfield.php' );
@@ -51,8 +52,9 @@ class tk_framework{
 		require_once( 'jquery/autocomplete.php' );		
 	}
 }
-function tk_framework(){
-	global $tkf;
-	$tkf = new tk_framework();
+
+function tk_load_framework(){
+	$tkf = new TK_Framework();
 }
+
 ?>

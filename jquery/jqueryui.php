@@ -45,76 +45,78 @@ class TK_Jqueryui{
 	 * @param array $args Array of [ $css Put on false if no css should be included ]
 	 */
 	function load_jqueryui( $components = array (), $args = array() ){
-		$defaults = array(
-			'css' => 'true'
-		);
-		
-		$args = wp_parse_args($args, $defaults);
-		extract( $args , EXTR_SKIP );
-		
-		if( defined( 'BP_VERSION' ) && in_array( 'jquery-ui-accordion', $components ) ){
-			wp_deregister_script( 'dtheme-ajax-js' ); // For Buddypress bug on accordion
-		}
-		
-		// echo $this->wp_version;
+		if( count( $components ) >0 ){
+			$defaults = array(
+				'css' => 'true'
+			);
+			
+			$args = wp_parse_args($args, $defaults);
+			extract( $args , EXTR_SKIP );
+			
+			if( defined( 'BP_VERSION' ) && in_array( 'jquery-ui-accordion', $components ) ){
+				wp_deregister_script( 'dtheme-ajax-js' ); // For Buddypress bug on accordion
+			}
+			
+			// echo $this->wp_version;
+					
+			// loading jQuery core
+			wp_enqueue_script( 'jquery-ui' );
+			
+			if( $css ){
+				wp_enqueue_style( 'jquery-ui-css', plugin_dir_url( __FILE__ ) . 'lib/jquery-ui.css' );
+			}
+			
+			$jqueryui_url = '';
+			
+			foreach( $components AS $component ){
 				
-		// loading jQuery core
-		wp_enqueue_script( 'jquery-ui' );
-		
-		if( $css ){
-			wp_enqueue_style( 'jquery-ui-css', plugin_dir_url( __FILE__ ) . 'jquery/jquery-ui.css' );
-		}
-		
-		$jqueryui_url = '';
-		
-		foreach( $components AS $component ){
-			
-			if( isset( $this->jqueryui[ $this->wp_version ][ $component ]['url'] ) ){
-				$jqueryui_url = $this->jqueryui[ $this->wp_version ][ $component ]['url'];
-			}
-			if( isset( $this->jqueryui[ $this->wp_version ][ $component ]['version'] ) ){	
-				$jqueryui_version = $this->jqueryui[ $this->wp_version ][ $component ]['version'];
-			}
-			
-			if( $jqueryui_url == '' ){
-				if( isset( $this->jqueryui[ '3.2' ][ $component ]['url'] ) ){
-					$jqueryui_url = $this->jqueryui[ '3.2' ][ $component ]['url'];
+				if( isset( $this->jqueryui[ $this->wp_version ][ $component ]['url'] ) ){
+					$jqueryui_url = $this->jqueryui[ $this->wp_version ][ $component ]['url'];
 				}
-				if( isset(  $this->jqueryui[ '3.2' ][ $component ]['version'] ) ){
-					$jqueryui_version = $this->jqueryui[ '3.2' ][ $component ]['version'];
-				}	
-			}
-			
-			/* echo '<pre>';
-			print_r($this->depencies[ $component ]);
-			echo '</pre>';
-			*/
-			
-			if( isset( $this->depencies[ $component ] ) ){
-				if( count( $this->depencies[ $component ] ) > 0 ){
-					foreach( $this->depencies[ $component ] AS $required_component ){
-						
-						if( in_array( $required_component, $this->known_components) && !in_array( $required_component,  $this->enqueued_components ) ){
-							$this->add_enqueued_jqueryui_component( $required_component );
-							wp_enqueue_script( $required_component );
+				if( isset( $this->jqueryui[ $this->wp_version ][ $component ]['version'] ) ){	
+					$jqueryui_version = $this->jqueryui[ $this->wp_version ][ $component ]['version'];
+				}
+				
+				if( $jqueryui_url == '' ){
+					if( isset( $this->jqueryui[ '3.2' ][ $component ]['url'] ) ){
+						$jqueryui_url = $this->jqueryui[ '3.2' ][ $component ]['url'];
+					}
+					if( isset(  $this->jqueryui[ '3.2' ][ $component ]['version'] ) ){
+						$jqueryui_version = $this->jqueryui[ '3.2' ][ $component ]['version'];
+					}	
+				}
+				
+				/* echo '<pre>';
+				print_r($this->depencies[ $component ]);
+				echo '</pre>';
+				*/
+				
+				if( isset( $this->depencies[ $component ] ) ){
+					if( count( $this->depencies[ $component ] ) > 0 ){
+						foreach( $this->depencies[ $component ] AS $required_component ){
 							
-							// echo 'Enqueuing script: ' . $required_component . '<br />';
+							if( in_array( $required_component, $this->known_components) && !in_array( $required_component,  $this->enqueued_components ) ){
+								$this->add_enqueued_jqueryui_component( $required_component );
+								wp_enqueue_script( $required_component );
+								
+								// echo 'Enqueuing script: ' . $required_component . '<br />';
+							}
 						}
 					}
 				}
+				
+				if( !in_array( $component,  $this->wp_components ) ){
+					wp_register_script( $component, $jqueryui_url, array( 'jquery' ) , $jqueryui_version, true );
+					// echo 'Registering script: ' . $component . ' (' . $jqueryui_url . ')<br />';
+				}
+							
+				if( !in_array( $component,  $this->enqueued_components ) ){
+					$this->add_enqueued_jqueryui_component( $component );
+					wp_enqueue_script( $component );
+					 // echo 'Enqueing script: ' . $component . '<br />';
+				}
+				
 			}
-			
-			if( !in_array( $component,  $this->wp_components ) ){
-				wp_register_script( $component, $jqueryui_url, array( 'jquery' ) , $jqueryui_version, true );
-				// echo 'Registering script: ' . $component . ' (' . $jqueryui_url . ')<br />';
-			}
-						
-			if( !in_array( $component,  $this->enqueued_components ) ){
-				$this->add_enqueued_jqueryui_component( $component );
-				wp_enqueue_script( $component );
-				 // echo 'Enqueing script: ' . $component . '<br />';
-			}
-			
 		}
 	} 
 	
@@ -200,6 +202,11 @@ class TK_Jqueryui{
 function tk_jqueryui( $components = array() ){
 	$tk_jquery_ui = new TK_Jqueryui();
 	$tk_jquery_ui->load_jqueryui( $components  );
+}
+
+function tk_load_jqueryui(){
+	global $tk_jqueryui_components;
+	tk_jqueryui( $tk_jqueryui_components );
 }
 
 ?>
