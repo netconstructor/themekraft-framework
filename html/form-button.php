@@ -24,11 +24,10 @@ class TK_Form_Button extends TK_Form_Element{
 	 * 
 	 * @param array $args Array of [ $id Id, $name Name, $value Value, $submit use submit, $extra Extra checkbox code   ]
 	 */
-	function __construct( $args ){
+	function __construct( $value, $args = array() ){
 		$defaults = array(
 			'id' => '',
 			'name' => '',
-			'value' => '',
 			'submit' => true,
 			'extra' => ''
 		);
@@ -36,6 +35,7 @@ class TK_Form_Button extends TK_Form_Element{
 		$args = wp_parse_args($args, $defaults);
 		extract( $args , EXTR_SKIP );
 		
+		$args['value'] = $value;	
 		parent::__construct( $args );
 		
 		$this->submit = $submit;
@@ -65,8 +65,8 @@ class TK_Form_Button extends TK_Form_Element{
 	}
 }
 
-function tk_form_button( $args ){
-	$button = new TK_Form_Button( $args );
+function tk_button( $value, $args = array() ){
+	$button = new TK_Form_Button( $value, $args );
 	return $button->get_html();
 }
 

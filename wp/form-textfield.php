@@ -14,7 +14,7 @@ class TK_WP_Form_Textfield extends TK_Form_Textfield{
 	 * @param string $option_group Name of optiongroup where textfield have to be saved
 	 * @param array $args Array of [ $id , $value,  $extra Extra textfield code   ]
 	 */
-	function tk_wp_form_textfield( $name, $option_group, $args = array() ){
+	function tk_wp_form_textfield( $name, $args = array() ){
 		$this->__construct( $name, $option_group, $args );
 	}
 	
@@ -25,18 +25,18 @@ class TK_WP_Form_Textfield extends TK_Form_Textfield{
 	 * @since 0.1.0
 	 * 
 	 * @param string $name Name of textfield
-	 * @param string $option_group Name of optiongroup where textfield have to be saved
-	 * @param array $args Array of [ $id,  $extra Extra textfield code   ]
+	 * @param array $args Array of [ $id,  $extra Extra textfield code, $option_group Name of optiongroup where textfield have to be saved   ]
 	 */
-	function __construct( $name, $option_group, $args = array() ){
-		global $post;
+	function __construct( $name, $args = array() ){
+		global $post, $tk_form_instance_option_group;
 		
 		$defaults = array(
 			'id' => '',
-			'extra' => ''
+			'extra' => '',
+			'option_group' => $tk_form_instance_option_group
 		);
 		
-		$args = wp_parse_args($args, $defaults);
+		$args = wp_parse_args( $args, $defaults );
 		extract( $args , EXTR_SKIP );
 
 		if( $post != '' ){
@@ -63,8 +63,8 @@ class TK_WP_Form_Textfield extends TK_Form_Textfield{
 		
 }
 
-function tk_wp_form_textfield( $name, $option_group, $args = array() ){
-	$textfield = new TK_WP_Form_Textfield( $name, $option_group, $args );
+function tk_form_textfield( $name, $args = array() ){
+	$textfield = new TK_WP_Form_Textfield( $name, $args );
 	return $textfield->get_html();
 }
 

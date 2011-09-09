@@ -11,11 +11,10 @@ class TK_WP_Form_Select extends TK_Form_Select{
 	 * @since 0.1.0
 	 * 
 	 * @param string $name Name of select field
-	 * @param string $option_group Name of optiongroup where select field have to be saved
 	 * @param array $args Array of [ $id , $extra Extra select field code   ]
 	 */
-	function tk_wp_form_select( $name, $option_group, $args = array() ){
-		$this->__construct( $name, $option_group, $args );
+	function tk_wp_form_select( $name, $args = array() ){
+		$this->__construct( $name, $args );
 	}
 	
 	/**
@@ -25,15 +24,15 @@ class TK_WP_Form_Select extends TK_Form_Select{
 	 * @since 0.1.0
 	 * 
 	 * @param string $name Name of select field
-	 * @param string $option_group Name of optiongroup where select field have to be saved
-	 * @param array $args Array of [ $id , $extra Extra select field code   ]
+	 * @param array $args Array of [ $id , $extra Extra select field code, $option_group Name of optiongroup where select field have to be saved ]
 	 */
-	function __construct( $name, $option_group, $args = array() ){
-		global $post;
+	function __construct( $name, $args = array() ){
+		global $post, $tk_form_instance_option_group;
 		
 		$defaults = array(
 			'id' => '',
-			'extra' => ''
+			'extra' => '',
+			'option_group' => $tk_form_instance_option_group
 		);
 		
 		$args = wp_parse_args($args, $defaults);

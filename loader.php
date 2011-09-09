@@ -13,13 +13,37 @@ function tkf_init_010(){
 	require_once( 'core.php' );
 }
 
-function tk_framework( $jqueryui_components = array()  ){
-	global $tk_jqueryui_components;
+function tk_framework( $args = array()  ){
+	$defaults = array(
+		'jqueryui_components' => '',
+		'option_groups' => ''
+	);
 	
-	$tk_jqueryui_components = $jqueryui_components;
+	$args = wp_parse_args($args, $defaults);
+	extract( $args , EXTR_SKIP );
+	
+	if( count( $option_groups ) > 0  ){
+		global $tk_option_groups;
+		$tk_option_groups = $option_groups;
+	}
+	
+	if( count( $tk_jqueryui_components ) > 0  ){
+		global $tk_jqueryui_components;
+		$tk_jqueryui_components = $jqueryui_components;
+	}
+	
+	add_action( 'admin_init', 'tk_register_option_groups' );
 	
 	add_action( 'wp_loaded', 'tk_load_framework' );
 	add_action( 'wp_loaded', 'tk_load_jqueryui' );
+}
+
+function tk_register_option_groups(){
+	global $tk_option_groups;
+	
+	foreach( $tk_option_groups AS $option_group ){
+		tk_register_wp_option_group( $option_group );
+	}
 }
 
 // If there is already a framework started

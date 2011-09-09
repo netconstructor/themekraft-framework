@@ -11,11 +11,10 @@ class TK_WP_Form_Checkbox extends TK_Form_Checkbox{
 	 * @since 0.1.0
 	 * 
 	 * @param string $name Name of checkbox
-	 * @param string $option_group Name of optiongroup where checkbox have to be saved
 	 * @param array $args Array of [ $id Id, $extra Extra checkbox code   ]
 	 */
-	function tk_wp_form_checkbox( $name, $option_group, $args = array()){
-		$this->__construct( $args );
+	function tk_wp_form_checkbox( $name, $args = array()){
+		$this->__construct( $name, $args );
 	}
 	
 	/**
@@ -25,17 +24,17 @@ class TK_WP_Form_Checkbox extends TK_Form_Checkbox{
 	 * @since 0.1.0
 	 * 
 	 * @param string $name Name of checkbox
-	 * @param string $option_group Name of optiongroup where checkbox have to be saved
-	 * @param array $args Array of [ $id Id, $extra Extra checkbox code   ]
+	 * @param array $args Array of [ $id Id, $extra Extra checkbox code, $option_group Name of optiongroup where checkbox have to be saved ]
 	 */
-	function __construct( $name, $option_group, $args = array() ){
-		global $post;
+	function __construct( $name, $args = array() ){
+		global $post, $tk_form_instance_option_group;
 		
 		$defaults = array(
 			'id' => '',
 			'value' => '',
 			'checked' => false,
-			'extra' => ''
+			'extra' => '',
+			'option_group' => $tk_form_instance_option_group
 		);
 		
 		$args = wp_parse_args($args, $defaults);
@@ -68,7 +67,7 @@ class TK_WP_Form_Checkbox extends TK_Form_Checkbox{
 
 	}		
 }
-function tk_wp_form_checkbox( $name, $option_group, $args = array() ){
+function tk_form_checkbox( $name, $option_group, $args = array() ){
 	$checkbox = new TK_WP_Form_Checkbox( $name, $option_group, $args  );
 	return $checkbox->get_html();
 }

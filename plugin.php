@@ -14,23 +14,15 @@ Site Wide Only: false
 function tk_init(){
 	define( 'TK_FRAMEWORK_URL', plugin_dir_url( __FILE__ ) );
 	
-	// Include the loader script
-	require_once( 'loader.php' );
+	/**
+	 * Starting the framework
+	 */
+	require_once( 'loader.php' ); // Get the loader script 
 	
-	// Adding all needed jquery scripts
-	tk_framework( array( 'jquery-ui-tabs', 'jquery-ui-accordion' ) );
-	
-	/*
-	* Adding test option group for form fields
-	*/
-	
+	$args['option_groups'] = array( 'test_options' );	// Selecting option groups for forms
+	tk_framework( $args );	// Initializing framework	
 }
 add_action( 'init', 'tk_init' );
-
-function tk_test_option_group(){
-	tk_register_wp_option_group( 'test_options' );
-}
-add_action( 'admin_init', 'tk_test_option_group' );
 
 function tk_framework_test(){
 	
@@ -62,12 +54,38 @@ function tk_framework_test(){
 	
 		
 	echo "<h3>Forms & Fields</h3>";
+	
 	/*
 	* Creating a form
 	*/
+	
+	tk_form_start( 'test_options' ); // Starting form
+	
+	echo tk_form_textfield( 'test_textfeld' ); // Adding textfield
+	echo tk_form_button( 'Send' ); // Adding button
+	
+	tk_form_end(); // End form
+	
+	/*
+	 * If you want to put form content by parameter try this
+	 * 
+	tk_form_start( 'test_options' );
+	
+	$html = tk_form_textfield( 'test_textfeld' );
+	$html.= tk_form_button( 'Send' );
+	tk_form_content($html); // Putting your content
+	 
+	tk_form_end();
+	 
+	 */
+	
+		
+	
+	/*
 	$form = new TK_WP_Form( 'test_options', 'myform' );
-	$form->add_element( tk_wp_form_textfield( 'test_textfeld', 'test_options' ) . tk_form_button( array( 'value' => 'Send') ) );
+	$form->add_element( tk_form_textfield( 'test_textfeld', 'test_options' ) . tk_form_button( array( 'value' => 'Send') ) );
 	$form->write_html();
+	 */
 }
 
 // Just for showing menue for test site
