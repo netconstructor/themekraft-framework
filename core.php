@@ -45,6 +45,7 @@ class TK_Framework{
 		require_once( 'wp/form-checkbox.php' );
 		require_once( 'wp/form-select.php' );
 		require_once( 'wp/form-colorpicker.php' );
+		require_once( 'wp/form-fileuploader.php' );
 		require_once( 'wp/form-button.php' );
 		
 		require_once( 'wp/metabox.php' );

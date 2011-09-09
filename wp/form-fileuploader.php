@@ -1,6 +1,6 @@
 <?php
 
-class TK_WP_Jquery_Colorpicker extends TK_WP_Form_Textfield{
+class TK_WP_Jquery_Fileuploader extends TK_WP_Form_Textfield{
 	
 	/**
 	 * PHP 4 constructor
@@ -11,7 +11,7 @@ class TK_WP_Jquery_Colorpicker extends TK_WP_Form_Textfield{
 	 * @param string $name Name of colorfield
 	 * @param array $args Array of [ $id , $extra Extra colorfield code, option_groupOption group to save data, $before_textfield Code before colorfield, $after_textfield Code after colorfield   ]
 	 */
-	function tk_jquery_colorpicker( $name, $args = array() ){
+	function tk_jquery_fileuploader( $name, $args = array() ){
 		$this->__construct( $name, $args );
 	}
 	
@@ -33,34 +33,27 @@ class TK_WP_Jquery_Colorpicker extends TK_WP_Form_Textfield{
 		);
 		
 		$args = wp_parse_args( $args, $defaults );
-		extract( $args , EXTR_SKIP );		
+		extract( $args , EXTR_SKIP );
 		
-		$after_textfield.= '<script type="text/javascript">
-		jQuery(document).ready(function($){
-			$(\'#' . $id . '\').ColorPicker({
-				onSubmit: function(hsb, hex, rgb, el) {
-					$(el).val(hex);
-					$(el).ColorPickerHide();
-				},
-				onBeforeShow: function () {
-					$(this).ColorPickerSetColor(this.value);
-				}
-			})
-			.bind(\'keyup\', function(){
-				$(this).ColorPickerSetColor(this.value);
-			});
-		});
-   		</script>';
+		$before_textfield.= '<div class="option-inputs"><label for="image1">';
+		
+		$after_textfield.= '
+						<input class="tk_fileuploader" type="button" value="' . __( 'Browse ...' ) . '" /><br></br>
+						<img class="cc_image_preview" id="image_' . $id . '" style="max-width: 100px"/>
+						</label></div>
+						';	
 		 
 		$args['before_textfield'] = $before_textfield;
 		$args['after_textfield'] = $after_textfield;
 		
+		// print_r($args);
+		
 		parent::__construct( $name, $args );
 	}
 }
-function tk_form_colorpicker( $name, $args = array() ){
-	$colorpicker = new TK_WP_Jquery_Colorpicker( $name, $args );
-	return $colorpicker->get_html();
+function tk_form_fileuploader( $name, $args = array() ){
+	$fileuploader = new TK_WP_Jquery_Fileuploader( $name, $args );
+	return $fileuploader->get_html();
 }
 
 ?>

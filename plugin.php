@@ -18,7 +18,7 @@ function tk_init(){
 	 * Starting the framework
 	 */
 	require_once( 'loader.php' ); // Get the loader script 
-	
+	$args['jqueryui_components'] = array( 'jquery-fileuploader', 'jquery-ui-tabs', 'jquery-ui-accordion', 'jquery-colorpicker' );
 	$args['option_groups'] = array( 'test_options' );	// Adding option groups for forms
 	tk_framework( $args );	// Initializing framework	
 }
@@ -71,6 +71,9 @@ function tk_framework_test(){
 	
 	// Colorpicker
 	echo tk_form_colorpicker( 'test_colorpicker' ) . '<br />'; 
+	
+	// Fileuploader
+	echo tk_form_fileuploader( 'test_fileuploader' ) . '<br />'; 
 	
 	// Select box
 	$options = array( 'Eins', 'Zwei', 'Drei' );

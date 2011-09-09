@@ -68,6 +68,7 @@ class TK_Jqueryui{
 		if( $css ){
 			wp_enqueue_style( 'jquery-ui-css', plugin_dir_url( __FILE__ ) . 'lib/jquery-ui.css' );
 			wp_enqueue_style( 'jquery-colorpicker-css', plugin_dir_url( __FILE__ ) . 'lib/colorpicker.css' );
+			wp_enqueue_style( 'thickbox' );
 		}
 		
 		$jqueryui_url = '';
@@ -174,13 +175,19 @@ class TK_Jqueryui{
 		$this->add_jqueryui_component( 'jquery-colorpicker', '3.1.3', plugin_dir_url( __FILE__ ) . 'lib/colorpicker.js', '1.8.9' );
 		$this->add_jqueryui_component( 'jquery-colorpicker', '3.2', plugin_dir_url( __FILE__ ) . 'lib/colorpicker.js', '1.8.12' );
 		$this->add_jqueryui_component( 'jquery-colorpicker', '3.2.1', plugin_dir_url( __FILE__ ) . 'lib/colorpicker.js', '1.8.12' );
+
+		$this->add_jqueryui_component( 'jquery-fileuploader', '3.1.3', plugin_dir_url( __FILE__ ) . 'lib/fileuploader.js', '1.8.9' );
+		$this->add_jqueryui_component( 'jquery-fileuploader', '3.2', plugin_dir_url( __FILE__ ) . 'lib/fileuploader.js', '1.8.12' );
+		$this->add_jqueryui_component( 'jquery-fileuploader', '3.2.1', plugin_dir_url( __FILE__ ) . 'lib/fileuploader.js', '1.8.12' );
 		
 		$this->add_depency( 'jquery-ui-accordion', array( 'jquery-ui-widget' ) );		
 		$this->add_depency( 'jquery-ui-autocomplete', array( 'jquery-ui-widget', 'jquery-ui-position' ) );
-		$this->add_depency( 'jquery-colorpicker', array( 'jquery-color' ) );				
+		$this->add_depency( 'jquery-colorpicker', array( 'jquery-color' ) );
+		$this->add_depency( 'jquery-fileuploader', array( 'jquery', 'media-upload', 'thickbox' ) );			
 	}
 	
 	function init_known_jqueryui_components(){
+		$this->add_wp_jqueryui_component( 'jquery' );
 		$this->add_wp_jqueryui_component( 'jquery-ui-core' );
 		$this->add_wp_jqueryui_component( 'jquery-ui-button' );
 		$this->add_wp_jqueryui_component( 'jquery-ui-dialog' );
@@ -192,6 +199,8 @@ class TK_Jqueryui{
 		$this->add_wp_jqueryui_component( 'jquery-ui-sortable' );
 		$this->add_wp_jqueryui_component( 'jquery-ui-tabs' );
 		$this->add_wp_jqueryui_component( 'jquery-ui-widget' );
+		$this->add_wp_jqueryui_component( 'media-upload' );
+		$this->add_wp_jqueryui_component( 'thickbox' );
 	}
 	
 	function add_known_jqueryui_component( $component_name ){

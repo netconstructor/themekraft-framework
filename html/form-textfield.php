@@ -61,7 +61,7 @@ class TK_Form_Textfield extends TK_Form_Element{
 		if( $this->extra != '' ) $extra = $this->extra;
 		
 		$html = $this->before_textfield;
-		$html.= '<input' . $id . $name . $value . $extra . ' />';
+		$html.= '<input' . $id . $name . $value . $extra . ' type="text" />';
 		$html.= $this->after_textfield;
 		
 		return $html;

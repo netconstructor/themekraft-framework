@@ -22,12 +22,13 @@ function tk_framework( $args = array()  ){
 	$args = wp_parse_args($args, $defaults);
 	extract( $args , EXTR_SKIP );
 	
+	
 	if( count( $option_groups ) > 0  ){
 		global $tk_option_groups;
 		$tk_option_groups = $option_groups;
 	}
 	
-	if( count( $tk_jqueryui_components ) > 0  ){
+	if( count( $jqueryui_components ) > 0  ){
 		global $tk_jqueryui_components;
 		$tk_jqueryui_components = $jqueryui_components;
 	}
