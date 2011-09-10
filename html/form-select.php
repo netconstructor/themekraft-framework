@@ -1,8 +1,10 @@
 <?php
 
 class TK_Form_select extends TK_Form_element{
+	
 	var $extra;
 	var $elements;
+	var $size;
 	
 	/**
 	 * PHP 4 constructor
@@ -29,6 +31,7 @@ class TK_Form_select extends TK_Form_element{
 			'id' => '',
 			'name' => '',
 			'value' => '',
+			'size' => '',
 			'extra' => ''
 		);
 		
@@ -37,6 +40,7 @@ class TK_Form_select extends TK_Form_element{
 		
 		parent::__construct( $args );
 		
+		$this->size = $size;		
 		$this->elements = array();
 		$this->extra = $extra;
 	}
@@ -73,10 +77,11 @@ class TK_Form_select extends TK_Form_element{
 	 */
 	function get_html(){
 		if( $this->id != '' ) $id = ' id="' . $this->id . '"';
-		if( $this->name != '' ) $name = ' name="' . $this->name . '"';		
+		if( $this->name != '' ) $name = ' name="' . $this->name . '"';
+		if( $this->size != '' ) $size = ' size="' . $this->size . '"';		
 		if( $this->extra != '' ) $extra = $this->extra;
 		
-		$html = '<select' . $id . $name . $extra . ' />';
+		$html = '<select' . $id . $name . $size . $extra . ' />';
 		
 		if( count( $this->elements ) > 0 ){
 			foreach( $this->elements AS $element ){

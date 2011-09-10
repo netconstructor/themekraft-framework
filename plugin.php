@@ -82,6 +82,11 @@ function tk_framework_test(){
 	$options = array( 'Eins', 'Zwei', 'Drei' );
 	echo tk_form_select( 'test_select', $options ) . '<br />';
 	
+	// Radiobuttons
+	echo tk_form_radiobutton( 'test_radiobutton', '1' );
+	
+	echo tk_form_radiobutton( 'test_radiobutton', '2' );
+	
 	/*
 	 * If you want to add values to your selectbox try this
 	 * 

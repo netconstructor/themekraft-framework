@@ -32,6 +32,7 @@ class TK_WP_Form_Select extends TK_Form_Select{
 		$defaults = array(
 			'id' => '',
 			'extra' => '',
+			'size' => '',
 			'option_group' => $tk_form_instance_option_group
 		);
 		

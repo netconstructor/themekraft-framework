@@ -32,7 +32,6 @@ class TK_WP_Form_Checkbox extends TK_Form_Checkbox{
 		$defaults = array(
 			'id' => '',
 			'value' => '',
-			'checked' => false,
 			'extra' => '',
 			'option_group' => $tk_form_instance_option_group
 		);

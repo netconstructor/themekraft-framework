@@ -14,7 +14,7 @@ class TK_WP_Form_Textfield extends TK_Form_Textfield{
 	 * @param array $args Array of [ $id , $value,  $extra Extra textfield code   ]
 	 */
 	function tk_wp_form_textfield( $name, $args = array() ){
-		$this->__construct( $name, $option_group, $args );
+		$this->__construct( $name, $args );
 	}
 	
 	/**
