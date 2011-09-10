@@ -66,6 +66,9 @@ function tk_framework_test(){
 	// Textfield
 	echo tk_form_textfield( 'test_textfeld' ) . '<br />'; 
 	
+	// Textarea
+	echo tk_form_textarea( 'test_textarea' ) . '<br />'; 
+	
 	// Checkbox
 	echo tk_form_checkbox( 'test_checkbox' ) . '<br />';
 	

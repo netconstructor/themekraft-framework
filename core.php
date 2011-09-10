@@ -35,6 +35,7 @@ class TK_Framework{
 		require_once( 'html/form-element.php' );
 		require_once( 'html/form-button.php' );
 		require_once( 'html/form-textfield.php' );
+		require_once( 'html/form-textarea.php' );
 		require_once( 'html/form-checkbox.php' );
 		require_once( 'html/form-select.php' );
 		
@@ -42,6 +43,7 @@ class TK_Framework{
 		
 		require_once( 'wp/form.php' );
 		require_once( 'wp/form-textfield.php' );
+		require_once( 'wp/form-textarea.php' );
 		require_once( 'wp/form-checkbox.php' );
 		require_once( 'wp/form-select.php' );
 		require_once( 'wp/form-colorpicker.php' );

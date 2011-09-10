@@ -46,8 +46,6 @@ class TK_WP_Jquery_Fileuploader extends TK_WP_Form_Textfield{
 		$args['before_textfield'] = $before_textfield;
 		$args['after_textfield'] = $after_textfield;
 		
-		// print_r($args);
-		
 		parent::__construct( $name, $args );
 	}
 }
