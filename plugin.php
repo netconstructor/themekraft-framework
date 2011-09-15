@@ -159,9 +159,15 @@ function tk_framework_test_display_builder(){
 							<textfield>
 								<name>surname</name>
 							</textfield>	
-							<textfield>
+							<file>
 								<name>phone</name>
-							</textfield>
+							</file>
+							<checkbox>
+								<name>checkbox1</name>
+							</checkbox>
+							<colorpicker>
+								<name>color</name>
+							</colorpicker>
 						</content>
 					</tab>
 					<tab>

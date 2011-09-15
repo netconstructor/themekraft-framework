@@ -32,6 +32,8 @@ class TK_Display_Builder{
 		$functions['accordion'] = array( 'id' => '', 'section' => array(), 'return_object' => $return_object );
 		$functions['textfield'] = array( 'name' => 'name', 'args' => array(), 'return_object' => $return_object );
 		$functions['colorpicker'] = array( 'name' => 'name', 'args' => array(), 'return_object' => $return_object );
+		$functions['file'] = array( 'name' => 'name', 'args' => array(), 'return_object' => $return_object );
+		$functions['checkbox'] = array( 'name' => 'name', 'args' => array(), 'return_object' => $return_object );
 		
 		$this->function_names = array_keys( $functions );
 		$this->functions = $functions;
@@ -280,5 +282,10 @@ function tk_db_textfield( $name, $args = array(), $return_object = FALSE ){
 function tk_db_colorpicker( $name, $args = array(), $return_object = FALSE ){
 	return tk_form_colorpicker( $name, $args, $return_object );
 }
-
+function tk_db_file( $name, $args = array(), $return_object = FALSE ){
+	return tk_form_fileuploader( $name, $args, $return_object );
+}
+function tk_db_checkbox( $name, $args = array(), $return_object = FALSE ){
+	return tk_form_checkbox( $name, $args, $return_object );
+}
 ?>
