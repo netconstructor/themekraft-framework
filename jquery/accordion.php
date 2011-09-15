@@ -84,14 +84,26 @@ class TK_Jqueryui_Accordion extends TK_HTML{
 		
 		foreach( $this->elements AS $element ){
 			
-			$html.= '<' . $this->title_tag . ' ' . $element['extra_title']  . '><a href="#">' . $element['title'] . '</a></' . $this->title_tag . '>';
+			$html.= '<' . $this->title_tag . ' ' . $element['extra_title']  . '><a href="#">';
+			
+			if( is_object( $element['title'] ) ){
+				 $html.= $element['title']->get_html();
+			}else{
+				 $html.= $element['title'];
+			}
+			
+			$html.= '</a></' . $this->title_tag . '>';
 			$html.= '<div id="' . $element['id'] . '"' . $element['extra_content']  . '>';
 			
 			$html = apply_filters( 'tk_jqueryui_accordion_content_section_before' , $html );
 			$html = apply_filters( 'tk_jqueryui_accordion_content_section_before_' . $this->id , $html );
 			$html = apply_filters( 'tk_jqueryui_accordion_content_section_before_' . $element['id'], $html );
 		
-			$html.= $element['content'];
+			if( is_object( $element['content'] ) ){
+				 $html.= $element['content']->get_html();
+			}else{
+				 $html.= $element['content'];
+			}
 			
 			$html = apply_filters( 'tk_jqueryui_accordion_content_section_after' , $html );
 			$html = apply_filters( 'tk_jqueryui_accordion_content_section_after_' . $this->id , $html );
@@ -106,10 +118,14 @@ class TK_Jqueryui_Accordion extends TK_HTML{
 		$html = apply_filters( 'tk_jqueryui_accordion_after_' . $this->id , $html );
 		
 		return $html;
-	}	
+	}
+
+	function get_xml(){
+		return get_object_vars( $this );
+	}
 	
 }
-function tk_accordion( $id, $elements ){
+function tk_accordion( $id, $elements, $return_object = false ){
 	$accordion = new TK_Jqueryui_Accordion( $id );	
 	
 	foreach ( $elements AS $element ){
@@ -119,7 +135,11 @@ function tk_accordion( $id, $elements ){
 		);
 		$accordion->add_section( $element['id'], $element['title'], $element['content'], $args );
 	}
-	return $accordion->get_html();
+	if( TRUE == $return_object ){
+		return $accordion;
+	}else{
+		return $accordion->get_html();
+	}	
 }
 
 ?>

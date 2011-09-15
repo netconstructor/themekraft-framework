@@ -64,9 +64,14 @@ class TK_WP_Form_Textfield extends TK_Form_Textfield{
 		
 }
 
-function tk_form_textfield( $name, $args = array() ){
+function tk_form_textfield( $name, $args = array(), $return_object = FALSE ){
 	$textfield = new TK_WP_Form_Textfield( $name, $args );
-	return $textfield->get_html();
+	
+	if( TRUE == $return_object ){
+		return $textfield;
+	}else{
+		return $textfield->get_html();
+	}
 }
 
 ?>

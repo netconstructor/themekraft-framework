@@ -63,7 +63,7 @@ class TK_WP_Form_Select extends TK_Form_Select{
 	}			
 }
 
-function tk_form_select( $name, $options, $args = array() ){
+function tk_form_select( $name, $options, $args = array(), $return_object = FALSE ){
 	$select = new TK_WP_Form_Select( $name, $args );
 	foreach ( $options AS $option ){
 		if( !is_array( $option) ){
@@ -77,7 +77,12 @@ function tk_form_select( $name, $options, $args = array() ){
 			$select->add_option( $option_name, $args );
 		}
 	}
-	return $select->get_html();	
+	
+	if( TRUE == $return_object ){
+		return $select;
+	}else{
+		return $select->get_html();
+	}
 }
 
 ?>

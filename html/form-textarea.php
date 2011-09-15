@@ -75,9 +75,14 @@ class TK_Form_Textarea extends TK_Form_Element{
 	}
 }
 
-function tk_textarea( $args ){
+function tk_textarea( $args, $return_object = FALSE ){
 	$textarea = new TK_Form_Textarea( $args );
-	return $textarea->get_html();
+	
+	if( TRUE == $return_object ){
+		return $textarea;
+	}else{
+		return $textarea->get_html();
+	}	
 }
 
 ?>

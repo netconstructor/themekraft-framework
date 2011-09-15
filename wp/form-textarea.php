@@ -67,9 +67,14 @@ class TK_WP_Form_Textarea extends TK_Form_Textarea{
 		
 }
 
-function tk_form_textarea( $name, $args = array() ){
+function tk_form_textarea( $name, $args = array(), $return_object = FALSE ){
 	$textarea = new TK_WP_Form_Textarea( $name, $args );
-	return $textarea->get_html();
+	
+	if( TRUE == $return_object ){
+		return $textarea;
+	}else{
+		return $textarea->get_html();
+	}
 }
 
 ?>

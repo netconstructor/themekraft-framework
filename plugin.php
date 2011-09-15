@@ -24,9 +24,9 @@ function tk_init(){
 }
 add_action( 'init', 'tk_init' );
 
-function tk_framework_test(){
+function tk_framework_test_functions(){
 	
-	echo "<h2>Framework test page</h2>";
+	echo "<h2>Framework test functions</h2>";
 
 	// Content array which fillls elements
 	$content[] = array(
@@ -54,8 +54,6 @@ function tk_framework_test(){
 	
 		
 	echo "<h3>Forms & Fields</h3>";
-	
-	
 	
 	/*
 	* Creating a form
@@ -100,7 +98,7 @@ function tk_framework_test(){
 	tk_form_end(); // End form
 	
 	/*
-	 * If you want to put form content by parameter try this
+
 	 * 
 	tk_form_start( 'test_options' );
 	
@@ -113,10 +111,107 @@ function tk_framework_test(){
 	 */
 }
 
+function tk_framework_test_display_builder(){
+	echo "<h2>Framework test functions</h2>";
+	
+	// Content array which fillls elements
+	$content[] = array(
+		'id' => 1,
+		'title' => 'Title 1',
+		'content' => 'Content in area 1'
+	);
+	$content[] = array(
+		'id' => 2,
+		'title' => 'Title 2',
+		'content' => 'Content in area 2'
+	);
+	
+	// $tkdb->add_accordion( 'my_accordion', $content, TRUE )
+	
+	$tkdb = new TK_Display_builder();
+	
+	$content2[] = array(
+		'id' => 1,
+		'title' => 'Title',
+		'content' => array( $tkdb->add_form_textfield( 'Noch ein textfeld', array(), TRUE ), $tkdb->add_form_textfield( 'Noch ein textfeld', array(), TRUE ) )
+	);
+	
+	$tkdb->add_tabs( 'my_tabs', $content2 );
+	
+	echo '<div style="background-color:#111;padding:5px;color:#FFF;">';
+	
+	echo $tkdb->get_html();
+	
+	echo '</div>';
+	
+	
+	/*
+	 * XML
+	 */
+	$string = 
+			'<document>
+				<tabs>
+					<id>tabs</id>
+					<tab>
+						<id>1</id>
+						<title>Eins</title>
+						<content>
+							<form_textfield>
+								<name>surname</name>
+							</form_textfield>	
+							<form_textfield>
+								<name>phone</name>
+							</form_textfield>
+						</content>
+					</tab>
+					<tab>
+						<id>2</id>
+						<title>Zwei</title>
+						<content>
+							<tabs>
+								<id>innertabs</id>
+								<tab>
+									<id>5345</id>
+									<title>Eins</title>
+									<content>
+										sdfglksksdfhj
+									</content>
+								</tab>
+								<tab>
+									<id>345345</id>
+									<title>Zwei</title>
+									<content>
+										<form_textfield>
+											<name>prename</name>
+										</form_textfield>
+										<form_textfield>
+											<name>surname</name>
+										</form_textfield>	
+										<form_textfield>
+											<name>phone</name>
+										</form_textfield>
+									</content>
+								</tab>
+							</tabs>
+						</content>
+					</tab>
+				</tabs>
+			</document>';
+	
+	echo '<div style="background-color:#999;padding:5px;color:#FFF;">';
+	
+	$tkdb->load_xml( $string );
+	
+	echo $tkdb->get_html();
+	
+	echo '</div>';
+}
+
 // Just for showing menue for test site
 function tkf_menue(){
 	add_menu_page( 'TK Framework' , 'TK Framework' , 'manage_options', 'tk_framework','tk_framework' );
-	add_submenu_page( 'tk_framework', __( 'Framework test', 'tk_framework'),__( 'Test functions', 'tk_framework' ), 'manage_options', 'tk_framework_test', 'tk_framework_test' );
+	add_submenu_page( 'tk_framework', __( 'Framework test', 'tk_framework'),__( 'Functions', 'tk_framework' ), 'manage_options', 'tk_framework_test', 'tk_framework_test_functions' );
+	add_submenu_page( 'tk_framework', __( 'Framework test', 'tk_framework'),__( 'Display Builder', 'tk_framework' ), 'manage_options', 'tk_framework_test_display_builder', 'tk_framework_test_display_builder' );
 }
 add_action( 'admin_menu', 'tkf_menue');
 

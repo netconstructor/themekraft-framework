@@ -73,9 +73,14 @@ class TK_Form_Radiobutton extends TK_Form_Element{
 	}
 }
 
-function tk_radiobutton( $args ){
+function tk_radiobutton( $args, $return_object = false ){
 	$radiobutton = new TK_Form_Radiobutton( $args );
-	return $radiobutton->get_html();
+	
+	if( TRUE == $return_object ){
+		return $radiobutton;
+	}else{
+		return $radiobutton->get_html();
+	}
 }
 
 ?>

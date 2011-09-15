@@ -58,9 +58,14 @@ class TK_WP_Jquery_Colorpicker extends TK_WP_Form_Textfield{
 		parent::__construct( $name, $args );
 	}
 }
-function tk_form_colorpicker( $name, $args = array() ){
+function tk_form_colorpicker( $name, $args = array(), $return_object = FALSE ){
 	$colorpicker = new TK_WP_Jquery_Colorpicker( $name, $args );
-	return $colorpicker->get_html();
+	
+	if( TRUE == $return_object ){
+		return $colorpicker;
+	}else{
+		return $colorpicker->get_html();
+	}
 }
 
 ?>

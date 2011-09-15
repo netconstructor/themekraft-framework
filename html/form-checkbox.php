@@ -62,9 +62,14 @@ class TK_Form_Checkbox extends TK_Form_Element{
 		return $html;
 	}
 }
-function tk_checkbox( $args ){
+function tk_checkbox( $args, $return_object = FALSE ){
 	$checkbox = new TK_Form_Checkbox( $args );
-	return $checkbox->get_html();
+	
+	if( TRUE == $return_object ){
+		return $checkbox;
+	}else{
+		return $checkbox->get_html();
+	}
 }
 
 ?>

@@ -73,7 +73,11 @@ class TK_Jqueryui_Tabs extends TK_HTML{
 			$html = apply_filters( 'tk_jqueryui_tabs_tabs_title_before', $html );
 			$html = apply_filters( 'tk_wp_jqueryui_tabs_tabs_title_before_' . $element['id'], $html );
 		
-			$html.=$element['title'];
+			if( is_object( $element['title'] ) ){
+				 $html.= $element['title']->get_html();
+			}else{
+				 $html.= $element['title'];
+			}
 			
 			$html = apply_filters( 'tk_jqueryui_tabs_tabs_title_after', $html );
 			$html = apply_filters( 'tk_wp_jqueryui_tabs_tabs_title_after_' . $element['id'], $html );
@@ -90,7 +94,10 @@ class TK_Jqueryui_Tabs extends TK_HTML{
 			$html.= '<div id="' . $element['id'] . '" >';
 			$html = apply_filters( 'tk_wp_jqueryui_tabs_before_content', $html );
 			$html = apply_filters( 'tk_wp_jqueryui_tabs_before_content_' . $element['id'], $html );
-			$html.= $element['content'];
+			
+			$tkdb = new TK_Display_Builder();
+			$html.= $tkdb->get_html( $element['content'] );
+			
 			$html = apply_filters( 'tk_wp_jqueryui_tabs_after_content', $html );
 			$html = apply_filters( 'tk_wp_jqueryui_tabs_after_content_' . $element['id'], $html );
 			$html.= '</div>';
@@ -101,13 +108,30 @@ class TK_Jqueryui_Tabs extends TK_HTML{
 		return $html;
 	}
 }
+class TK_Jqueryui_Tabs_Tab extends TK_HTML{
+	function tk_jqueryui_tabs_tab( $id, $title, $content ){
+		$this->__construct($id, $title, $content);
+	}
+	
+	function __construct( $id, $title, $content ){
+		$this->id = $id;
+		$this->title = $title;
+		$this->content = $content;
+	}
+}
 
-function tk_tabs( $id, $elements ){	
+function tk_tabs( $id, $elements, $return_object = FALSE ){	
 	$tabs = new	TK_Jqueryui_Tabs( $id );	
+	
 	foreach ( $elements AS $element ){
 		$tabs->add_tab( $element['id'], $element['title'], $element['content'] );
 	}
-	return $tabs->get_html();
+
+	if( TRUE == $return_object ){
+		return $tabs;
+	}else{
+		return $tabs->get_html();
+	}
 }
 
 ?>

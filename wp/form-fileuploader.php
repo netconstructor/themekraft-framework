@@ -49,9 +49,14 @@ class TK_WP_Jquery_Fileuploader extends TK_WP_Form_Textfield{
 		parent::__construct( $name, $args );
 	}
 }
-function tk_form_fileuploader( $name, $args = array() ){
+function tk_form_fileuploader( $name, $args = array(), $return_object = FALSE ){
 	$fileuploader = new TK_WP_Jquery_Fileuploader( $name, $args );
-	return $fileuploader->get_html();
+	
+	if( TRUE == $return_object ){
+		return $fileuploader;
+	}else{
+		return $fileuploader->get_html();
+	}
 }
 
 ?>

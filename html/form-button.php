@@ -65,9 +65,14 @@ class TK_Form_Button extends TK_Form_Element{
 	}
 }
 
-function tk_button( $value, $args = array() ){
+function tk_button( $value, $args = array(), $return_object = FALSE ){
 	$button = new TK_Form_Button( $value, $args );
-	return $button->get_html();
+	
+	if( TRUE == $return_object ){
+		return $button;
+	}else{
+		return $button->get_html();
+	}
 }
 
 ?>

@@ -30,6 +30,8 @@ class TK_Framework{
 	 */	
 	function includes(){
 		
+		require_once( 'display-builder.php' );
+		
 		require_once( 'html/html.php' );
 		require_once( 'html/form.php' );
 		require_once( 'html/form-element.php' );
@@ -58,7 +60,7 @@ class TK_Framework{
 		require_once( 'jquery/jqueryui.php' );
 		require_once( 'jquery/tabs.php' );
 		require_once( 'jquery/accordion.php' );
-		require_once( 'jquery/autocomplete.php' );		
+		require_once( 'jquery/autocomplete.php' );
 	}
 }
 

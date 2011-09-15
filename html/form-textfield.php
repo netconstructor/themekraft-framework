@@ -68,9 +68,14 @@ class TK_Form_Textfield extends TK_Form_Element{
 	}
 }
 
-function tk_textfield( $args ){
+function tk_textfield( $args, $return_object = FALSE ){
 	$textfield = new TK_Form_Textfield( $args );
-	return $textfield->get_html();
+
+	if( TRUE == $return_object ){
+		return $textfield;
+	}else{
+		return $textfield->get_html();
+	}	
 }
 
 ?>
