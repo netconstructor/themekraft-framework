@@ -5,26 +5,49 @@ class TK_Display_Builder{
 	var $functions;
 	var $debug;
 	
-	function tk_display_builder( $return_object = TRUE ){
-		$this->__construct( $return_object );
+	/**
+	 * PHP 4 constructor
+	 *
+	 * @package Themekraft Framework
+	 * @since 0.1.0
+	 * 
+	 */
+	function tk_display_builder(){
+		$this->__construct();
 	}
 	
-	function __construct( $return_object = TRUE ){
+	/**
+	 * PHP 5 constructor
+	 *
+	 * @package Themekraft Framework
+	 * @since 0.1.0
+	 * 
+	 */
+	function __construct(){
 		$this->tkdb = array();
 		
+		$return_object = TRUE;
+		
 		$functions['tabs'] = array( 'id' =>'', 'tab' => array(), 'return_object' => $return_object );
-		// $functions['tab'] = array( 'id' =>'', 'title' => '', 'content' => '' );
-		$functions['accordion'] = array( 'id' => '', 'elements' => array(), 'return_object' => $return_object );
-		$functions['form_textfield'] = array( 'name' => 'name', 'args' => array(), 'return_object' => $return_object );
-		// $functions['content'] = array( 'content' =>'' );
+		$functions['accordion'] = array( 'id' => '', 'section' => array(), 'return_object' => $return_object );
+		$functions['textfield'] = array( 'name' => 'name', 'args' => array(), 'return_object' => $return_object );
+		$functions['colorpicker'] = array( 'name' => 'name', 'args' => array(), 'return_object' => $return_object );
 		
 		$this->function_names = array_keys( $functions );
 		$this->functions = $functions;
-		
-		// $this->debug = TRUE;
 	}
 	
-	function add_accordion( $id, $elements, $return = FALSE  ){
+	/**
+	 * Adding accordion
+	 *
+	 * @package Themekraft Framework
+	 * @since 0.1.0
+	 * 
+	 * @param string $id Id of the section
+	 * @param array $elements Array of elements to add to Accordion [ $id Id of section, $title Title of section, $content Content in section, $extra_title Extra HTML in title section tag, $extra_content Extra HTML in content section div tag ]
+	 * @param boolean $return_object 
+	 */
+	function add_accordion( $id, $elements, $return_object = FALSE  ){
 		$accordion = new TK_Jqueryui_Accordion( $id );	
 		
 		foreach ( $elements AS $element ){
@@ -35,7 +58,7 @@ class TK_Display_Builder{
 			$accordion->add_section( $element['id'], $element['title'], $element['content'], $args );
 		}
 		
-		if( FALSE == $return ){
+		if( FALSE == $return_object ){
 			$this->tkdb[] = $accordion;
 		}else{
 			return $accordion;
@@ -43,6 +66,16 @@ class TK_Display_Builder{
 		
 	}
 	
+	/**
+	 * Adding tabs
+	 *
+	 * @package Themekraft Framework
+	 * @since 0.1.0
+	 * 
+	 * @param string $id Id of the tabs
+	 * @param array $elements Array of elements to add to tabs [ $id Id of section, $title Title of section, $content Content in section ]
+	 * @param array $args Array of [ $extra_title Extra title code, $extra_content Extra content code ]
+	 */
 	function add_tabs( $id, $elements, $return = FALSE ){
 		$tabs = new	TK_Jqueryui_Tabs( $id );
 		foreach ( $elements AS $element ){
@@ -98,6 +131,14 @@ class TK_Display_Builder{
 		$obj = $this->tk_obj_from_xml_obj( $xml_obj );
 		$this->tkdb = $obj;
 		
+		/*
+		echo '<pre>';
+		print_r($xml_obj);
+		echo '<pre>';
+		echo '<pre>';
+		print_r($obj);
+		echo '<pre>';
+		*/
 	}
 
 	function tk_obj_from_xml_obj( $xml_obj , $function_name = false ){
@@ -166,7 +207,7 @@ class TK_Display_Builder{
 			if( FALSE != $function_name ){
 				$parameters = $this->clean_function_parameters( $function_name, $parameters );
 				
-				$result = call_user_func_array( 'tk_' . $function_name , $parameters );
+				$result = call_user_func_array( 'tk_db_' . $function_name , $parameters );
 				
 				if( is_object( $result ) ){
 					$element_obj = $result;
@@ -227,12 +268,17 @@ class TK_Display_Builder{
 	}
 }
 
-function tk_tab( $id, $title, $content ){
-	return array( 'id' => $id, 'title' => $title, 'content' => $content );
+function tk_db_tabs( $id, $elements, $return_object = FALSE ){
+	return tk_tabs( $id, $elements, $return_object );
 }
-
-function tk_content( $content ){
-	return $content; 
+function tk_db_accordion( $id, $elements, $return_object = FALSE ){
+	return tk_accordion( $id, $elements, $return_object );
+}
+function tk_db_textfield( $name, $args = array(), $return_object = FALSE ){
+	return tk_form_textfield( $name, $args, $return_object );
+}
+function tk_db_colorpicker( $name, $args = array(), $return_object = FALSE ){
+	return tk_form_colorpicker( $name, $args, $return_object );
 }
 
 ?>

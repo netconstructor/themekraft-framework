@@ -99,11 +99,10 @@ class TK_Jqueryui_Accordion extends TK_HTML{
 			$html = apply_filters( 'tk_jqueryui_accordion_content_section_before_' . $this->id , $html );
 			$html = apply_filters( 'tk_jqueryui_accordion_content_section_before_' . $element['id'], $html );
 		
-			if( is_object( $element['content'] ) ){
-				 $html.= $element['content']->get_html();
-			}else{
-				 $html.= $element['content'];
-			}
+			$tkdb = new TK_Display_Builder();
+			$html.= $tkdb->get_html( $element['content'] );
+			unset( $tkdb );
+			
 			
 			$html = apply_filters( 'tk_jqueryui_accordion_content_section_after' , $html );
 			$html = apply_filters( 'tk_jqueryui_accordion_content_section_after_' . $this->id , $html );

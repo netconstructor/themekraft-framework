@@ -97,6 +97,7 @@ class TK_Jqueryui_Tabs extends TK_HTML{
 			
 			$tkdb = new TK_Display_Builder();
 			$html.= $tkdb->get_html( $element['content'] );
+			unset( $tkdb );
 			
 			$html = apply_filters( 'tk_wp_jqueryui_tabs_after_content', $html );
 			$html = apply_filters( 'tk_wp_jqueryui_tabs_after_content_' . $element['id'], $html );

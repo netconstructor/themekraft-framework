@@ -156,43 +156,43 @@ function tk_framework_test_display_builder(){
 						<id>1</id>
 						<title>Eins</title>
 						<content>
-							<form_textfield>
+							<textfield>
 								<name>surname</name>
-							</form_textfield>	
-							<form_textfield>
+							</textfield>	
+							<textfield>
 								<name>phone</name>
-							</form_textfield>
+							</textfield>
 						</content>
 					</tab>
 					<tab>
 						<id>2</id>
 						<title>Zwei</title>
 						<content>
-							<tabs>
-								<id>innertabs</id>
-								<tab>
+							<accordion>
+								<id>myaccordion</id>
+								<section>
 									<id>5345</id>
 									<title>Eins</title>
 									<content>
 										sdfglksksdfhj
 									</content>
-								</tab>
-								<tab>
+								</section>
+								<section>
 									<id>345345</id>
 									<title>Zwei</title>
 									<content>
-										<form_textfield>
+										<textfield>
 											<name>prename</name>
-										</form_textfield>
-										<form_textfield>
+										</textfield>
+										<textfield>
 											<name>surname</name>
-										</form_textfield>	
-										<form_textfield>
+										</textfield>	
+										<colorpicker>
 											<name>phone</name>
-										</form_textfield>
+										</colorpicker>
 									</content>
-								</tab>
-							</tabs>
+								</section>
+							</accordion>
 						</content>
 					</tab>
 				</tabs>
