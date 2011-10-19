@@ -12,8 +12,8 @@ class TK_Display_Builder{
 	 * @since 0.1.0
 	 * 
 	 */
-	function tk_display_builder(){
-		$this->__construct();
+	function tk_display_builder( $return_object = TRUE ){
+		$this->__construct( $return_object );
 	}
 	
 	/**
@@ -23,14 +23,15 @@ class TK_Display_Builder{
 	 * @since 0.1.0
 	 * 
 	 */
-	function __construct(){
+	function __construct( $return_object = TRUE ){
 		$this->tkdb = array();
-		
-		$return_object = TRUE;
 		
 		$functions['tabs'] = array( 'id' =>'', 'tab' => array(), 'return_object' => $return_object );
 		$functions['accordion'] = array( 'id' => '', 'section' => array(), 'return_object' => $return_object );
+		$functions['form'] = array( 'name' => 'name', 'args' => array(), 'return_object' => $return_object );
 		$functions['textfield'] = array( 'name' => 'name', 'args' => array(), 'return_object' => $return_object );
+		$functions['textarea'] = array( 'name' => 'name', 'args' => array(), 'return_object' => $return_object );
+		$functions['select'] = array( 'name' => 'name', 'options' => array(), 'args' => array(), 'return_object' => $return_object );
 		$functions['colorpicker'] = array( 'name' => 'name', 'args' => array(), 'return_object' => $return_object );
 		$functions['file'] = array( 'name' => 'name', 'args' => array(), 'return_object' => $return_object );
 		$functions['checkbox'] = array( 'name' => 'name', 'args' => array(), 'return_object' => $return_object );
@@ -276,8 +277,17 @@ function tk_db_tabs( $id, $elements, $return_object = FALSE ){
 function tk_db_accordion( $id, $elements, $return_object = FALSE ){
 	return tk_accordion( $id, $elements, $return_object );
 }
+function tk_db_form( $option_group, $content, $id = '' ){
+	return tk_form( $option_group, $content, $id );
+}
 function tk_db_textfield( $name, $args = array(), $return_object = FALSE ){
 	return tk_form_textfield( $name, $args, $return_object );
+}
+function tk_db_textarea( $name, $args = array(), $return_object = FALSE ){
+	return tk_form_textarea( $name, $args, $return_object );
+}
+function tk_db_select( $name, $options, $args = array(), $return_object = FALSE ){
+	return tk_form_select( $name, $options, $args = array(), $return_object );
 }
 function tk_db_colorpicker( $name, $args = array(), $return_object = FALSE ){
 	return tk_form_colorpicker( $name, $args, $return_object );

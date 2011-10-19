@@ -168,6 +168,9 @@ function tk_framework_test_display_builder(){
 							<colorpicker>
 								<name>color</name>
 							</colorpicker>
+							<textarea>
+								<name>Textfield1</name>
+							</textarea>
 						</content>
 					</tab>
 					<tab>

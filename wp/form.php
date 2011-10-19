@@ -56,6 +56,11 @@ class TK_WP_Form extends TK_FORM{
 		return $html;
 	}
 }
+function tk_form( $option_group, $content, $id = '' ){
+	$form = new TK_WP_Form( $option_group, $id );
+	$form->add_element( $content );
+	return $form->get_html();
+}
 function tk_form_content( $content ){
   global $tk_form_instance_content;
   $tk_form_instance_content = $content;
@@ -89,8 +94,8 @@ function tk_form_end( $output = true ){
 		return $form->get_html();
 	}
 	
-	unset ( $tk_form_instance );
-	unset ( $tk_form_instance_buffer );
+	unset( $tk_form_instance );
+	unset( $tk_form_instance_buffer );
 }
 function tk_register_wp_option_group( $option_group ){
 	global $post_option_group;

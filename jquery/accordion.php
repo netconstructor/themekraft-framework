@@ -77,7 +77,6 @@ class TK_Jqueryui_Accordion extends TK_HTML{
 		});
    		</script>';
 		
-		$html = apply_filters( 'tk_jqueryui_accordion_before' , $html );
 		$html = apply_filters( 'tk_jqueryui_accordion_before_' . $this->id , $html );
 		
 		$html.= '<div class="' . $this->id . '">';
@@ -95,7 +94,6 @@ class TK_Jqueryui_Accordion extends TK_HTML{
 			$html.= '</a></' . $this->title_tag . '>';
 			$html.= '<div id="' . $element['id'] . '"' . $element['extra_content']  . '>';
 			
-			$html = apply_filters( 'tk_jqueryui_accordion_content_section_before' , $html );
 			$html = apply_filters( 'tk_jqueryui_accordion_content_section_before_' . $this->id , $html );
 			$html = apply_filters( 'tk_jqueryui_accordion_content_section_before_' . $element['id'], $html );
 		
@@ -104,7 +102,6 @@ class TK_Jqueryui_Accordion extends TK_HTML{
 			unset( $tkdb );
 			
 			
-			$html = apply_filters( 'tk_jqueryui_accordion_content_section_after' , $html );
 			$html = apply_filters( 'tk_jqueryui_accordion_content_section_after_' . $this->id , $html );
 			$html = apply_filters( 'tk_jqueryui_accordion_content_section_after_' . $element['id'], $html );
 
@@ -113,7 +110,6 @@ class TK_Jqueryui_Accordion extends TK_HTML{
 		
 		$html.= '</div>';
 		
-		$html = apply_filters( 'tk_jqueryui_accordion_after' , $html );
 		$html = apply_filters( 'tk_jqueryui_accordion_after_' . $this->id , $html );
 		
 		return $html;
