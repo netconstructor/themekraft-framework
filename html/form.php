@@ -2,7 +2,6 @@
 
 class TK_Form extends TK_HTML{
 	
-	var $form;
 	var $id;
 	var $action;
 	var $method;
@@ -67,7 +66,9 @@ class TK_Form extends TK_HTML{
 		
 		// Adding elements to form
 		foreach( $this->elements AS $element ){
-			$html.= $element;
+			$tkdb = new TK_Display_Builder();
+			$html.= $tkdb->get_html( $element );
+			unset( $tkdb );
 		}
 		
 		$html = apply_filters( 'tk_form_end_' . $id, $html );

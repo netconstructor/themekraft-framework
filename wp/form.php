@@ -13,8 +13,8 @@ class TK_WP_Form extends TK_FORM{
 	 * @param string $option_group The name of the option group
 	 * @param string $id The id of the form
 	 */
-	function tk_wp_form( $option_group, $id ){
-		$this->__construct( $option_group, $args );
+	function tk_wp_form( $id, $option_group ){
+		$this->__construct( $id, $option_group );
 	}
 	
 	/**
@@ -26,13 +26,13 @@ class TK_WP_Form extends TK_FORM{
 	 * @param string $option_group The name of the option group
 	 * @param string $id The id of the form
 	 */
-	function __construct( $option_group, $id ){
+	function __construct( $id, $option_group ){
 		$args['method'] = 'POST';
 		$args['action'] = 'options.php';
 		
 		parent::__construct( $id, $args );
 		
-		$this->option_group = $option_group;
+		$this->option_group = $option_group; 
 	}
 	
 	/**
@@ -56,10 +56,18 @@ class TK_WP_Form extends TK_FORM{
 		return $html;
 	}
 }
-function tk_form( $option_group, $content, $id = '' ){
-	$form = new TK_WP_Form( $option_group, $id );
+function tk_form( $id, $option_group, $content, $return_object = FALSE ){
+	global $tk_form_instance_option_group;
+	$tk_form_instance_option_group = $option_group;
+	
+	$form = new TK_WP_Form( $id, $option_group );
 	$form->add_element( $content );
-	return $form->get_html();
+	
+	if( TRUE == $return_object ){
+		return $form;
+	}else{
+		return $form->get_html();
+	}
 }
 function tk_form_content( $content ){
   global $tk_form_instance_content;

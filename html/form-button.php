@@ -12,8 +12,8 @@ class TK_Form_Button extends TK_Form_Element{
 	 * 
 	 * @param array $args Array of [ $id Id, $name Name, $value Value, $submit use submit, $extra Extra checkbox code   ]
 	 */
-	function tk_form_button( $args ){
-		$this->__construct( $args );
+	function tk_form_button( $value, $args = array() ){
+		$this->__construct( $value, $args );
 	}
 	
 	/**

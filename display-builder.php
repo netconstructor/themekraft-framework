@@ -28,12 +28,13 @@ class TK_Display_Builder{
 		
 		$functions['tabs'] = array( 'id' =>'', 'tab' => array(), 'return_object' => $return_object );
 		$functions['accordion'] = array( 'id' => '', 'section' => array(), 'return_object' => $return_object );
-		$functions['form'] = array( 'name' => 'name', 'args' => array(), 'return_object' => $return_object );
+		$functions['form'] = array( 'id' => '', 'option_group' => '', 'content' => '', 'return_object' => $return_object );
 		$functions['textfield'] = array( 'name' => 'name', 'args' => array(), 'return_object' => $return_object );
 		$functions['textarea'] = array( 'name' => 'name', 'args' => array(), 'return_object' => $return_object );
 		$functions['select'] = array( 'name' => 'name', 'options' => array(), 'args' => array(), 'return_object' => $return_object );
 		$functions['colorpicker'] = array( 'name' => 'name', 'args' => array(), 'return_object' => $return_object );
 		$functions['file'] = array( 'name' => 'name', 'args' => array(), 'return_object' => $return_object );
+		$functions['button'] = array( 'name' => 'name', 'args' => array(), 'return_object' => $return_object );
 		$functions['checkbox'] = array( 'name' => 'name', 'args' => array(), 'return_object' => $return_object );
 		
 		$this->function_names = array_keys( $functions );
@@ -134,14 +135,13 @@ class TK_Display_Builder{
 		$obj = $this->tk_obj_from_xml_obj( $xml_obj );
 		$this->tkdb = $obj;
 		
-		/*
+
 		echo '<pre>';
 		print_r($xml_obj);
 		echo '<pre>';
 		echo '<pre>';
 		print_r($obj);
 		echo '<pre>';
-		*/
 	}
 
 	function tk_obj_from_xml_obj( $xml_obj , $function_name = false ){
@@ -152,6 +152,15 @@ class TK_Display_Builder{
 		// Running all elements
 		if( is_array( $xml_arr ) ){
 			
+			// Functions have to be executed before executing inner functions
+			if( FALSE != $function_name ){
+				if( $function_name == 'form' ){
+					global $tk_form_instance_option_group;
+					$tk_form_instance_option_group = $xml_arr['option_group'];					
+				}	
+			}
+			
+			// Runnung all parameters / content
 			foreach( $xml_arr AS $key => $xml_element ){
 				
 				// If is object
@@ -277,8 +286,8 @@ function tk_db_tabs( $id, $elements, $return_object = FALSE ){
 function tk_db_accordion( $id, $elements, $return_object = FALSE ){
 	return tk_accordion( $id, $elements, $return_object );
 }
-function tk_db_form( $option_group, $content, $id = '' ){
-	return tk_form( $option_group, $content, $id );
+function tk_db_form( $id, $option_group, $content, $return_object = FALSE ){
+	return tk_form( $id, $option_group, $content, $return_object );
 }
 function tk_db_textfield( $name, $args = array(), $return_object = FALSE ){
 	return tk_form_textfield( $name, $args, $return_object );
@@ -294,6 +303,9 @@ function tk_db_colorpicker( $name, $args = array(), $return_object = FALSE ){
 }
 function tk_db_file( $name, $args = array(), $return_object = FALSE ){
 	return tk_form_fileuploader( $name, $args, $return_object );
+}
+function tk_db_button( $name, $args = array(), $return_object = FALSE ){
+	return tk_form_button( $name, $args, $return_object );
 }
 function tk_db_checkbox( $name, $args = array(), $return_object = FALSE ){
 	return tk_form_checkbox( $name, $args, $return_object );
