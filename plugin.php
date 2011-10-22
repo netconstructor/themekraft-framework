@@ -19,7 +19,7 @@ function tk_init(){
 	 */
 	require_once( 'loader.php' ); // Get the loader script 
 	$args['jqueryui_components'] = array( 'jquery-fileuploader', 'jquery-ui-tabs', 'jquery-ui-accordion', 'jquery-colorpicker' );
-	$args['option_groups'] = array( 'test_options', 'mygroupformoptions' );	// Adding option groups for forms
+	$args['option_groups'] = array( 'test_options', 'test_form' );	// Adding option groups for forms
 	tk_framework( $args );	// Initializing framework	
 }
 add_action( 'init', 'tk_init' );
@@ -114,153 +114,69 @@ function tk_framework_test_functions(){
 function tk_framework_test_display_builder(){
 	echo "<h2>Framework test functions</h2>";
 	
-	// Content array which fillls elements
-	$content[] = array(
-		'id' => 1,
-		'title' => 'Title 1',
-		'content' => 'Content in area 1'
-	);
-	$content[] = array(
-		'id' => 2,
-		'title' => 'Title 2',
-		'content' => 'Content in area 2'
-	);
-	
-	// $tkdb->add_accordion( 'my_accordion', $content, TRUE )
-	
-	$tkdb = new TK_Display_builder();
-	
-	$content2[] = array(
-		'id' => 1,
-		'title' => 'Title',
-		'content' => array( $tkdb->add_form_textfield( 'Noch ein textfeld', array(), TRUE ), $tkdb->add_form_textfield( 'Noch ein textfeld', array(), TRUE ) )
-	);
-	
-	$tkdb->add_tabs( 'my_tabs', $content2 );
-	
-	echo '<div style="background-color:#111;padding:5px;color:#FFF;">';
-	
-	echo $tkdb->get_html();
-	
-	echo '</div>';
-	
+	$tkdb = new TK_Display_builder();	
 	
 	/*
 	 * XML
 	 */
-	$string = 
-			'<document>
-				<tabs>
-					<id>tabs</id>
-					<tab>
-						<id>1</id>
-						<title>Eins</title>
-						<content>
-							<textfield>
-								<name>surname</name>
-							</textfield>	
-							<file>
-								<name>phone</name>
-							</file>
-							<checkbox>
-								<name>checkbox1</name>
-							</checkbox>
-							<colorpicker>
-								<name>color</name>
-							</colorpicker>
-						</content>
-					</tab>
-					<tab>
-						<id>2</id>
-						<title>Zwei</title>
-						<content>
-							<accordion>
-								<id>myaccordion</id>
-								<section>
-									<id>5345</id>
-									<title>Eins</title>
-									<content>
-										sdfglksksdfhj
-									</content>
+	$string = '<?xml version="1.0" ?>
+				<tkfxml>
+					<form waste="noooo" id="my_test_form" name="test_form">
+						<textfield name="name" />
+						<textfield name="surname" />
+						<button name="Send" />
+					</form>
+					<tabs id="mynewtabs">
+						<tab id="tabone" title="One">
+							First tab with content.
+						</tab>
+						<tab id="tabtwo" title="Two">
+							<accordion id="theaccordion">
+								<section id="firstsection" title="First Section">
+									This is the first section with content.
 								</section>
-								<section>
-									<id>345345</id>
-									<title>Zwei</title>
-									<content>
-										<textfield>
-											<name>prename</name>
-										</textfield>
-										<textfield>
-											<name>surname</name>
-										</textfield>	
-										<colorpicker>
-											<name>phone</name>
-										</colorpicker>
-									</content>
-								</section>
+								<section id="secondsection" title="Second Section">
+									As you can see, two sections are ready as well.
+								</section>				
 							</accordion>
-						</content>
-					</tab>
-				</tabs>
-				<form>
-					<id>myform</id>
-					<option_group>mygroupformoptions</option_group>
-					<content>
-						<textfield>
-							<name>surname</name>
-						</textfield>
-						<textfield>
-							<name>prename</name>
-						</textfield>
-						<button>
-							<name>Save</name>
-						</button>
-					</content>
-				</form>
-				<tabs>
-					<id>mynewtabs</id>
-					<tab>
-						<id>1</id>
-						<title>Eins</title>
-						<content>Inhalt</content>						
-					</tab>
-				</tabs>
-			</document>';
-	
-	$string = 
-			'<document>
-				<tabs>
-					<id>mynewtabs</id>
-					<tab>
-						<id>1</id>
-						<title>Eins</title>
-						<content>Inhalt</content>				
-					</tab>
-				</tabs>
-				<form>
-					<id>myform</id>
-					<option_group>mygroupformoptions</option_group>
-					<content>
-						<textfield>
-							<name>surname</name>
-						</textfield>
-						<button>
-							<name>Save</name>
-						</button>
-						<textfield>
-							<name>prename</name>
-						</textfield>						
-					</content>
-				</form>
-			</document>';	
-	
-	echo '<div style="background-color:#999;padding:5px;color:#FFF;">';
+						</tab>
+						<tab id="tabthree" title="three">
+							Here have been a form.
+						</tab>
+					</tabs>
+				</tkfxml>';	
+				
+	$string = '<?xml version="1.0" ?>
+				<tkfxml>
+					<tabs and="flkhjdfgj" id="mynewtabs">
+						<tab id="tabone" title="One">
+							First tab with content.
+						</tab>
+						<tab id="tabtwo" title="Two">
+							<accordion id="theaccordion">
+								<section id="firstsection" title="First Section">
+									This is the first section with content.
+								</section>
+								<section id="secondsection" title="Second Section">
+									As you can see, two sections are ready as well.
+								</section>
+								<section title="Third Section" id="thirdsection">
+									<form waste="noooo" id="my_test_form" name="test_form">
+										<textfield name="name" />
+										<textfield name="surname" />
+										<button name="Send" />
+									</form>
+								</section>				
+							</accordion>
+						</tab>
+						<tab id="tabthree" title="three">
+							Here have been a form.
+						</tab>
+					</tabs>
+				</tkfxml>';					
 	
 	$tkdb->load_xml( $string );
-	
 	echo $tkdb->get_html();
-	
-	echo '</div>';
 }
 
 // Just for showing menue for test site
