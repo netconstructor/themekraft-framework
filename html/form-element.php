@@ -59,5 +59,3 @@ class TK_Form_Element{
 		echo $this->get_html();		
 	}
 }
-
-?>

@@ -28,5 +28,3 @@ class TK_WP_Metabox extends TK_HTML{
 	}
 	
 }
-
-?>

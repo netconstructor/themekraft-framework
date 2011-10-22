@@ -87,5 +87,3 @@ function tk_form_select( $name, $options, $args = array(), $return_object = FALS
 		return $select->get_html();
 	}
 }
-
-?>

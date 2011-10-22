@@ -98,5 +98,3 @@ function tk_jqueryui_autocomplete( $name, $option_group, $id, $autocomplete_sour
 	$autocomplete = new TK_Jqueryui_Autocomplete( $name, $option_group, $id, $autocomplete_source, $extra );
 	return $autocomplete->get_html();
 }
-
-?>

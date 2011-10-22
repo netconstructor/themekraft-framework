@@ -168,5 +168,3 @@ function tkf_menue(){
 	add_submenu_page( 'tk_framework', __( 'Framework test', 'tk_framework'),__( 'Display Builder', 'tk_framework' ), 'manage_options', 'tk_framework_test_display_builder', 'tk_framework_test_display_builder' );
 }
 add_action( 'admin_menu', 'tkf_menue');
-
-?>

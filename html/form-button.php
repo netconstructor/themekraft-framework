@@ -74,5 +74,3 @@ function tk_button( $value, $args = array(), $return_object = FALSE ){
 		return $button->get_html();
 	}
 }
-
-?>

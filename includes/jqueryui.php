@@ -226,5 +226,3 @@ function tk_load_jqueryui(){
 	global $tk_jqueryui_components;
 	tk_jqueryui( $tk_jqueryui_components );
 }
-
-?>

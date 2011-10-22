@@ -77,5 +77,3 @@ function tk_textfield( $args, $return_object = FALSE ){
 		return $textfield->get_html();
 	}	
 }
-
-?>

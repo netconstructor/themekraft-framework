@@ -138,5 +138,3 @@ function tk_save_wp_metabox_option_group( $post_id ){
 	
 	update_post_meta( $post_id, $post_option_group, $_POST[ $post_option_group ] );
 }
-
-?>

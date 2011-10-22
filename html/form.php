@@ -78,5 +78,3 @@ class TK_Form extends TK_HTML{
 		return $html;
 	}
 }
-
-?>

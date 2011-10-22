@@ -79,5 +79,3 @@ function tk_form_checkbox( $name, $args = array(), $return_object = FALSE ){
 		return $checkbox->get_html();
 	}
 }
-
-?>

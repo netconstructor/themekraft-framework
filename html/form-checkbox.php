@@ -79,5 +79,3 @@ function tk_checkbox( $args, $return_object = FALSE ){
 		return $checkbox->get_html();
 	}
 }
-
-?>

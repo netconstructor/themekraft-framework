@@ -68,4 +68,3 @@ if( $tkf_version != '' ){
 	$tkf_version = $this_tkf_version;
 	add_action( 'wp_loaded', 'tkf_init_' . str_replace( '.', '', $this_tkf_version ) );
 }
-?>

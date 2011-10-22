@@ -76,5 +76,3 @@ class TK_Admin_Page extends TK_HTML{
 		return $html;
 	}
 }
-
-?>

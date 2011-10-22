@@ -136,5 +136,3 @@ function tk_accordion( $id, $elements, $return_object = false ){
 		return $accordion->get_html();
 	}	
 }
-
-?>

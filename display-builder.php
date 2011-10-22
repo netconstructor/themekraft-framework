@@ -279,5 +279,3 @@ function tk_db_button( $name, $return_object = TRUE ){
 	$args = array();
 	return tk_form_button( $name, $label, $args, $return_object );
 }
-
-?>

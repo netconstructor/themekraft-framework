@@ -65,4 +65,3 @@ class TK_HTML{
 		echo $this->get_html();	
 	}
 }
-?>
