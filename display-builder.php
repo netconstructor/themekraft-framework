@@ -148,7 +148,7 @@ class TK_Display_Builder{
 				$params['content'][$i] = $this->tk_obj_from_node( $subnode, $subnode_name );
 			}else{
 				if( $subnode->nodeType == XML_TEXT_NODE && trim( $subnode_value ) != '' ){
-					$params['content'][$i] = trim( $subnode_value );
+					$params['content'][$i] = '<p>' . trim( $subnode_value ) . '</p>';
 				}
 			}
 		}

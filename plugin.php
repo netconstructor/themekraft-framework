@@ -121,36 +121,42 @@ function tk_framework_test_display_builder(){
 	 */
 	$string = '<?xml version="1.0" ?>
 				<tkfxml>
-					<form id="my_test_form" name="test_form">
+					<form name="test_form">
 						<tabs>
 							<tab title="One">
-								<textfield name="name" label="Vorname" tooltip="Ihr Vorname" />
-								<textfield name="surname" label="Nachname" tooltip="Ihr Nachname" />
-								<colorpicker name="colorforme" label="Farbe" tooltip="Wählen Sie eine Farbe mit dem Farbwähler" />
-								<textarea name="longtext" label="Textarea" tooltip="Hier können Sie viel Text eingeben" />
-								<file name="ourfile" label="File" tooltip="Hier können Sie eine Datei hochladen" />
-								<checkbox name="mycheckbox" label="Check this" tooltip="Check das einfach mal!" />
-								<select name="myselect" label="Select this" tooltip="Mehrere Einträge untereinander">
+								
+								Showing all fields:
+								
+								<textfield name="name" label="First name" tooltip="Your first name" />
+								<textfield name="surname" label="Last name" tooltip="Your last name" />
+								<colorpicker name="colorforme" label="Color" tooltip="Select a colour" />
+								<textarea name="longtext" label="Textarea" tooltip="Here you can put in a much of text" />
+								<file name="ourfile" label="File" tooltip="Upload your file!" />
+								<checkbox name="mycheckbox" label="Check this" tooltip="Check the checkbox!" />
+								
+								<select name="myselect" label="Select box" tooltip="Some entries in a dropdown">
 									<option name="First entry" value="first" />
 									<option name="Second entry" value="second" />
 									<option name="Third entry" value="third" />
 									<option name="Fourth entry" value="fourth" />
 								</select>
+								
 							</tab>
 							<tab title="Two">
 								<accordion id="theaccordion">
 									<section id="firstsection" title="First Section">
 										This is the first section with content.
 									</section>
-									<section id="secondsection" title="Second Section">
-										As you can see, two sections are ready as well.
+									<section id="secondsection" title="First Section">
+										<textarea name="styles" label="Stylesheets" tooltip="Put in your stylesheets!" />
 									</section>
-									<section title="Third Section" id="thirdsection">									
-									</section>				
 								</accordion>
 							</tab>
 							<tab title="three">
-								Here have been a form.
+								An accordion without id´s
+								<accordion>
+									<section title="See">As you can see it works</section>
+								</accordion>								
 							</tab>
 						</tabs>
 						<button name="Save" />
