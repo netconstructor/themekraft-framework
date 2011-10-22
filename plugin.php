@@ -140,7 +140,7 @@ function tk_framework_test_display_builder(){
 	
 	echo '<div style="background-color:#111;padding:5px;color:#FFF;">';
 	
-	// echo $tkdb->get_html();
+	echo $tkdb->get_html();
 	
 	echo '</div>';
 	
@@ -148,93 +148,112 @@ function tk_framework_test_display_builder(){
 	/*
 	 * XML
 	 */
-	
-
 	$string = 
 			'<document>
 				<tabs>
-					<id>mytabs</id>
+					<id>tabs</id>
 					<tab>
 						<id>1</id>
 						<title>Eins</title>
 						<content>
 							<textfield>
-								<name>prename</name>
-							</textfield>
-							<colorpicker>
-								<name>phone</name>
-							</colorpicker>
+								<name>surname</name>
+							</textfield>	
 							<file>
 								<name>phone</name>
 							</file>
 							<checkbox>
 								<name>checkbox1</name>
 							</checkbox>
-							<button>
-								<name>KKK</name>
-							</button>
+							<colorpicker>
+								<name>color</name>
+							</colorpicker>
 						</content>
 					</tab>
-				</tabs>	
+					<tab>
+						<id>2</id>
+						<title>Zwei</title>
+						<content>
+							<accordion>
+								<id>myaccordion</id>
+								<section>
+									<id>5345</id>
+									<title>Eins</title>
+									<content>
+										sdfglksksdfhj
+									</content>
+								</section>
+								<section>
+									<id>345345</id>
+									<title>Zwei</title>
+									<content>
+										<textfield>
+											<name>prename</name>
+										</textfield>
+										<textfield>
+											<name>surname</name>
+										</textfield>	
+										<colorpicker>
+											<name>phone</name>
+										</colorpicker>
+									</content>
+								</section>
+							</accordion>
+						</content>
+					</tab>
+				</tabs>
 				<form>
-					<id>myformid</id>
-					<option_group>mygroupformoptions</option_group>
-					<content>
-						<tabs>
-							<id>mytabs</id>
-							<tab>
-								<id>1</id>
-								<title>Eins</title>
-								<content>
-									<textfield>
-										<name>prename</name>
-									</textfield>
-									<colorpicker>
-										<name>phone</name>
-									</colorpicker>
-									<file>
-										<name>phone</name>
-									</file>
-									<checkbox>
-										<name>checkbox1</name>
-									</checkbox>
-									<button>
-										<name>Save</name>
-									</button>
-								</content>
-							</tab>
-						</tabs>						
-					</content>
-				</form>
-			</document>';
-			
-			
-		$string = 
-			'<document>
-				<form>
-					<id>myformid</id>
+					<id>myform</id>
 					<option_group>mygroupformoptions</option_group>
 					<content>
 						<textfield>
+							<name>surname</name>
+						</textfield>
+						<textfield>
 							<name>prename</name>
 						</textfield>
-						<colorpicker>
-							<name>phone</name>
-						</colorpicker>
-						<file>
-							<name>phone</name>
-						</file>
-						<checkbox>
-							<name>checkbox1</name>
-						</checkbox>
 						<button>
 							<name>Save</name>
 						</button>
-					</content>				
-				</form>			
+					</content>
+				</form>
+				<tabs>
+					<id>mynewtabs</id>
+					<tab>
+						<id>1</id>
+						<title>Eins</title>
+						<content>Inhalt</content>						
+					</tab>
+				</tabs>
 			</document>';
-			
-			
+	
+	$string = 
+			'<document>
+				<tabs>
+					<id>mynewtabs</id>
+					<tab>
+						<id>1</id>
+						<title>Eins</title>
+						<content>Inhalt</content>				
+					</tab>
+				</tabs>
+				<form>
+					<id>myform</id>
+					<option_group>mygroupformoptions</option_group>
+					<content>
+						<textfield>
+							<name>surname</name>
+						</textfield>
+						<button>
+							<name>Save</name>
+						</button>
+						<textfield>
+							<name>prename</name>
+						</textfield>						
+					</content>
+				</form>
+			</document>';	
+	
 	echo '<div style="background-color:#999;padding:5px;color:#FFF;">';
 	
 	$tkdb->load_xml( $string );
