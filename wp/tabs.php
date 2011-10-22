@@ -9,7 +9,7 @@ class TK_Jqueryui_Tabs extends TK_HTML{
 	 * @since 0.1.0
 	 * 
 	 */
-	function tk_jqueryui_tabs( $id ){
+	function tk_jqueryui_tabs( $id = '' ){
 		$this->__construct( $id );
 	}
 	
@@ -20,9 +20,8 @@ class TK_Jqueryui_Tabs extends TK_HTML{
 	 * @since 0.1.0
 	 * 
 	 */
-	function __construct( $id ){
+	function __construct( $id = '' ){
 		parent::__construct();
-		
 		$this->id = $id;
 	}
 	
@@ -37,7 +36,7 @@ class TK_Jqueryui_Tabs extends TK_HTML{
 	 * @param string $content Content which appears in the tab
 	 * 
 	 */
-	public function add_tab( $id, $title, $content ){
+	public function add_tab( $id = '', $title = '', $content = '' ){
 		$element = array( 'id'=> $id, 'title' => $title, 'content' => $content );
 		$this->add_element( $element );
 	}
@@ -53,26 +52,31 @@ class TK_Jqueryui_Tabs extends TK_HTML{
 	 */
 	public function get_html(){
 		
+		if( $this->id == '' ){
+			$id = md5( rand() );
+		}else{
+			$id = $this->id;
+		}
+		
 		$html = '<script type="text/javascript">
 		jQuery(document).ready(function($){
-			$( ".' . $this->id . '" ).tabs();
+			$( ".' . $id . '" ).tabs();
 		});
    		</script>';
 		
 		
-		$html.= '<div class="' . $this->id . '">';
+		$html.= '<div class="' . $id . '">';
 		
 		$html.= '<ul>';
 		
-		$html = apply_filters( 'tk_wp_jqueryui_tabs_tabs_before_' . $element['id'], $html );
+		if( $this->id != '' ) $html = apply_filters( 'tk_wp_jqueryui_tabs_before_tabs_' . $id, $html );
 		
 		foreach( $this->elements AS $element ){
-			
-			$html = apply_filters( 'tk_wp_jqueryui_tabs_tabs_before_li_' . $element['id'], $html );
-			
-			$html.= '<li><a href="#' . $element['id'] . '" >';
-			
-			$html = apply_filters( 'tk_wp_jqueryui_tabs_tabs_title_before_' . $element['id'], $html );
+			if( $element['id'] == '' ){	$element_id = md5( $element['title'] ); }else{	$element_id = $element['id']; }
+						
+			if( $element['id'] != '' ) $html = apply_filters( 'tk_wp_jqueryui_tabs_tabs_before_li_' . $element['id'], $html );
+			$html.= '<li><a href="#' . $element_id . '" >';
+			if( $element['id'] != '' ) $html = apply_filters( 'tk_wp_jqueryui_tabs_tabs_title_before_' .$element['id'], $html );
 		
 			if( is_object( $element['title'] ) ){
 				 $html.= $element['title']->get_html();
@@ -80,26 +84,26 @@ class TK_Jqueryui_Tabs extends TK_HTML{
 				 $html.= $element['title'];
 			}
 			
-			$html = apply_filters( 'tk_wp_jqueryui_tabs_tabs_title_after_' . $element['id'], $html );
-			
+			if( $element['id'] != '' ) $html = apply_filters( 'tk_wp_jqueryui_tabs_tabs_title_after_' . $element['id'], $html );
 			$html.= '</a></li>';
-			
-			$html = apply_filters( 'tk_wp_jqueryui_tabs_tabs_after_li_' . $element['id'], $html );
+			if( $element['id'] != '' ) $html = apply_filters( 'tk_wp_jqueryui_tabs_tabs_after_li_' . $element['id'], $html );
 		}
 		
-		$html = apply_filters( 'tk_wp_jqueryui_tabs_tabs_after_' . $element['id'], $html );
+		if( $this->id != '' ) $html = apply_filters( 'tk_wp_jqueryui_tabs_after_tabs_' . $id, $html );
 		
 		$html.= '</ul>';
 		
 		foreach( $this->elements AS $element ){
-			$html.= '<div id="' . $element['id'] . '" >';
-			$html = apply_filters( 'tk_wp_jqueryui_tabs_before_content_' . $element['id'], $html );
+			if( $element['id'] == '' ){	$element_id = md5( $element['title'] ); }else{	$element_id = $element['id']; }
+			
+			$html.= '<div id="' . $element_id . '" >';
+			if( $element['id'] != '' ) $html = apply_filters( 'tk_wp_jqueryui_tabs_before_content_' . $element['id'], $html );
 			
 			$tkdb = new TK_Display_Builder();
 			$html.= $tkdb->get_html( $element['content'] );
 			unset( $tkdb );
 			
-			$html = apply_filters( 'tk_wp_jqueryui_tabs_after_content_' . $element['id'], $html );
+			if( $element['id'] != '' ) $html = apply_filters( 'tk_wp_jqueryui_tabs_after_content_' . $element['id'], $html );
 			$html.= '</div>';
 		}
 		
@@ -108,19 +112,7 @@ class TK_Jqueryui_Tabs extends TK_HTML{
 		return $html;
 	}
 }
-class TK_Jqueryui_Tabs_Tab extends TK_HTML{
-	function tk_jqueryui_tabs_tab( $id, $title, $content ){
-		$this->__construct($id, $title, $content);
-	}
-	
-	function __construct( $id, $title, $content ){
-		$this->id = $id;
-		$this->title = $title;
-		$this->content = $content;
-	}
-}
-
-function tk_tabs( $id, $elements, $return_object = FALSE ){	
+function tk_tabs( $id = '', $elements = array(), $return_object = FALSE ){	
 	$tabs = new	TK_Jqueryui_Tabs( $id );	
 	
 	foreach ( $elements AS $element ){

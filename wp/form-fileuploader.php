@@ -28,23 +28,19 @@ class TK_WP_Jquery_Fileuploader extends TK_WP_Form_Textfield{
 		$defaults = array(
 			'id' => substr( md5 ( time() * rand() ), 0, 10 ),
 			'extra' => '',
-			'before_textfield' => '',
-			'after_textfield' => ''
+			'before_element' => '',
+			'after_element' => ''
 		);
 		
 		$args = wp_parse_args( $args, $defaults );
 		extract( $args , EXTR_SKIP );
 		
-		$before_textfield.= '<div class="option-inputs"><label for="image1">';
+		$before_element.= '';
 		
-		$after_textfield.= '
-						<input class="tk_fileuploader" type="button" value="' . __( 'Browse ...' ) . '" /><br></br>
-						<img class="cc_image_preview" id="image_' . $id . '" style="max-width: 100px"/>
-						</label></div>
-						';	
+		$after_element = '<input class="tk_fileuploader" type="button" value="' . __( 'Browse ...' ) . '" /><br></br><img class="cc_image_preview" id="image_' . $id . '" style="max-width: 100px"/>' . $after_element;	
 		 
-		$args['before_textfield'] = $before_textfield;
-		$args['after_textfield'] = $after_textfield;
+		$args['before_element'] = $before_element;
+		$args['after_element'] = $after_element;
 		
 		parent::__construct( $name, $args );
 	}

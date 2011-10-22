@@ -121,59 +121,41 @@ function tk_framework_test_display_builder(){
 	 */
 	$string = '<?xml version="1.0" ?>
 				<tkfxml>
-					<form waste="noooo" id="my_test_form" name="test_form">
-						<textfield name="name" />
-						<textfield name="surname" />
-						<button name="Send" />
+					<form id="my_test_form" name="test_form">
+						<tabs>
+							<tab title="One">
+								<textfield name="name" label="Vorname" tooltip="Ihr Vorname" />
+								<textfield name="surname" label="Nachname" tooltip="Ihr Nachname" />
+								<colorpicker name="colorforme" label="Farbe" tooltip="Wählen Sie eine Farbe mit dem Farbwähler" />
+								<textarea name="longtext" label="Textarea" tooltip="Hier können Sie viel Text eingeben" />
+								<file name="ourfile" label="File" tooltip="Hier können Sie eine Datei hochladen" />
+								<checkbox name="mycheckbox" label="Check this" tooltip="Check das einfach mal!" />
+								<select name="myselect" label="Select this" tooltip="Mehrere Einträge untereinander">
+									<option name="First entry" value="first" />
+									<option name="Second entry" value="second" />
+									<option name="Third entry" value="third" />
+									<option name="Fourth entry" value="fourth" />
+								</select>
+							</tab>
+							<tab title="Two">
+								<accordion id="theaccordion">
+									<section id="firstsection" title="First Section">
+										This is the first section with content.
+									</section>
+									<section id="secondsection" title="Second Section">
+										As you can see, two sections are ready as well.
+									</section>
+									<section title="Third Section" id="thirdsection">									
+									</section>				
+								</accordion>
+							</tab>
+							<tab title="three">
+								Here have been a form.
+							</tab>
+						</tabs>
+						<button name="Save" />
 					</form>
-					<tabs id="mynewtabs">
-						<tab id="tabone" title="One">
-							First tab with content.
-						</tab>
-						<tab id="tabtwo" title="Two">
-							<accordion id="theaccordion">
-								<section id="firstsection" title="First Section">
-									This is the first section with content.
-								</section>
-								<section id="secondsection" title="Second Section">
-									As you can see, two sections are ready as well.
-								</section>				
-							</accordion>
-						</tab>
-						<tab id="tabthree" title="three">
-							Here have been a form.
-						</tab>
-					</tabs>
-				</tkfxml>';	
-				
-	$string = '<?xml version="1.0" ?>
-				<tkfxml>
-					<tabs and="flkhjdfgj" id="mynewtabs">
-						<tab id="tabone" title="One">
-							First tab with content.
-						</tab>
-						<tab id="tabtwo" title="Two">
-							<accordion id="theaccordion">
-								<section id="firstsection" title="First Section">
-									This is the first section with content.
-								</section>
-								<section id="secondsection" title="Second Section">
-									As you can see, two sections are ready as well.
-								</section>
-								<section title="Third Section" id="thirdsection">
-									<form waste="noooo" id="my_test_form" name="test_form">
-										<textfield name="name" />
-										<textfield name="surname" />
-										<button name="Send" />
-									</form>
-								</section>				
-							</accordion>
-						</tab>
-						<tab id="tabthree" title="three">
-							Here have been a form.
-						</tab>
-					</tabs>
-				</tkfxml>';					
+				</tkfxml>';								
 	
 	$tkdb->load_xml( $string );
 	echo $tkdb->get_html();

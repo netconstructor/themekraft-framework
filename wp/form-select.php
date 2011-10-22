@@ -33,7 +33,9 @@ class TK_WP_Form_Select extends TK_Form_Select{
 			'id' => '',
 			'extra' => '',
 			'size' => '',
-			'option_group' => $tk_form_instance_option_group
+			'option_group' => $tk_form_instance_option_group,
+			'before_element' => '',
+			'after_element' => ''
 		);
 		
 		$args = wp_parse_args($args, $defaults);
@@ -65,6 +67,7 @@ class TK_WP_Form_Select extends TK_Form_Select{
 
 function tk_form_select( $name, $options, $args = array(), $return_object = FALSE ){
 	$select = new TK_WP_Form_Select( $name, $args );
+	
 	foreach ( $options AS $option ){
 		if( !is_array( $option) ){
 			$select->add_option( $option );

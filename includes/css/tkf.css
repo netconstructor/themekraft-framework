@@ -1,0 +1,18 @@
+.tk_field_label{
+	width: 15%;
+	float: left;
+}
+.tk_field{
+	width: 85%;
+	float: right;
+}
+.tk_field_row{
+	clear:both;
+	min-height:35px;
+}
+.tk_field_row label{
+	font-size: 12px;
+}
+.tk_field input, .tk_field textarea, .tk_field select{
+	font-size: 12px !important;
+}

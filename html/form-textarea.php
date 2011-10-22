@@ -3,7 +3,7 @@
 class TK_Form_Textarea extends TK_Form_Element{
 	
 	var $extra;
-	var $before_textarea;
+	var $before_element;
 	var $after_textarea;
 	
 	/**
@@ -34,8 +34,8 @@ class TK_Form_Textarea extends TK_Form_Element{
 			'extra' => '',
 			'rows' => '',
 			'cols' => '',
-			'before_textarea' => '',
-			'after_textarea' => ''
+			'before_element' => '',
+			'after_element' => ''
 		);
 		
 		$args = wp_parse_args($args, $defaults);
@@ -47,8 +47,8 @@ class TK_Form_Textarea extends TK_Form_Element{
 		
 		$this->rows = $rows;
 		$this->cols = $cols;
-		$this->before_textarea = $before_textarea;
-		$this->after_textarea = $after_textarea;		
+		$this->before_element = $before_element;
+		$this->after_element = $after_element;		
 	}
 	
 	/**
@@ -67,9 +67,9 @@ class TK_Form_Textarea extends TK_Form_Element{
 		if( $this->cols != '' ) $cols = ' cols="' . $this->cols . '"';		
 		if( $this->extra != '' ) $extra = $this->extra;
 		
-		$html = $this->before_textarea;
+		$html = $this->before_element;
 		$html.= '<textarea' . $id . $name . $rows . $cols . $extra . ' />' . $this->value  . '</textarea>';
-		$html.= $this->after_textarea;
+		$html.= $this->after_element;
 		
 		return $html;
 	}

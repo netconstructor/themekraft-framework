@@ -33,7 +33,9 @@ class TK_WP_Form_Checkbox extends TK_Form_Checkbox{
 			'id' => '',
 			'value' => '',
 			'extra' => '',
-			'option_group' => $tk_form_instance_option_group
+			'option_group' => $tk_form_instance_option_group,
+			'before_element' => '',
+			'after_element' => ''
 		);
 		
 		$args = wp_parse_args($args, $defaults);

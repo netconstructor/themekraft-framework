@@ -3,6 +3,8 @@
 class TK_Form_Checkbox extends TK_Form_Element{
 	var $extra;
 	var $checked;
+	var $before_element;
+	var $after_element;	
 	
 	/**
 	 * PHP 4 constructor
@@ -30,7 +32,9 @@ class TK_Form_Checkbox extends TK_Form_Element{
 			'name' => '',
 			'value' => '',
 			'checked' => false,
-			'extra' => ''
+			'extra' => '',
+			'before_element' => '',
+			'after_element' => ''
 		);
 		
 		$args = wp_parse_args($args, $defaults);
@@ -40,6 +44,8 @@ class TK_Form_Checkbox extends TK_Form_Element{
 		
 		$this->extra = $extra;
 		$this->checked = $checked;
+		$this->before_element = $before_element;
+		$this->after_element = $after_element;
 	}
 	
 	/**
@@ -56,8 +62,10 @@ class TK_Form_Checkbox extends TK_Form_Element{
 		if( $this->value != '' ) $value = ' value="' . $this->value . '"';
 		if( $this->extra != '' ) $extra = $this->extra;
 		if( $this->checked == true ) $checked = ' checked';
-				
-		$html = '<input type="checkbox" ' . $id . $name . $value . $extra . $checked . ' />';
+		
+		$html = $this->before_element;
+		$html.= '<input type="checkbox" ' . $id . $name . $value . $extra . $checked . ' />';
+		$html.= $this->after_element;
 		
 		return $html;
 	}

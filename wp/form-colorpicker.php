@@ -28,14 +28,14 @@ class TK_WP_Jquery_Colorpicker extends TK_WP_Form_Textfield{
 		$defaults = array(
 			'id' => substr( md5 ( time() * rand() ), 0, 10 ),
 			'extra' => '',
-			'before_textfield' => '',
-			'after_textfield' => ''
+			'before_element' => '',
+			'after_element' => ''
 		);
 		
 		$args = wp_parse_args( $args, $defaults );
 		extract( $args , EXTR_SKIP );		
 		
-		$after_textfield.= '<script type="text/javascript">
+		$after_element.= '<script type="text/javascript">
 		jQuery(document).ready(function($){
 			$(\'#' . $id . '\').ColorPicker({
 				onSubmit: function(hsb, hex, rgb, el) {
@@ -52,8 +52,8 @@ class TK_WP_Jquery_Colorpicker extends TK_WP_Form_Textfield{
 		});
    		</script>';
 		 
-		$args['before_textfield'] = $before_textfield;
-		$args['after_textfield'] = $after_textfield;
+		$args['before_element'] = $before_element;
+		$args['after_element'] = $after_element;
 		
 		parent::__construct( $name, $args );
 	}

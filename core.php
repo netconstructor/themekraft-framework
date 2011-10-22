@@ -1,7 +1,7 @@
 <?php
-	
+
 class TK_Framework{
-	
+
 	/**
 	 * PHP 4 constructor
 	 *
@@ -31,7 +31,7 @@ class TK_Framework{
 	function includes(){
 		
 		require_once( 'display-builder.php' );
-		
+
 		require_once( 'html/html.php' );
 		require_once( 'html/form.php' );
 		require_once( 'html/form-element.php' );
@@ -44,6 +44,9 @@ class TK_Framework{
 		
 		require_once( 'wp/admin-page.php' );
 		
+		require_once( 'wp/tabs.php' );
+		require_once( 'wp/accordion.php' );
+		
 		require_once( 'wp/form.php' );
 		require_once( 'wp/form-textfield.php' );
 		require_once( 'wp/form-textarea.php' );
@@ -51,16 +54,15 @@ class TK_Framework{
 		require_once( 'wp/form-radiobutton.php' );
 		require_once( 'wp/form-select.php' );
 		require_once( 'wp/form-button.php' );
-		
 		require_once( 'wp/form-colorpicker.php' );
 		require_once( 'wp/form-fileuploader.php' );
 		
-		require_once( 'wp/metabox.php' );
+		// require_once( 'wp/autocomplete.php' );
 		
-		require_once( 'jquery/jqueryui.php' );
-		require_once( 'jquery/tabs.php' );
-		require_once( 'jquery/accordion.php' );
-		require_once( 'jquery/autocomplete.php' );
+		require_once( 'wp/metabox.php' );
+
+		require_once( 'includes/jqueryui.php' );
+		
 	}
 }
 

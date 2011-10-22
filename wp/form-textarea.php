@@ -34,9 +34,7 @@ class TK_WP_Form_Textarea extends TK_Form_Textarea{
 			'extra' => '',
 			'rows' => '',
 			'cols' => '',
-			'option_group' => $tk_form_instance_option_group,
-			'before_textarea' => '',
-			'after_textarea' => ''
+			'option_group' => $tk_form_instance_option_group
 		);
 		
 		$args = wp_parse_args( $args, $defaults );

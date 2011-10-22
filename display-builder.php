@@ -41,14 +41,18 @@ class TK_Display_Builder{
 		$functions['form'] = array( 'id' => '', 'name' => '', 'content' => '', 'return_object' => $return_object );
 		
 		// Form elements
-		$functions['textfield'] = array( 'name' => '', 'return_object' => $return_object );
-		$functions['textarea'] = array( 'name' => '', 'return_object' => $return_object );
-		$functions['colorpicker'] = array( 'name' => '', 'return_object' => $return_object );
-		$functions['file'] = array( 'name' => '', 'return_object' => $return_object );
-		$functions['button'] = array( 'name' => '', 'return_object' => $return_object );
-		$functions['checkbox'] = array( 'name' => '', 'return_object' => $return_object );
+		$functions['textfield'] = array( 'name' => '', 'label' => '', 'tooltip' => '' , 'return_object' => $return_object );
+		$functions['textarea'] = array( 'name' => '', 'label' => '', 'tooltip' => '', 'return_object' => $return_object );
+		$functions['colorpicker'] = array( 'name' => '', 'label' => '', 'tooltip' => '', 'return_object' => $return_object );
+		$functions['file'] = array( 'name' => '', 'label' => '', 'tooltip' => '', 'return_object' => $return_object );
+				
+		$functions['checkbox'] = array( 'name' => '', 'label' => '', 'tooltip' => '', 'return_object' => $return_object );
+				
+		$functions['select'] = array( 'name' => '', 'option' => array(), 'label' => '', 'tooltip' => '',  'return_object' => $return_object );
+		$functions['option'] = array( 'name' => '', 'value' => '' );
+		$bound_content['select'] = 'option';		
 		
-		$functions['select'] = array( 'name' => '', 'options' => array(), 'return_object' => $return_object );
+		$functions['button'] = array( 'name' => '', 'return_object' => $return_object );
 		
 		$this->bound_content = $bound_content;
 		
@@ -101,15 +105,14 @@ class TK_Display_Builder{
 		// Getting object
 		$this->tkdb = $this->tk_obj_from_node( $mainnode );
 		
-		echo "<pre>";
+		// echo "<pre>";
 		// print_r( $this->tkdb );
-		echo "</pre>";
+		// echo "</pre>";
 		
 		return TRUE;
 	}
 
 	function tk_obj_from_node( $node, $function_name = FALSE ){
-				
 		
 		// Getting node values
 		$node_name = $node->nodeName;
@@ -154,7 +157,6 @@ class TK_Display_Builder{
 		 * Calling function / Returning value
 		 */
 		if( FALSE != $function_name ){
-			// Sorting out all waste
 			$params = $this->cleanup_function_params( $function_name, $params );
 			$function_result = call_user_func_array( 'tk_db_' . $function_name , $params );
 			return $function_result;
@@ -170,10 +172,8 @@ class TK_Display_Builder{
 			
 			// If function was bound to content or has no content
 			if( $params[ $key ] == '' ){
-				print_r( $params[ $this->bound_content[ $key ] ] );
-				
 				// If function was bound to content
-				if( $this->bound_content[ $function_name ] != '' ){
+				if( $this->bound_content[ $function_name ] != '' && $key == $this->bound_content[ $function_name ] ){
 					$params_new[ $this->bound_content[ $function_name ] ] = $params[ 'content' ];
 				}else{
 					// Rewrite key to function name
@@ -191,7 +191,7 @@ class TK_Display_Builder{
 /*
  * Tab functions
  */
-function tk_db_tabs( $id, $elements = '', $return_object = TRUE ){
+function tk_db_tabs( $id = '', $elements = array(), $return_object = TRUE ){
 	return tk_tabs( $id, $elements, $return_object );
 }
 function tk_db_tab( $id, $title, $content = '' ){
@@ -201,7 +201,7 @@ function tk_db_tab( $id, $title, $content = '' ){
 /*
  * Accordion functions
  */
-function tk_db_accordion( $id, $elements = '', $return_object = TRUE ){
+function tk_db_accordion( $id, $elements = array(), $return_object = TRUE ){
 	return tk_accordion( $id, $elements, $return_object );
 }
 function tk_db_section( $id, $title, $content = '' ){
@@ -218,33 +218,66 @@ function tk_db_form( $id, $name, $content = '', $return_object = TRUE ){
 /*
  * Form element functions
  */
-function tk_db_textfield( $name, $return_object = TRUE ){
-	$args = array();
+function tk_db_textfield( $name, $label, $tooltip, $return_object = TRUE ){
+	$args = array(
+		'id' => $name,
+		'before_element' => '<div class="tk_field_row"><div class="tk_field_label"><label for="' . $name . '" title="' . $tooltip . '">' . $label . '</label></div><div class="tk_field">',
+		'after_element' => '</div></div>'
+	);
 	return tk_form_textfield( $name, $args, $return_object );
 }
-function tk_db_textarea( $name, $return_object = TRUE ){
-	$args = array();
+
+function tk_db_textarea( $name, $label, $tooltip, $return_object = TRUE ){
+	$args = array(
+		'id' => $name,
+		'before_element' => '<div class="tk_field_row"><div class="tk_field_label"><label for="' . $name . '" title="' . $tooltip . '">' . $label . '</label></div><div class="tk_field">',
+		'after_element' => '</div></div>'
+	);
 	return tk_form_textarea( $name, $args, $return_object );
 }
-function tk_db_colorpicker( $name, $return_object = TRUE ){
-	$args = array();
+
+function tk_db_colorpicker( $name, $label, $tooltip, $return_object = TRUE ){
+	$args = array(
+		'id' => $name,
+		'before_element' => '<div class="tk_field_row"><div class="tk_field_label"><label for="' . $name . '" title="' . $tooltip . '">' . $label . '</label></div><div class="tk_field">',
+		'after_element' => '</div></div>'
+	);
 	return tk_form_colorpicker( $name, $args, $return_object );
 }
-function tk_db_file( $name, $return_object = TRUE ){
-	$args = array();
+
+function tk_db_file( $name, $label, $tooltip, $return_object = TRUE ){
+	$args = array(
+		'id' => $name,
+		'before_element' => '<div class="tk_field_row"><div class="tk_field_label"><label for="' . $name . '" title="' . $tooltip . '">' . $label . '</label></div><div class="tk_field">',
+		'after_element' => '</div></div>'
+	);
 	return tk_form_fileuploader( $name, $args, $return_object );
 }
-function tk_db_button( $name, $return_object = TRUE ){
-	$args = array();
-	return tk_form_button( $name, $args, $return_object );
-}
-function tk_db_checkbox( $name, $return_object = TRUE ){
-	$args = array();
+
+function tk_db_checkbox( $name, $label, $tooltip, $return_object = TRUE ){
+	$args = array(
+		'id' => $name,
+		'before_element' => '<div class="tk_field_row"><div class="tk_field_label"><label for="' . $name . '" title="' . $tooltip . '">' . $label . '</label></div><div class="tk_field">',
+		'after_element' => '</div></div>'
+	);
 	return tk_form_checkbox( $name, $args, $return_object );
 }
-function tk_db_select( $name, $options, $return_object = TRUE ){
-	$args = array();
+
+function tk_db_select( $name, $options, $label, $tooltip, $return_object = TRUE ){
+	$args = array(
+		'id' => $name,
+		'before_element' => '<div class="tk_field_row"><div class="tk_field_label"><label for="' . $name . '" title="' . $tooltip . '">' . $label . '</label></div><div class="tk_field">',
+		'after_element' => '</div></div>'
+	);
 	return tk_form_select( $name, $options, $args , $return_object );
+}
+function tk_db_option( $name, $value ){
+	return array( 'name' => $name, 'value' => $value );
+}
+
+function tk_db_button( $name, $return_object = TRUE ){
+	$args = array();
+	return tk_form_button( $name, $label, $args, $return_object );
 }
 
 ?>

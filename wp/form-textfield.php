@@ -33,8 +33,8 @@ class TK_WP_Form_Textfield extends TK_Form_Textfield{
 			'id' => '',
 			'extra' => '',
 			'option_group' => $tk_form_instance_option_group,
-			'before_textfield' => '',
-			'after_textfield' => ''
+			'before_element' => '',
+			'after_element' => ''
 		);
 		
 		$args = wp_parse_args( $args, $defaults );
@@ -66,7 +66,7 @@ class TK_WP_Form_Textfield extends TK_Form_Textfield{
 
 function tk_form_textfield( $name, $args = array(), $return_object = FALSE ){
 	$textfield = new TK_WP_Form_Textfield( $name, $args );
-	
+		
 	if( TRUE == $return_object ){
 		return $textfield;
 	}else{
