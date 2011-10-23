@@ -173,6 +173,10 @@ function tk_framework_test_wpml_parser(){
 	
 	$wml->load_xml( $xml );
 	echo $wml->get_html();
+	
+	echo '<pre>';
+	print_r( tk_get_values( 'test_form' ) );
+	echo '</pre>';
 }
 
 // Just for showing menue for test site
