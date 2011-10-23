@@ -111,16 +111,16 @@ function tk_framework_test_functions(){
 	 */
 }
 
-function tk_framework_test_display_builder(){
+function tk_framework_test_wpml_parser(){
 	echo "<h2>Framework test functions</h2>";
 	
-	$tkdb = new TK_Display_builder();	
+	$wml = new TK_WML_Parser();	
 	
 	/*
 	 * XML
 	 */
-	$string = '<?xml version="1.0" ?>
-				<tkfxml>
+	$xml = '<?xml version="1.0" ?>
+				<wml>
 					<form name="test_form">
 						<tabs>
 							<tab title="One">
@@ -147,7 +147,7 @@ function tk_framework_test_display_builder(){
 									<section id="firstsection" title="First Section">
 										This is the first section with content.
 									</section>
-									<section id="secondsection" title="First Section">
+									<section id="secondsection" title="Second Section">
 										<textarea name="styles" label="Stylesheets" tooltip="Put in your stylesheets!" />
 									</section>
 								</accordion>
@@ -161,16 +161,16 @@ function tk_framework_test_display_builder(){
 						</tabs>
 						<button name="Save" />
 					</form>
-				</tkfxml>';								
+				</wml>';											
 	
-	$tkdb->load_xml( $string );
-	echo $tkdb->get_html();
+	$wml->load_xml( $xml );
+	echo $wml->get_html();
 }
 
 // Just for showing menue for test site
 function tkf_menue(){
 	add_menu_page( 'TK Framework' , 'TK Framework' , 'manage_options', 'tk_framework','tk_framework' );
 	add_submenu_page( 'tk_framework', __( 'Framework test', 'tk_framework'),__( 'Functions', 'tk_framework' ), 'manage_options', 'tk_framework_test', 'tk_framework_test_functions' );
-	add_submenu_page( 'tk_framework', __( 'Framework test', 'tk_framework'),__( 'Display Builder', 'tk_framework' ), 'manage_options', 'tk_framework_test_display_builder', 'tk_framework_test_display_builder' );
+	add_submenu_page( 'tk_framework', __( 'Framework test', 'tk_framework'),__( 'Display Builder', 'tk_framework' ), 'manage_options', 'tk_framework_test_display_builder', 'tk_framework_test_wpml_parser' );
 }
 add_action( 'admin_menu', 'tkf_menue');
