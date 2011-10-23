@@ -141,6 +141,10 @@ function tk_framework_test_wpml_parser(){
 									<option name="Fourth entry" value="fourth" />
 								</select>
 								
+								<radio name="radiotest" label="Radio test" value="1" description="Button 1" />
+								<radio name="radiotest" value="2" description="Button 2" />
+								<radio name="radiotest" value="3" description="Button 3" />
+								
 								<button name="Save" />
 								
 							</tab>

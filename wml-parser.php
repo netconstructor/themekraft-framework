@@ -53,7 +53,8 @@ class TK_WML_Parser{
 		$functions['file'] = array( 'name' => '', 'label' => '', 'tooltip' => '', 'return_object' => $return_object );
 				
 		$functions['checkbox'] = array( 'name' => '', 'label' => '', 'tooltip' => '', 'return_object' => $return_object );
-				
+		$functions['radio'] = array( 'name' => '', 'value' => '', 'description' => '', 'label' => '', 'tooltip' => '', 'return_object' => $return_object );
+		
 		$functions['select'] = array( 'name' => '', 'option' => array(), 'label' => '', 'tooltip' => '',  'return_object' => $return_object );
 		$functions['option'] = array( 'name' => '', 'value' => '' );
 		$bound_content['select'] = 'option';		
@@ -246,6 +247,14 @@ function tk_db_checkbox( $name, $label, $tooltip, $return_object = TRUE ){
 		'after_element' => '</div></div>'
 	);
 	return tk_form_checkbox( $name, $args, $return_object );
+}
+function tk_db_radio( $name, $value, $description, $label, $tooltip, $return_object = TRUE ){
+	$args = array(
+		'id' => $name,
+		'before_element' => '<div class="tk_field_row"><div class="tk_field_label"><label for="' . $name . '" title="' . $tooltip . '">' . $label . '</label></div><div class="tk_field">',
+		'after_element' => ' ' . $description . '</div></div>'
+	);
+	return tk_form_radiobutton( $name, $value, $args, $return_object );
 }
 
 function tk_db_select( $name, $options, $label, $tooltip, $return_object = TRUE ){
