@@ -1,6 +1,6 @@
 <?php
 
-class TK_Display_Builder{
+class TK_Display{
 	
 	var $display;
 
@@ -11,7 +11,7 @@ class TK_Display_Builder{
 	 * @since 0.1.0
 	 * 
 	 */
-	function tk_display_builder( $display = '' ){
+	function tk_display( $display = '' ){
 		$this->__construct( $display );
 	}
 	

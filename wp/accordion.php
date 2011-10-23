@@ -104,7 +104,7 @@ class TK_Jqueryui_Accordion extends TK_HTML{
 			if( $this->id != '' ) $html = apply_filters( 'tk_jqueryui_accordion_content_section_before_' . $this->id , $html );
 			if( $element['id'] != '' ) $html = apply_filters( 'tk_jqueryui_accordion_content_section_before_' . $element['id'], $html );
 		
-			$tkdb = new TK_Display_Builder();
+			$tkdb = new TK_Display();
 			$html.= $tkdb->get_html( $element['content'] );
 			unset( $tkdb );
 			

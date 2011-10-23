@@ -99,7 +99,7 @@ class TK_Jqueryui_Tabs extends TK_HTML{
 			$html.= '<div id="' . $element_id . '" >';
 			if( $element['id'] != '' ) $html = apply_filters( 'tk_wp_jqueryui_tabs_before_content_' . $element['id'], $html );
 			
-			$tkdb = new TK_Display_Builder();
+			$tkdb = new TK_Display();
 			$html.= $tkdb->get_html( $element['content'] );
 			unset( $tkdb );
 			

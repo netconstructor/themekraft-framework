@@ -66,7 +66,7 @@ class TK_Form extends TK_HTML{
 		
 		// Adding elements to form
 		foreach( $this->elements AS $element ){
-			$tkdb = new TK_Display_Builder();
+			$tkdb = new TK_Display();
 			$html.= $tkdb->get_html( $element );
 			unset( $tkdb );
 		}

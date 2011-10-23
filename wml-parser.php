@@ -165,7 +165,7 @@ class TK_WML_Parser{
 	}
 	
 	function get_html(){		
-		$db = new TK_Display_Builder();
+		$db = new TK_Display();
 		return $db->get_html( $this->display );
 	}
 }
