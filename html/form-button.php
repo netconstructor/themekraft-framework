@@ -3,6 +3,8 @@
 class TK_Form_Button extends TK_Form_Element{
 	var $extra;
 	var $submit;
+	var $before_element;
+	var $after_element;	
 	
 	/**
 	 * PHP 4 constructor
@@ -29,7 +31,9 @@ class TK_Form_Button extends TK_Form_Element{
 			'id' => '',
 			'name' => '',
 			'submit' => true,
-			'extra' => ''
+			'extra' => '',
+			'before_element' => '',
+			'after_element' => ''
 		);
 		
 		$args = wp_parse_args($args, $defaults);
@@ -40,6 +44,9 @@ class TK_Form_Button extends TK_Form_Element{
 		
 		$this->submit = $submit;
 		$this->extra = $extra;
+		
+		$this->before_element = $before_element;
+		$this->after_element = $after_element;	
 	}
 	
 	/**
@@ -56,11 +63,14 @@ class TK_Form_Button extends TK_Form_Element{
 		if( $this->value != '' ) $value = ' value="' . $this->value . '"';
 		if( $this->extra != '' ) $extra = $this->extra;
 		
+		$html = $this->before_element;
 		if( $this->submit ){
-			$html = '<input type="submit"' . $id . $name . $value . $extra . ' />';
+			$html.= '<input type="submit"' . $id . $name . $value . $extra . ' />';
 		}else{
-			$html = '<input type="button"' . $id . $name . $value . $extra . ' />';
+			$html.= '<input type="button"' . $id . $name . $value . $extra . ' />';
 		}
+		$html.= $this->after_element;
+		
 		return $html;
 	}
 }

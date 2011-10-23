@@ -38,11 +38,6 @@ class TK_Display_Builder{
 	function get_html( $elements = '' ) {
 		$html = '';
 		
-		// echo '==========================================================<br>';
-		echo '<pre>';
-		// print_r( $elements );
-		echo '</pre>';
-		
 		// If element is no array and no object
 		if( !is_array( $elements ) && !is_object( $elements ) ){
 			// If internal display var is there, use it

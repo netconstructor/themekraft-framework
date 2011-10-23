@@ -261,6 +261,10 @@ function tk_db_option( $name, $value ){
 }
 
 function tk_db_button( $name, $return_object = TRUE ){
-	$args = array();
-	return tk_form_button( $name, $label, $args, $return_object );
+	$args = array(
+		'id' => $name,
+		'before_element' => '<div class="tk_field_row"><div class="tk_field">',
+		'after_element' => '</div></div>'
+	);
+	return tk_form_button( $name, $args, $return_object );
 }

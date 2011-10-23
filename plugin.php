@@ -141,6 +141,8 @@ function tk_framework_test_wpml_parser(){
 									<option name="Fourth entry" value="fourth" />
 								</select>
 								
+								<button name="Save" />
+								
 							</tab>
 							<tab title="Two">
 								<accordion id="theaccordion">
@@ -149,8 +151,10 @@ function tk_framework_test_wpml_parser(){
 									</section>
 									<section id="secondsection" title="Second Section">
 										<textarea name="styles" label="Stylesheets" tooltip="Put in your stylesheets!" />
+										<button name="Save" />									
 									</section>
 								</accordion>
+								
 							</tab>
 							<tab title="three">
 								An accordion without id´s
@@ -159,7 +163,7 @@ function tk_framework_test_wpml_parser(){
 								</accordion>								
 							</tab>
 						</tabs>
-						<button name="Save" />
+						
 					</form>
 				</wml>';											
 	
