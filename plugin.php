@@ -20,7 +20,7 @@ function tk_init(){
 	require_once( 'loader.php' ); // Get the loader script 
 	$args['jqueryui_components'] = array( 'jquery-fileuploader', 'jquery-ui-tabs', 'jquery-ui-accordion', 'jquery-colorpicker' );
 	$args['option_groups'] = array( 'test_options', 'test_form' );	// Adding option groups for forms
-	tk_framework( $args );	// Initializing framework	
+	tk_framework( $args );	// Initializing framework
 }
 add_action( 'init', 'tk_init' );
 
@@ -110,6 +110,54 @@ function tk_framework_test_functions(){
 	 
 	 */
 }
+
+function init_framework(){
+	/*
+	$args = array(
+			'menu_title' => 'Test TKF',
+			'page_title' => 'Titel der Seite',
+			'menu_slug' => 'testtkf',
+			'object_menu' => TRUE
+		);
+	$tka = new TK_Admin_Pages( $args );
+	
+	$tka->add_page( 'Menu 1', 'Page title of Menu 1', 'Content in menu 1' );
+	$tka->add_page( 'Menu 2', 'Page title of Menu 2', 'Content in menu 2' );
+	$tka->add_page( 'Menu 3', 'Page title of Menu 3', 'Content in menu 3' );
+	
+	$tka->get_html();
+	 */
+	
+	$wml = new TK_WML_Parser();	
+	/*
+	 * XML
+	 */
+	$xml = '<?xml version="1.0" ?>
+				<wml>
+					<menu title="Menueintrag" icon="http://seopress.themekraft.com/wp-content/plugins/seopress/includes/images/icon-seopress-16x16.png">
+						<page title="Icon und Überschrift" icon="http://www.veryicon.com/icon/preview/Phone/iPhone%20icon/iPhone%2032x32%20Icon.jpg" headline="Mit Icon und Überschrift">
+							Ein Test, wo ich nicht weis was passiert.
+						</page>
+						<page title="Tabs drin!">
+							<tabs>
+								<tab title="Eins">Der erste Tab</tab>
+								<tab title="Zwei">Und schon wieder einer</tab>
+								<tab title="Drei">Alle guten Dinge sind ...</tab>
+							</tabs>
+						</page>
+						<page title="Third entry">
+							Here you can find the content of menu entry three.
+						</page>
+						<page title="Fourth entry">
+							Place any content.
+						</page>
+					</menu>
+				</wml>';								
+	
+	$wml->load_xml( $xml );
+	echo $wml->get_html();
+}
+add_action( 'admin_menu', 'init_framework' );
 
 function tk_framework_test_wpml_parser(){
 	echo "<h2>Framework test functions</h2>";

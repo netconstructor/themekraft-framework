@@ -36,7 +36,7 @@ class TK_Jqueryui_Tabs extends TK_HTML{
 	 * @param string $content Content which appears in the tab
 	 * 
 	 */
-	public function add_tab( $id = '', $title = '', $content = '' ){
+	function add_tab( $id = '', $title = '', $content = '' ){
 		$element = array( 'id'=> $id, 'title' => $title, 'content' => $content );
 		$this->add_element( $element );
 	}
@@ -50,7 +50,7 @@ class TK_Jqueryui_Tabs extends TK_HTML{
 	 * @return string $html The tabs as html
 	 * 
 	 */
-	public function get_html(){
+	function get_html(){
 		
 		if( $this->id == '' ){
 			$id = md5( rand() );

@@ -33,6 +33,12 @@ class TK_WML_Parser{
 	function __construct( $return_object = TRUE ){
 		$this->display= array();
 		
+		// Menu & Pages
+		$functions['menu'] = array( 'title' => '', 'page' => array(), 'slug' => '', 'capability' => 'edit_posts', 'icon' => '', 'position' => '', 'return_object' => $return_object );
+		$functions['page'] = array( 'title' => '', 'content' => '', 'headline' => '', 'icon' => '' );
+		$bound_content['menu'] = 'page';
+		// tk_db_menu( $menu_title, $title = '', $elements = array(), $menu_slug = '', $capability = '', $icon_url = '', $position = '', $return_object = FALSE )
+		
 		// Tabs
 		$functions['tabs'] = array( 'id' =>'', 'tab' => array(), 'return_object' => $return_object );
 		$functions['tab'] = array( 'id' => '', 'title' => '', 'content' => '' );
@@ -170,6 +176,27 @@ class TK_WML_Parser{
 		return $db->get_html( $this->display );
 	}
 }
+/*
+ * Menu functions
+ */
+function tk_db_menu( $title, $elements = array(), $menu_slug = '', $capability = '', $icon_url = '', $position = '', $return_object = FALSE ){
+	
+	$args = array(
+			'menu_title' => $title,
+			'page_title' => $title,
+			'capability' => $capability,
+			'menu_slug' => $menu_slug,			
+			'icon_url' => $icon_url,
+			'position' => $position,
+			'object_menu' => TRUE
+	);
+	return tk_admin_pages( $elements, $args, $return_object );
+}
+function tk_db_page( $title, $content, $headline = '', $icon_url = '' ){
+	$page = array( 'menu_title' => $title, 'page_title' => $title, 'content' => $content, 'headline' => $headline, 'icon_url' => $icon_url );
+	return $page;
+}
+
 /*
  * Tab functions
  */
