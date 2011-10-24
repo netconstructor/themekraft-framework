@@ -15,8 +15,8 @@ function tkf_init_010(){
 
 function tk_framework( $args = array()  ){
 	$defaults = array(
-		'jqueryui_components' => '',
-		'option_groups' => ''
+		'jqueryui_components' => array( 'jquery-fileuploader', 'jquery-ui-tabs', 'jquery-ui-accordion', 'jquery-colorpicker' ),
+		'option_groups' => array()
 	);
 	
 	$args = wp_parse_args($args, $defaults);
@@ -42,8 +42,10 @@ function tk_framework( $args = array()  ){
 function tk_register_option_groups(){
 	global $tk_option_groups;
 	
-	foreach( $tk_option_groups AS $option_group ){
-		tk_register_wp_option_group( $option_group );
+	if( count( $tk_option_groups ) > 0){
+		foreach( $tk_option_groups AS $option_group ){
+			tk_register_wp_option_group( $option_group );
+		}
 	}
 }
 

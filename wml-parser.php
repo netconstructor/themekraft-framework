@@ -304,3 +304,16 @@ function tk_db_button( $name, $return_object = TRUE ){
 	);
 	return tk_form_button( $name, $args, $return_object );
 }
+
+/*
+ * Shortener functions ( For instancing without classes )
+ */
+function tk_wml_parse( $xml ){
+	if( !empty( $xml ) ){
+		$wml = new TK_WML_Parser();	
+		$wml->load_xml( $xml );
+		return $wml->get_html();
+	}else{
+		return false;
+	}
+}
