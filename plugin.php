@@ -11,97 +11,36 @@ Text Domain: tkframework
 Site Wide Only: false
 */
 
-function tk_init(){
-	$args['option_groups'] = array( 'form1' );
-	 	
-	/**
-	 * Starting the framework
-	 */
-	require_once( 'loader.php' ); // Get the loader script 
-	tk_framework( $args );	// Initializing framework
+function framework_init(){
+ // Registering the form where the data have to be saved
+ $args['forms'] = array( 'myform' );
+ 
+ require_once( 'loader.php' );
+ tk_framework( $args );
 }
-add_action( 'init', 'tk_init' );
-
-function init_backend(){		
-	/*
-	 * XML
-	 */
-	$xml = '<?xml version="1.0" ?>
-				<wml>
-					<menu title="Framework">
-						<page title="Tabs" headline="Tab test">
-							You can also put in Text here like in HTML
-							<tabs>
-								<tab title="Tab 1">
-									Content in Tab 1
-								</tab>
-								<tab title="Tab 2">
-									Content in Tab 2
-								</tab>
-								<tab title="Tab 3">
-									Content in Tab 3
-								</tab>
-							</tabs>					
-						</page>
-						<page title="Accordions" headline="Accordion test">
-							You can also put in Text here like in HTML
-							<accordion>
-								<section title="Section 1">
-									Content in Section 1
-								</section>
-								<section title="Section 2">
-									Content in Section 3
-								</section>
-								<section title="Section 3">
-									Content in Section 3
-								</section>
-							</accordion>
-						</page>
-						<page title="Forms" headline="Form test">
-							You can also put in Text here like in HTML
-							<form name="form1">
-								
-								<textfield name="name" label="Name:" />
-								<textarea name="name" label="Long text:" />
-								<checkbox name="mycheckbox" label="Check this:" />
-								
-								<radio name="radiotest" label="Radio test" value="1" description="Button 1" />								
-								<radio name="radiotest" value="2" description="Button 2" />								
-								<radio name="radiotest" value="3" description="Button 3" />
-								
-								<select name="myselect" label="Select box" tooltip="Some entries in a dropdown">									
-									<option name="First entry" value="first" />									
-									<option name="Second entry" value="second" />									
-									<option name="Third entry" value="third" />									
-									<option name="Fourth entry" value="fourth" />								
-								</select>
-								
-								<colorpicker name="colorforme" label="Color" tooltip="Select a colour" />
-								<file name="ourfile" label="File" tooltip="Upload your file!" />
-								
-								<button name="Save" />				
-							
-							</form>
-						</page>
-					</menu>
-				</wml>';
-	
-	tk_wml_parse( $xml );
-	
-					
+add_action( 'init', 'framework_init' );
+ 
+function init_backend(){
+ /*
+  * WML
+  */
+ $wml = '<?xml version="1.0" ?>
+    <wml>
+     <menu title="Addresses">
+      <page title="Address">
+       <form name="myform">
+        <textfield name="firstname" label="First name:" />
+        <textfield name="lastname" label="Last name:" />
+        <textfield name="street" label="Street:" />
+        <textfield name="postal code" label="Postal Code:" />
+        <textfield name="City" label="City:" />
+        <button name="Save" />
+       </form>
+      </page>
+     </menu>
+    </wml>';
+ 
+ tk_wml_parse( $wml );
+ $values = tk_get_values( 'myform' );
 }
 add_action( 'admin_menu', 'init_backend' );
-
-
-
-
-
-
-
-
-
-
-
-// $args['option_groups'] = array( 'form1' );
-
-// print_r( tk_get_values( 'form1' ) );

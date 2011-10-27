@@ -5,6 +5,7 @@ class TK_Admin_Pages extends TK_HTML{
 	var $menu_title;
 	var $page_title;
 	var $capability;
+	var $parent_slug;
 	var $menu_slug;
 	var $icon_url;
 	var $position;
@@ -37,11 +38,14 @@ class TK_Admin_Pages extends TK_HTML{
 			'menu_title' => '',
 			'page_title' => '',
 			'capability' => 'edit_posts',
+			'parent_slug' => '',
 			'menu_slug' => '',			
 			'icon_url' => '',
 			'position' => '',
 			'object_menu' => TRUE 	
 		);
+		
+		// print_r( $args );
 		
 		$args = wp_parse_args($args, $defaults);
 		extract( $args , EXTR_SKIP );
@@ -51,6 +55,7 @@ class TK_Admin_Pages extends TK_HTML{
 		$this->menu_title = $menu_title;
 		$this->page_title = $page_title;
 		$this->capability = $capability;
+		$this->parent_slug = $parent_slug;
 		$this->menu_slug = $menu_slug;
 		$this->icon_url = $icon_url;
 		$this->position = $position;
@@ -110,7 +115,7 @@ class TK_Admin_Pages extends TK_HTML{
 			$page_object[ $element['menu_slug'] ] = new TK_Admin_Page_Creator( $element['menu_slug'], $element['content'] , $element['headline'] , $element['icon_url'] );
 			
 			// Setting up main menu elements if title and capability is given 
-			if( ( $this->menu_title != '' && $this->capability != '' ) && $i == 0 ){
+			if( ( $this->menu_title != '' && $this->capability != '' ) && $i == 0  && $this->parent_slug == '' ){
 				if( TRUE == $this->object_menu ){
 					add_object_page( $this->page_title, $this->menu_title, $this->capability, $this->menu_slug, array( $page_object[ $element['menu_slug'] ] , 'create_page' ), $this->icon_url, $this->position );	
 				}else{
@@ -130,10 +135,12 @@ class TK_Admin_Pages extends TK_HTML{
 				$menu_slug = $element['menu_slug'];
 			}
 			
-			// If no parent slug of element is given by param, use menu slug of main menu
-			if( $element['parent_slug'] == '' ){
+			// Getting parent slug
+			if( $this->parent_slug != '' ){
+				$element['parent_slug'] = $this->parent_slug;
+			}elseif( $element['parent_slug'] == '' ){
 				$element['parent_slug'] = $this->menu_slug;
-			} 
+			}
 			
 			add_submenu_page( $element['parent_slug'], $element['page_title'], $element['menu_title'], $element['capability'], $menu_slug, array( $page_object[ $element['menu_slug'] ] , 'create_page' ) );
 			
@@ -209,7 +216,7 @@ function tk_admin_pages( $elements = array(), $args = array(), $return_object = 
 		);		
 		$tabs->add_page( $element['menu_title'], $element['page_title'], $element['content'], $element['args'] );
 	}
-
+	
 	if( TRUE == $return_object ){
 		return $tabs;
 	}else{

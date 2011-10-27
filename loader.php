@@ -16,16 +16,16 @@ function tkf_init_010(){
 function tk_framework( $args = array()  ){
 	$defaults = array(
 		'jqueryui_components' => array( 'jquery-fileuploader', 'jquery-ui-tabs', 'jquery-ui-accordion', 'jquery-colorpicker' ),
-		'option_groups' => array()
+		'forms' => array()
 	);
 	
 	$args = wp_parse_args($args, $defaults);
 	extract( $args , EXTR_SKIP );
 	
 	
-	if( count( $option_groups ) > 0  ){
+	if( count( $forms ) > 0  ){
 		global $tk_option_groups;
-		$tk_option_groups = $option_groups;
+		$tk_option_groups = $forms;
 	}
 	
 	if( count( $jqueryui_components ) > 0  ){
