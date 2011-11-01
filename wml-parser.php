@@ -11,6 +11,7 @@ class TK_WML_Parser{
 	var $display;
 	var $functions;
 	var $bound_content;
+	var $errstr;
 	
 	/**
 	 * PHP 4 constructor
@@ -80,10 +81,13 @@ class TK_WML_Parser{
 		if ( ! class_exists('DOMDocument') )
 			return FALSE;
 		
-		// Loading XML		
+		// Loading XML
 		$doc = new DOMDocument();
-		if ( !$doc->loadXML( $xml_string ) )
+				
+		set_error_handler( array( $this, 'wml_error' ) );
+		if( !$doc->loadXML( $xml_string ) )
 			return FALSE;
+		restore_error_handler();
 				
 		// Getting main node
 		$node = $doc->getElementsByTagName( 'wml' );
@@ -94,6 +98,20 @@ class TK_WML_Parser{
 				
 		return TRUE;
 	}
+	
+	function wml_error($errno, $errstr, $errfile, $errline){
+	    if ( $errno == E_WARNING && ( substr_count( $errstr,"DOMDocument::loadXML()" ) > 0 ) ){
+	       	$this->errstr = '<strong>' . __( 'WML Document error: ' ) . '</strong>' . substr( $errstr, 79, 1000 );
+			add_action( 'all_admin_notices', array( $this, 'error_box' ), 1 );
+	    }
+	    else
+	        return false;
+	}
+	
+	function error_box(){
+		echo '<div id="message" class="error"><p>' . $this->errstr . '</p></div>';
+	}
+
 
 	function tk_obj_from_node( $node, $function_name = FALSE ){
 		
