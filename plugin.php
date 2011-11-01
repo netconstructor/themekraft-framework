@@ -57,14 +57,14 @@ function init_backend(){
 					</page>
 					<page title="Forms" headline="Form test">
 						You can also put in Text here like in HTML
-						<form name="form1">
-							<textfield name="name" label="Name:" />
-							<textarea name="name" label="Long text:" />
+						<form name="myform">
+							<textfield name="name" label="Name:" tooltip="Put in your name"/>
+							<textarea name="longtext" label="Long text:" />
 							<checkbox name="mycheckbox" label="Check this:" />
 							<radio name="radiotest" label="Radio test" value="1" description="Button 1" />
 							<radio name="radiotest" value="2" description="Button 2" />
 							<radio name="radiotest" value="3" description="Button 3" />
-							<select name="myselect" label="Select box" tooltip="Some entries in a dropdown">
+							<select name="myselect" label="Select box">
 								<option name="First entry" value="first" />
 								<option name="Second entry" value="second" />
 								<option name="Third entry" value="third" />

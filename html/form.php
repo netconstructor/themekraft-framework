@@ -4,6 +4,7 @@ class TK_Form extends TK_HTML{
 	
 	var $id;
 	var $action;
+	var $name;
 	var $method;
 	
 	/**
@@ -33,13 +34,15 @@ class TK_Form extends TK_HTML{
 		
 		$defaults = array(
 			'method' => 'post',
-			'action' => esc_url( $_SERVER['REQUEST_URI'] )
+			'action' => esc_url( $_SERVER['REQUEST_URI'] ),
+			'name' => $id
 		);
 		$args = wp_parse_args($args, $defaults);
 		extract( $args, EXTR_SKIP );
 		
 		$this->action = $action;
 		$this->method = $method;
+		$this->name = $name;
 		
 		$this->id = $id;
 	}
@@ -60,7 +63,7 @@ class TK_Form extends TK_HTML{
 		// Adding method to the form
 		$method = ' method="' . $this->method . '"';
 		
-		$html = '<form' . $id . $method . ' action="' . $this->action . '">';
+		$html = '<form' . $id . $method . ' action="' . $this->action . '" name=' . $this->name . '>';
 		
 		$html = apply_filters( 'tk_form_start_' . $id, $html );
 		

@@ -54,10 +54,11 @@ class TK_WP_Form_Textfield extends TK_Form_Textfield{
 			$field_name = $option_group . '_values[' . $name . ']';	
 			
 			$value = $value[ $name ];
-		} 
+		}
 		
 		$args['name'] = $field_name;
 		$args['value'] = $value;
+
 		parent::__construct( $args );
 
 	}

@@ -29,6 +29,7 @@ class TK_WP_Form extends TK_FORM{
 	function __construct( $id, $option_group ){
 		$args['method'] = 'POST';
 		$args['action'] = 'options.php';
+		$args['name'] = $id;
 		
 		parent::__construct( $id, $args );
 		
