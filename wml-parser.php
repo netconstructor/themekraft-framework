@@ -75,7 +75,7 @@ class TK_WML_Parser{
 		$this->functions = $functions;
 	}
 	
-	function load_xml( $xml_string, $return_object = FALSE ){
+	function load_wml( $xml_string, $return_object = FALSE ){
 		
 		// Checking if DOMDocument is installed
 		if ( ! class_exists('DOMDocument') )
@@ -88,21 +88,44 @@ class TK_WML_Parser{
 		if( !$doc->loadXML( $xml_string ) )
 			return FALSE;
 		restore_error_handler();
+		
+		return $this->load_dom( $doc );
+	}
+	
+	function load_wml_file( $source ){
+		
+		$doc = new DOMDocument();
+		if ( !file_exists( $source ) ){
+			$this->errstr = '<strong>' . __( 'WML Document error: ' ) . '</strong>' .  __( 'File not found! Be sure, the full document path is given.' );
+			add_action( 'all_admin_notices', array( $this, 'error_box' ), 1 );
+			return FALSE;
+		}
+		set_error_handler( array( $this, 'wml_error' ) );
+		if( !$doc->load( $source ) )
+			return FALSE;
+		restore_error_handler();
 				
+		return $this->load_dom( $doc );
+	}
+	
+	function load_dom( $dom ){
 		// Getting main node
-		$node = $doc->getElementsByTagName( 'wml' );
+		$node = $dom->getElementsByTagName( 'wml' );
 		$mainnode = $node->item(0);
 		
 		// Getting object
 		$this->display= $this->tk_obj_from_node( $mainnode );
 				
-		return TRUE;
+		return TRUE;		
 	}
 	
-	function wml_error($errno, $errstr, $errfile, $errline){
+	function wml_error($errno, $errstr, $errfile, $errline){		
 	    if ( $errno == E_WARNING && ( substr_count( $errstr,"DOMDocument::loadXML()" ) > 0 ) ){
 	       	$this->errstr = '<strong>' . __( 'WML Document error: ' ) . '</strong>' . substr( $errstr, 79, 1000 );
 			add_action( 'all_admin_notices', array( $this, 'error_box' ), 1 );
+	    }elseif ( $errno == E_WARNING && ( substr_count( $errstr,"DOMDocument::load()" ) > 0 ) ){
+	    	$this->errstr = '<strong>' . __( 'WML Document error: ' ) . '</strong>' . substr( $errstr, 70, 1000 );
+			add_action( 'all_admin_notices', array( $this, 'error_box' ), 1 );	    	
 	    }
 	    else
 	        return false;
@@ -328,12 +351,17 @@ function tk_db_button( $name, $return_object = TRUE ){
 /*
  * Shortener functions ( For instancing without classes )
  */
-function tk_wml_parse( $xml ){
-	if( !empty( $xml ) ){
-		$wml = new TK_WML_Parser();	
-		$wml->load_xml( $xml );
-		return $wml->get_html();
+function tk_wml_parse( $wml ){
+	if( !empty( $wml ) ){
+		$wml_parser = new TK_WML_Parser();	
+		$wml_parser->load_wml( $wml );
+		return $wml_parser->get_html();
 	}else{
 		return false;
 	}
+}
+function tk_wml_parse_file( $source ){
+	$wml_parser = new TK_WML_Parser();	
+	$wml_parser->load_wml_file( $source );
+	return $wml_parser->get_html();
 }

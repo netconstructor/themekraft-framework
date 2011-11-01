@@ -79,6 +79,10 @@ function init_backend(){
     		</wml>';
  
  tk_wml_parse( $wml );
+ 
+ // Example for loading xml file
+ // tk_wml_parse_file( dirname( __FILE__ ) . '/example.wml' );
+ 
  $values = tk_get_values( 'myform' );
 }
 add_action( 'admin_menu', 'init_backend' );
