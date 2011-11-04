@@ -35,8 +35,8 @@ function tk_framework( $args = array()  ){
 	
 	add_action( 'admin_init', 'tk_register_option_groups' );
 	
-	add_action( 'wp_loaded', 'tk_load_framework', 1 );
-	add_action( 'wp_loaded', 'tk_load_jqueryui', 1 );
+	add_action( 'wp_loaded', 'tk_load_framework', 2 );
+	add_action( 'wp_loaded', 'tk_load_jqueryui', 2 );
 }
 
 function tk_register_option_groups(){
@@ -63,10 +63,10 @@ if( $tkf_version != '' ){
 		
 		// Add own action to actionhook
 		$tkf_version = $this_tkf_version;
-		add_action( 'wp_loaded', 'tkf_init_' . str_replace( '.', '', $this_tkf_version ) );
+		add_action( 'wp_loaded', 'tkf_init_' . str_replace( '.', '', $this_tkf_version ), 1 );
 	}
 }else{
 	// Add own action to actionhook
 	$tkf_version = $this_tkf_version;
-	add_action( 'wp_loaded', 'tkf_init_' . str_replace( '.', '', $this_tkf_version ) );
+	add_action( 'wp_loaded', 'tkf_init_' . str_replace( '.', '', $this_tkf_version ), 1 );
 }
