@@ -35,8 +35,8 @@ function tk_framework( $args = array()  ){
 	
 	add_action( 'admin_init', 'tk_register_option_groups' );
 	
-	add_action( 'wp_loaded', 'tk_load_framework' );
-	add_action( 'wp_loaded', 'tk_load_jqueryui' );
+	add_action( 'wp_loaded', 'tk_load_framework', 1 );
+	add_action( 'wp_loaded', 'tk_load_jqueryui', 1 );
 }
 
 function tk_register_option_groups(){
