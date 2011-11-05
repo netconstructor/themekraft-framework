@@ -14,12 +14,13 @@ function tkf_init_010(){
 }
 
 function tk_framework( $args = array()  ){
-	global $tkf_text_domain;
+	global $tkf_text_domain, $tkf_text_domain_path, $tkf_text_domain_strings, $tkf_create_textfiles;
 	
 	$defaults = array(
 		'jqueryui_components' => array( 'jquery-fileuploader', 'jquery-ui-tabs', 'jquery-ui-accordion', 'jquery-colorpicker', 'jquery-ui-autocomplete' ),
 		'forms' => array(),
-		'text_domain' => 'tkf'
+		'text_domain' => '',
+		'text_domain_path' => '/lang'
 	);
 	
 	$args = wp_parse_args($args, $defaults);
@@ -36,7 +37,17 @@ function tk_framework( $args = array()  ){
 		$tk_jqueryui_components = $jqueryui_components;
 	}
 	
-	$tkf_text_domain = $text_domain;
+	$tkf_create_textfiles = FALSE;
+	
+	if( $text_domain != '' ){
+		$tkf_text_domain = $text_domain;
+		$tkf_text_domain_strings = array();
+		
+		if( $text_domain_path != '' ){
+			$tkf_text_domain_path = $text_domain_path;
+			load_plugin_textdomain( $text_domain, false, dirname( plugin_basename( __FILE__ ) ) . $text_domain_path );
+		}
+	}
 	
 	add_action( 'admin_init', 'tk_register_option_groups' );
 	

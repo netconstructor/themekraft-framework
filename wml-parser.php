@@ -12,6 +12,8 @@ class TK_WML_Parser{
 	var $functions;
 	var $bound_content;
 	var $errstr;
+	var $text_strings;
+	var $create_textfiles;
 	
 	/**
 	 * PHP 4 constructor
@@ -137,7 +139,7 @@ class TK_WML_Parser{
 
 
 	function tk_obj_from_node( $node, $function_name = FALSE, $is_html = FALSE ){
-		global $tkf_text_domain;
+		global $tkf_create_textfiles;
 		
 		// Getting node values
 		$node_name = $node->nodeName;
@@ -189,6 +191,7 @@ class TK_WML_Parser{
 			}else{
 				if( $subnode->nodeType == XML_TEXT_NODE && trim( $subnode_value ) != '' ){
 					$params['content'][$i] = __( trim( $subnode_value )  , $tkf_text_domain );
+					if( $tkf_create_textfiles ) tk_add_text_string( trim( $subnode_value ) );
 				}
 			}
 		}
@@ -233,6 +236,35 @@ class TK_WML_Parser{
 	function get_html(){		
 		$db = new TK_Display();
 		return $db->get_html( $this->display );
+	}
+	
+	function write_text_files( $file_src = FALSE ){
+		global $tkf_text_domain, $tkf_text_domain_strings;
+		
+		$file_content = '<?php ' . chr(10) . chr(10);
+		
+		foreach ( $tkf_text_domain_strings AS $string ){
+			if( $tkf_text_domain != '' ){
+				$file_content.= '_e( \'' . $string . '\', \'' . $tkf_text_domain . '\' );' . chr(10);
+			}else{
+				$file_content.= '_e( \'' . $string . '\' );' . chr(10);
+			}	
+		}
+		if( $tkf_text_domain != '' && !$file_src ){
+			$file_src = dirname( __FILE__ ) . '/langfile_' . $tkf_text_domain . '.php';
+		}elseif( !$file_src ) {
+			$file_src = dirname( __FILE__ ) . '/langfile_' . md5( time() ) . '.php';
+		}
+		
+		if( $file = fopen( $file_src, 'w' ) ){
+			fwrite( $file, $file_content ); 
+			fclose( $file );
+		}else{
+			$this->errstr = '<strong>' . __( 'Texdomain creation error: ' ) . '</strong> Can´t create text file';
+			add_action( 'all_admin_notices', array( $this, 'error_box' ), 1 );
+			return FALSE;
+		}
+		return TRUE;						
 	}
 }
 /*
@@ -294,6 +326,10 @@ function tk_db_form( $id, $name, $content = '', $return_object = TRUE ){
  */
 function tk_db_textfield( $name, $label, $tooltip, $return_object = TRUE ){
 	if( trim( $label ) != '' ){
+			
+		tk_add_text_string( $label );
+		tk_add_text_string( $tooltip );
+		
 		$before_element = '<div class="tk_field_row"><div class="tk_field_label"><label for="' . $name . '" title="' . $tooltip . '">' . $label . '</label></div><div class="tk_field">';
 		$after_element = '</div></div>';
 	}		 
@@ -307,6 +343,10 @@ function tk_db_textfield( $name, $label, $tooltip, $return_object = TRUE ){
 
 function tk_db_textarea( $name, $label, $tooltip, $return_object = TRUE ){
 	if( trim( $label ) != '' ){
+
+		tk_add_text_string( $label );
+		tk_add_text_string( $tooltip );
+		
 		$before_element = '<div class="tk_field_row"><div class="tk_field_label"><label for="' . $name . '" title="' . $tooltip . '">' . $label . '</label></div><div class="tk_field">';
 		$after_element = '</div></div>';
 	}		 
@@ -320,6 +360,10 @@ function tk_db_textarea( $name, $label, $tooltip, $return_object = TRUE ){
 
 function tk_db_colorpicker( $name, $label, $tooltip, $return_object = TRUE ){
 	if( trim( $label ) != '' ){
+		
+		tk_add_text_string( $label );
+		tk_add_text_string( $tooltip );
+		
 		$before_element = '<div class="tk_field_row"><div class="tk_field_label"><label for="' . $name . '" title="' . $tooltip . '">' . $label . '</label></div><div class="tk_field">';
 		$after_element = '</div></div>';
 	}		 
@@ -333,6 +377,10 @@ function tk_db_colorpicker( $name, $label, $tooltip, $return_object = TRUE ){
 
 function tk_db_file( $name, $label, $tooltip, $return_object = TRUE ){
 	if( trim( $label ) != '' ){
+		
+		tk_add_text_string( $label );
+		tk_add_text_string( $tooltip );
+		
 		$before_element = '<div class="tk_field_row"><div class="tk_field_label"><label for="' . $name . '" title="' . $tooltip . '">' . $label . '</label></div><div class="tk_field">';
 		$after_element = '</div></div>';
 	}		 
@@ -346,6 +394,10 @@ function tk_db_file( $name, $label, $tooltip, $return_object = TRUE ){
 
 function tk_db_checkbox( $name, $label, $tooltip, $return_object = TRUE ){
 	if( trim( $label ) != '' ){
+		
+		tk_add_text_string( $label );
+		tk_add_text_string( $tooltip );
+		
 		$before_element = '<div class="tk_field_row"><div class="tk_field_label"><label for="' . $name . '" title="' . $tooltip . '">' . $label . '</label></div><div class="tk_field">';
 		$after_element = '</div></div>';
 	}		 
@@ -358,6 +410,11 @@ function tk_db_checkbox( $name, $label, $tooltip, $return_object = TRUE ){
 }
 function tk_db_radio( $name, $value, $description, $label, $tooltip, $return_object = TRUE ){
 	if( trim( $label ) != '' ){
+		
+		tk_add_text_string( $label );
+		tk_add_text_string( $tooltip );
+		tk_add_text_string( $description );
+		
 		$before_element = '<div class="tk_field_row"><div class="tk_field_label"><label for="' . $name . '" title="' . $tooltip . '">' . $label . '</label></div><div class="tk_field">';
 		$after_element = '</div></div>';
 	}		 
@@ -371,6 +428,10 @@ function tk_db_radio( $name, $value, $description, $label, $tooltip, $return_obj
 
 function tk_db_select( $name, $options, $label, $tooltip, $return_object = TRUE ){
 	if( trim( $label ) != '' ){
+			
+		tk_add_text_string( $label );
+		tk_add_text_string( $tooltip );
+		
 		$before_element = '<div class="tk_field_row"><div class="tk_field_label"><label for="' . $name . '" title="' . $tooltip . '">' . $label . '</label></div><div class="tk_field">';
 		$after_element = '</div></div>';
 	}		 
@@ -382,14 +443,16 @@ function tk_db_select( $name, $options, $label, $tooltip, $return_object = TRUE 
 	return tk_form_select( $name, $options, $args , $return_object );
 }
 function tk_db_option( $name, $value ){
+		
+	tk_add_text_string( $value );
+		
 	return array( 'name' => $name, 'value' => $value );
 }
 
 function tk_db_button( $name, $return_object = TRUE ){
-	if( trim( $label ) != '' ){
-		$before_element = '<div class="tk_field_row"><div class="tk_field_label"><label for="' . $name . '" title="' . $tooltip . '">' . $label . '</label></div><div class="tk_field">';
-		$after_element = '</div></div>';
-	}		 
+		
+	tk_add_text_string( $name );
+	
 	$args = array(
 		'id' => $name,
 		'before_element' => $before_element,
@@ -414,4 +477,33 @@ function tk_wml_parse_file( $source ){
 	$wml_parser = new TK_WML_Parser();	
 	$wml_parser->load_wml_file( $source );
 	return $wml_parser->get_html();
+}
+function tk_wml_create_textfiles( $wml, $destination_src = FALSE ){
+	global $tkf_create_textfiles;
+	
+	$tkf_create_textfiles = TRUE;
+	
+	if( !empty( $wml ) ){
+		$wml_parser = new TK_WML_Parser( TRUE, TRUE );	
+		$wml_parser->load_wml( $wml );
+		return $wml_parser->write_text_files( $destination_src );
+	}else{
+		return false;
+	}
+}
+function tk_wml_create_textfiles_from_wml_file( $source, $destination_src = FALSE ){
+	global $tkf_create_textfiles;
+	
+	$tkf_create_textfiles = TRUE;
+	
+	$wml_parser = new TK_WML_Parser();	
+	$wml_parser->load_wml_file( $source );
+	return $wml_parser->write_text_files( $destination_src );
+}
+function tk_add_text_string( $string ){
+	global $tkf_text_domain_strings, $tkf_text_domain, $tkf_create_textfiles;
+	
+	if( $tkf_create_textfiles && trim( $string ) != '' && !in_array( $string, $tkf_text_domain_strings) ){
+		array_push( $tkf_text_domain_strings, $string );
+	}
 }

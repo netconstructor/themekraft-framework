@@ -14,6 +14,7 @@ Site Wide Only: false
 function framework_init(){
  // Registering the form where the data have to be saved
  $args['forms'] = array( 'myform' );
+ $args['text_domain'] = 'my_text_domain';
  
  require_once( 'loader.php' );
  tk_framework( $args );
@@ -100,6 +101,9 @@ function init_backend(){
  
  // Example for loading xml file
  // tk_wml_parse_file( dirname( __FILE__ ) . '/example.wml' );
+ 
+ // Creating php file for translations
+ tk_wml_create_textfiles( $wml );
  
  $values = tk_get_values( 'myform' );
 }
