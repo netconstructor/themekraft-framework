@@ -14,9 +14,12 @@ function tkf_init_010(){
 }
 
 function tk_framework( $args = array()  ){
+	global $tkf_text_domain;
+	
 	$defaults = array(
-		'jqueryui_components' => array( 'jquery-fileuploader', 'jquery-ui-tabs', 'jquery-ui-accordion', 'jquery-colorpicker' ),
-		'forms' => array()
+		'jqueryui_components' => array( 'jquery-fileuploader', 'jquery-ui-tabs', 'jquery-ui-accordion', 'jquery-colorpicker', 'jquery-ui-autocomplete' ),
+		'forms' => array(),
+		'text_domain' => 'tkf'
 	);
 	
 	$args = wp_parse_args($args, $defaults);
@@ -32,6 +35,8 @@ function tk_framework( $args = array()  ){
 		global $tk_jqueryui_components;
 		$tk_jqueryui_components = $jqueryui_components;
 	}
+	
+	$tkf_text_domain = $text_domain;
 	
 	add_action( 'admin_init', 'tk_register_option_groups' );
 	

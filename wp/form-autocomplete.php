@@ -9,14 +9,17 @@ class TK_Jqueryui_Autocomplete extends TK_WP_Form_Textfield{
 		$this->__construct( $name, $option_group,  $id, $autocomplete_source, $extra );
 	}
 	
-	function __construct( $name, $option_group,  $id, $autocomplete_source, $extra = '' ){
-		parent::__construct( $name, $option_group, $id, $extra );
+	function __construct( $name, $option_group, $id, $autocomplete_source, $extra = '' ){
+		
+		$textfield = array(
+			'id' => $id,
+			'option_group' => $option_group,
+			'extra' => $extra
+		);
+		parent::__construct( $name, $textfield );
 		
 		$this->id = $id;
 		$this->autocomplete_source = $autocomplete_source;
-		
-		$jqueryui = new TK_WP_JQUERYUI();
-		$jqueryui->load_jqueryui( array( 'jquery-ui-autocomplete' ) );
 	}
 	
 	function get_html(){

@@ -36,7 +36,7 @@ class TK_WML_Parser{
 		
 		// Menu & Pages
 		$functions['menu'] = array( 'title' => '', 'page' => array(), 'slug' => '', 'capability' => 'edit_posts', 'parent' => '',  'icon' => '', 'position' => '', 'return_object' => $return_object );
-		$functions['page'] = array( 'title' => '', 'content' => '', 'headline' => '', 'icon' => '' );
+		$functions['page'] = array( 'title' => '', 'content' => '', 'headline' => '', 'slug' => '', 'icon' => '' );
 		$bound_content['menu'] = 'page';
 		// tk_db_menu( $menu_title, $title = '', $elements = array(), $menu_slug = '', $capability = '', $icon_url = '', $position = '', $return_object = FALSE )
 		
@@ -136,7 +136,8 @@ class TK_WML_Parser{
 	}
 
 
-	function tk_obj_from_node( $node, $function_name = FALSE ){
+	function tk_obj_from_node( $node, $function_name = FALSE, $is_html = FALSE ){
+		global $tkf_text_domain;
 		
 		// Getting node values
 		$node_name = $node->nodeName;
@@ -167,12 +168,27 @@ class TK_WML_Parser{
 			$subnode = $node_list->item( $i );
 			$subnode_name = $subnode->nodeName;
 			$subnode_value = $subnode->nodeValue;
+			$subnode_attributes = $subnode->attributes;
 			
+			// WML Tag
 			if( in_array( $subnode_name, $this->function_names ) ){												
 				$params['content'][$i] = $this->tk_obj_from_node( $subnode, $subnode_name );
+			
+			// HTML Tag
+			}elseif( $subnode->nodeType != XML_TEXT_NODE ){
+				
+				// Getting Tag attributes
+				$attributes = '';
+				foreach ( $subnode_attributes as $attr_name => $attrNode )
+            		$attributes.= ' ' . $attr_name . '="' . $attrNode->value . '"'; 
+				
+				// Set up Tag
+				$params['content'][$i] = array ( '<' . $subnode->nodeName . $attributes . '>', $this->tk_obj_from_node( $subnode, FALSE, TRUE ), '</' . $subnode->nodeName . '>' );
+				
+			// Text 
 			}else{
 				if( $subnode->nodeType == XML_TEXT_NODE && trim( $subnode_value ) != '' ){
-					$params['content'][$i] = '<p>' . trim( $subnode_value ) . '</p>';
+					$params['content'][$i] = __( trim( $subnode_value )  , $tkf_text_domain );
 				}
 			}
 		}
@@ -184,6 +200,8 @@ class TK_WML_Parser{
 			$params = $this->cleanup_function_params( $function_name, $params );
 			$function_result = call_user_func_array( 'tk_db_' . $function_name , $params );
 			return $function_result;
+		}elseif( $is_html ){
+			return $params['content'];
 		}else{
 			return $params;
 		}
@@ -235,8 +253,8 @@ function tk_db_menu( $title = '', $elements = array(), $menu_slug = '', $capabil
 	
 	return tk_admin_pages( $elements, $args, $return_object );
 }
-function tk_db_page( $title, $content, $headline = '', $icon_url = '' ){
-	$page = array( 'menu_title' => $title, 'page_title' => $title, 'content' => $content, 'headline' => $headline, 'icon_url' => $icon_url );
+function tk_db_page( $title, $content, $headline = '', $menu_slug = '' , $icon_url = '' ){
+	$page = array( 'menu_title' => $title, 'page_title' => $title, 'content' => $content, 'headline' => $headline, 'menu_slug' => $menu_slug, 'icon_url' => $icon_url );
 	return $page;
 }
 
@@ -275,63 +293,91 @@ function tk_db_form( $id, $name, $content = '', $return_object = TRUE ){
  * Form element functions
  */
 function tk_db_textfield( $name, $label, $tooltip, $return_object = TRUE ){
+	if( trim( $label ) != '' ){
+		$before_element = '<div class="tk_field_row"><div class="tk_field_label"><label for="' . $name . '" title="' . $tooltip . '">' . $label . '</label></div><div class="tk_field">';
+		$after_element = '</div></div>';
+	}		 
 	$args = array(
 		'id' => $name,
-		'before_element' => '<div class="tk_field_row"><div class="tk_field_label"><label for="' . $name . '" title="' . $tooltip . '">' . $label . '</label></div><div class="tk_field">',
-		'after_element' => '</div></div>'
+		'before_element' => $before_element,
+		'after_element' => $after_element
 	);
 	return tk_form_textfield( $name, $args, $return_object );
 }
 
 function tk_db_textarea( $name, $label, $tooltip, $return_object = TRUE ){
+	if( trim( $label ) != '' ){
+		$before_element = '<div class="tk_field_row"><div class="tk_field_label"><label for="' . $name . '" title="' . $tooltip . '">' . $label . '</label></div><div class="tk_field">';
+		$after_element = '</div></div>';
+	}		 
 	$args = array(
 		'id' => $name,
-		'before_element' => '<div class="tk_field_row"><div class="tk_field_label"><label for="' . $name . '" title="' . $tooltip . '">' . $label . '</label></div><div class="tk_field">',
-		'after_element' => '</div></div>'
+		'before_element' => $before_element,
+		'after_element' => $after_element
 	);
 	return tk_form_textarea( $name, $args, $return_object );
 }
 
 function tk_db_colorpicker( $name, $label, $tooltip, $return_object = TRUE ){
+	if( trim( $label ) != '' ){
+		$before_element = '<div class="tk_field_row"><div class="tk_field_label"><label for="' . $name . '" title="' . $tooltip . '">' . $label . '</label></div><div class="tk_field">';
+		$after_element = '</div></div>';
+	}		 
 	$args = array(
 		'id' => $name,
-		'before_element' => '<div class="tk_field_row"><div class="tk_field_label"><label for="' . $name . '" title="' . $tooltip . '">' . $label . '</label></div><div class="tk_field">',
-		'after_element' => '</div></div>'
+		'before_element' => $before_element,
+		'after_element' => $after_element
 	);
 	return tk_form_colorpicker( $name, $args, $return_object );
 }
 
 function tk_db_file( $name, $label, $tooltip, $return_object = TRUE ){
+	if( trim( $label ) != '' ){
+		$before_element = '<div class="tk_field_row"><div class="tk_field_label"><label for="' . $name . '" title="' . $tooltip . '">' . $label . '</label></div><div class="tk_field">';
+		$after_element = '</div></div>';
+	}		 
 	$args = array(
 		'id' => $name,
-		'before_element' => '<div class="tk_field_row"><div class="tk_field_label"><label for="' . $name . '" title="' . $tooltip . '">' . $label . '</label></div><div class="tk_field">',
-		'after_element' => '</div></div>'
+		'before_element' => $before_element,
+		'after_element' => $after_element
 	);
 	return tk_form_fileuploader( $name, $args, $return_object );
 }
 
 function tk_db_checkbox( $name, $label, $tooltip, $return_object = TRUE ){
+	if( trim( $label ) != '' ){
+		$before_element = '<div class="tk_field_row"><div class="tk_field_label"><label for="' . $name . '" title="' . $tooltip . '">' . $label . '</label></div><div class="tk_field">';
+		$after_element = '</div></div>';
+	}		 
 	$args = array(
 		'id' => $name,
-		'before_element' => '<div class="tk_field_row"><div class="tk_field_label"><label for="' . $name . '" title="' . $tooltip . '">' . $label . '</label></div><div class="tk_field">',
-		'after_element' => '</div></div>'
+		'before_element' => $before_element,
+		'after_element' => $after_element
 	);
 	return tk_form_checkbox( $name, $args, $return_object );
 }
 function tk_db_radio( $name, $value, $description, $label, $tooltip, $return_object = TRUE ){
+	if( trim( $label ) != '' ){
+		$before_element = '<div class="tk_field_row"><div class="tk_field_label"><label for="' . $name . '" title="' . $tooltip . '">' . $label . '</label></div><div class="tk_field">';
+		$after_element = '</div></div>';
+	}		 
 	$args = array(
 		'id' => $name,
-		'before_element' => '<div class="tk_field_row"><div class="tk_field_label"><label for="' . $name . '" title="' . $tooltip . '">' . $label . '</label></div><div class="tk_field">',
-		'after_element' => ' ' . $description . '</div></div>'
+		'before_element' => $before_element,
+		'after_element' => $after_element
 	);
 	return tk_form_radiobutton( $name, $value, $args, $return_object );
 }
 
 function tk_db_select( $name, $options, $label, $tooltip, $return_object = TRUE ){
+	if( trim( $label ) != '' ){
+		$before_element = '<div class="tk_field_row"><div class="tk_field_label"><label for="' . $name . '" title="' . $tooltip . '">' . $label . '</label></div><div class="tk_field">';
+		$after_element = '</div></div>';
+	}		 
 	$args = array(
 		'id' => $name,
-		'before_element' => '<div class="tk_field_row"><div class="tk_field_label"><label for="' . $name . '" title="' . $tooltip . '">' . $label . '</label></div><div class="tk_field">',
-		'after_element' => '</div></div>'
+		'before_element' => $before_element,
+		'after_element' => $after_element
 	);
 	return tk_form_select( $name, $options, $args , $return_object );
 }
@@ -340,10 +386,14 @@ function tk_db_option( $name, $value ){
 }
 
 function tk_db_button( $name, $return_object = TRUE ){
+	if( trim( $label ) != '' ){
+		$before_element = '<div class="tk_field_row"><div class="tk_field_label"><label for="' . $name . '" title="' . $tooltip . '">' . $label . '</label></div><div class="tk_field">';
+		$after_element = '</div></div>';
+	}		 
 	$args = array(
 		'id' => $name,
-		'before_element' => '<div class="tk_field_row"><div class="tk_field">',
-		'after_element' => '</div></div>'
+		'before_element' => $before_element,
+		'after_element' => $after_element
 	);
 	return tk_form_button( $name, $args, $return_object );
 }

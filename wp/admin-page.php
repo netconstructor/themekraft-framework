@@ -21,7 +21,7 @@ class TK_Admin_Pages extends TK_HTML{
 	 * 
 	 * @param array $args Array of [ $headline , $icon Path to icon on Page, $parent_slug Parent slug where menue appears, $page_title, $menue_title, $capability, $menue_slug ]
 	 */
-	function tk_wp_admin_pages( $args = array()  ){
+	function tk_admin_pages( $args = array()  ){
 		$this->__construct( $args );
 	}
 	
@@ -100,6 +100,7 @@ class TK_Admin_Pages extends TK_HTML{
 	 * @return string $html The HTML of the admin page
 	 */
 	function get_html(){
+		global $tkf_text_domain;
 		
 		// If menu slug is empty sanitize title name and use it as slug
 		if( $this->menu_slug == '' && $this->menu_title != '' ){
@@ -112,7 +113,15 @@ class TK_Admin_Pages extends TK_HTML{
 		
 		$i = 0; 		
 		foreach( $this->elements AS $element ){
-			$page_object[ $element['menu_slug'] ] = new TK_Admin_Page_Creator( $element['menu_slug'], $element['content'] , $element['headline'] , $element['icon_url'] );
+			
+			// Recovering double entry in menu by setting menu_slug of first element
+			if( $i == 0 && substr( $element['menu_slug'], 0, 8 ) == 'autoslug' ){
+				$menu_slug = $this->menu_slug;
+			}else{
+				$menu_slug = $element['menu_slug'];
+			}
+
+			$page_object[ $element['menu_slug'] ] = new TK_Admin_Page_Creator( $menu_slug, $element['content'] , $element['headline'] , $element['icon_url'] );
 			
 			// Setting up main menu elements if title and capability is given 
 			if( ( $this->menu_title != '' && $this->capability != '' ) && $i == 0  && $this->parent_slug == '' ){
@@ -128,21 +137,14 @@ class TK_Admin_Pages extends TK_HTML{
 				$element['menu_slug'] = sanitize_title( $element['page_title'] );
 			}
 			
-			// Recovering double entry in menu by setting menu_slug of first element
-			if( $i == 0 && substr( $element['menu_slug'], 0, 8 ) == 'autoslug' ){
-				$menu_slug = $this->menu_slug;
-			}else{
-				$menu_slug = $element['menu_slug'];
-			}
-			
 			// Getting parent slug
 			if( $this->parent_slug != '' ){
 				$element['parent_slug'] = $this->parent_slug;
 			}elseif( $element['parent_slug'] == '' ){
 				$element['parent_slug'] = $this->menu_slug;
 			}
-			
-			add_submenu_page( $element['parent_slug'], $element['page_title'], $element['menu_title'], $element['capability'], $menu_slug, array( $page_object[ $element['menu_slug'] ] , 'create_page' ) );
+						
+			add_submenu_page( $element['parent_slug'], __( $element['page_title'], $tkf_text_domain ) , __( $element['menu_title'], $tkf_text_domain ), $element['capability'], $menu_slug, array( $page_object[ $element['menu_slug'] ] , 'create_page' ) );
 			
 			$i++;
 		}		
@@ -171,7 +173,7 @@ class TK_Admin_Page_Creator{
 	 * @package Themekraft Framework
 	 * @since 0.1.0
 	 * 
-	 * @param array $args Array of [ $headline , $icon Path to icon on Page, $parent_slug Parent slug where menue appears, $page_title, $menue_title, $capability, $menue_slug ]
+	 * @param array $args Array of [ $headline , $icon Path to icon on Page, $parent_slug Parent slug where menue appears, $page_title, $menue_title, $capability, $menu_slug ]
 	 */
 	function __construct(  $menu_slug, $content, $headline = '', $icon_url = '' ){
 		$this->content = $content;
@@ -181,25 +183,23 @@ class TK_Admin_Page_Creator{
 	}
 	
 	function create_page(){
+		global $tkf_text_domain;
+		
 		$html = '<div class="wrap">';
 		if( $this->icon_url != '' )	$html.= '<div class="icon32" style="background-image: url(' . $this->icon_url . ');"></div>';
 		
-		$html = apply_filters( 'tk_admin_page_before_title', $html );
+		if( $this->menu_slug != '' ) $html = apply_filters( 'tk_admin_page_before_title_' . $this->menu_slug , $html );
 		
-		if( $this->menue_slug != '' ) $html = apply_filters( 'tk_admin_page_before_title_' . $this->menue_slug , $html );
-		
-		$html.= '<h2>' . $this->headline . '</h2>';
+		$html.= '<h2>' . __( $this->headline , $tkf_text_domain ) . '</h2>'; 
 		$html = apply_filters( 'tk_admin_page_before_content', $html );
 		
-		if( $this->menue_slug != '' ) $html = apply_filters( 'tk_admin_page_before_content_' . $this->menue_slug , $html );
+		if( $this->menu_slug != '' ) $html = apply_filters( 'tk_admin_page_before_content_' . $this->menu_slug , $html );
 		
 		$tkdb = new TK_Display();
 		$html.= $tkdb->get_html( $this->content );
 		unset( $tkdb );
 		
-		$html = apply_filters( 'tk_admin_page_after_content', $html );
-		
-		if( $this->menue_slug != '' ) $html = apply_filters( 'tk_admin_page_after_content_' . $this->menue_slug , $html );
+		if( $this->menu_slug != '' ) $html = apply_filters( 'tk_admin_page_after_content_' . $this->menu_slug , $html );
 		
 		$html.= '</div>';
 		
@@ -208,10 +208,11 @@ class TK_Admin_Page_Creator{
 }
 function tk_admin_pages( $elements = array(), $args = array(), $return_object = FALSE ){
 	$tabs = new	TK_Admin_Pages( $args );
-	
+
 	foreach ( $elements AS $element ){
 		$element['args'] = array(
 			'headline' => $element['headline'],
+			'menu_slug' => $element['menu_slug'],
 			'icon_url' => $element['icon_url'] 
 		);		
 		$tabs->add_page( $element['menu_title'], $element['page_title'], $element['content'], $element['args'] );

@@ -222,5 +222,11 @@ function tk_bp_is_active_component( $slug ){
 	$tkd = new TK_WP_Detect();
 	return $tkd->bp_is_active_component( $slug );
 }
-
+/*
+ * tk_get_bp_component_by_slug
+ */
+function tk_get_bp_component_by_slug( $slug ){
+	$tkd = new TK_WP_Detect();
+	return $tkd->get_bp_component_by_slug( $slug );
+}
 ?>

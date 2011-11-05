@@ -12,7 +12,7 @@ class TK_Jqueryui_Accordion extends TK_HTML{
 	 * @since 0.1.0
 	 * 
 	 */
-	function tk_jqueryui_accordion( $id, $args = array() ){
+	function tk_jqueryui_accordion( $id = '' , $args = array() ){
 		$this->__construct( $id, $args );
 	}
 	
@@ -23,7 +23,7 @@ class TK_Jqueryui_Accordion extends TK_HTML{
 	 * @since 0.1.0
 	 * 
 	 */
-	function __construct( $id, $args = array() ){
+	function __construct( $id = '' , $args = array() ){
 		$defaults = array(
 			'title_tag' => 'h3'
 		);
