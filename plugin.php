@@ -28,7 +28,7 @@ function init_backend(){
     		<wml>
 				<menu title="Custom Menu">
 					<page title="Tabs" headline="Tab test">
-						You can also put in Text here like in HTML
+						<p>You can also put in Text here like in HTML</p>
 						<tabs>
 							<tab title="Tab 1">
 								Content in Tab 1
@@ -42,7 +42,7 @@ function init_backend(){
 						</tabs>
 					</page>
 					<page title="Accordions" headline="Accordion test">
-						You can also put in Text here like in HTML
+						<p>You can also put in Text here like in HTML</p>
 						<accordion>
 							<section title="Section 1">
 								Content in Section 1
@@ -56,7 +56,7 @@ function init_backend(){
 						</accordion>
 					</page>
 					<page title="Forms" headline="Form test">
-						You can also put in Text here like in HTML
+						<p>You can also put in Text here like in HTML</p>
 						<form name="myform">
 							<textfield name="name" label="Name:" tooltip="Put in your name"/>
 							<textarea name="longtext" label="Long text:" />
@@ -74,6 +74,24 @@ function init_backend(){
 							<file name="ourfile" label="File" tooltip="Upload your file!" />
 							<button name="Save" />
 						</form>
+					</page>
+					<page title="Nested HTML" headline="Usind HTML in WML">
+						<p>As you can see,you can use HTML in WML.</p>
+						<table class="widefat">
+							<tr>
+								<td>HTML Table</td>
+							</tr>
+							<tr>
+								<td>
+									<accordion>
+										<section title="Section 1">
+											Content of an accordion in HTML
+										</section>
+									</accordion>
+								</td>
+							</tr>
+						</table>
+						
 					</page>
 				</menu>
     		</wml>';

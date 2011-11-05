@@ -52,11 +52,18 @@ class TK_Admin_Pages extends TK_HTML{
 		
 		parent::__construct();
 		
+		// If menu slug is empty sanitize title name and use it as slug
+		if( $menu_slug == '' && $menu_title != '' ){
+			$this->menu_slug =  sanitize_title( $menu_title  );
+		}else{
+			$this->menu_slug = sanitize_title( $menu_slug );
+		}
+		
 		$this->menu_title = $menu_title;
 		$this->page_title = $page_title;
 		$this->capability = $capability;
 		$this->parent_slug = $parent_slug;
-		$this->menu_slug = $menu_slug;
+		
 		$this->icon_url = $icon_url;
 		$this->position = $position;
 		$this->object_menu = $object_menu;
@@ -65,17 +72,21 @@ class TK_Admin_Pages extends TK_HTML{
 	}
 	
 	function add_page( $menu_title, $page_title, $content, $args = array() ){
+		
+		$autoslug = 'autoslug_' . $this->menu_slug . '_' . $this->count_autoslug++;
 
 		$defaults = array(
 			'parent_slug' => $this->menu_slug,
 			'headline' => '',
 			'icon_url' => '',			
 			'capability' => 'edit_posts',
-			'menu_slug' => 'autoslug_' . $this->count_autoslug++
+			'menu_slug' => $autoslug
 		);
 		
 		$args = wp_parse_args($args, $defaults);
 		extract( $args , EXTR_SKIP );
+		
+		if( $menu_slug == '' ) $menu_slug =	$autoslug;	
 		
 		$element = array( 
 			'parent_slug'=> $parent_slug,
@@ -102,10 +113,6 @@ class TK_Admin_Pages extends TK_HTML{
 	function get_html(){
 		global $tkf_text_domain;
 		
-		// If menu slug is empty sanitize title name and use it as slug
-		if( $this->menu_slug == '' && $this->menu_title != '' ){
-			$this->menu_slug =  sanitize_title( $this->menu_title  );
-		}
 		// If Page title is empty use menu title as page title
 		if( $this->page_title == '' && $this->menu_title != '' ){
 			$this->page_title = $this->menu_title;
@@ -118,7 +125,7 @@ class TK_Admin_Pages extends TK_HTML{
 			if( $i == 0 && substr( $element['menu_slug'], 0, 8 ) == 'autoslug' ){
 				$menu_slug = $this->menu_slug;
 			}else{
-				$menu_slug = $element['menu_slug'];
+				$menu_slug = sanitize_title( $element['menu_slug'] );
 			}
 
 			$page_object[ $element['menu_slug'] ] = new TK_Admin_Page_Creator( $menu_slug, $element['content'] , $element['headline'] , $element['icon_url'] );
