@@ -87,8 +87,9 @@ class TK_WML_Parser{
 		$doc = new DOMDocument();
 				
 		set_error_handler( array( $this, 'wml_error' ) );
-		if( !$doc->loadXML( $xml_string ) )
+		if( !$doc->loadXML( $xml_string ) ){
 			return FALSE;
+		}
 		restore_error_handler();
 		
 		return $this->load_dom( $doc );
@@ -103,8 +104,9 @@ class TK_WML_Parser{
 			return FALSE;
 		}
 		set_error_handler( array( $this, 'wml_error' ) );
-		if( !$doc->load( $source ) )
+		if( !$doc->load( $source ) ){
 			return FALSE;
+		}
 		restore_error_handler();
 				
 		return $this->load_dom( $doc );

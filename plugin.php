@@ -25,6 +25,7 @@ function init_backend(){
  /*
   * WML
   */
+	
  $wml = '<?xml version="1.0" ?>
     		<wml>
 				<menu title="Custom Menu">
