@@ -62,7 +62,7 @@ function init_backend(){
 						<form name="myform">
 							<textfield name="name" label="Name:" tooltip="Put in your name"/>
 							<textarea name="longtext" label="Long text:" />
-							<checkbox name="mycheckbox" label="Check this:" />
+							<checkbox name="mycheckbox" label="Check this:" description="Description for button" />
 							<radio name="radiotest" label="Radio test" value="1" description="Button 1" />
 							<radio name="radiotest" value="2" description="Button 2" />
 							<radio name="radiotest" value="3" description="Button 3" />
@@ -98,14 +98,25 @@ function init_backend(){
 				</menu>
     		</wml>';
  
- tk_wml_parse( $wml );
+ /*
+  * Example
+  */
+ // tk_wml_parse( $wml );
+ // Creating php file for translations
+ // tk_wml_create_textfiles( $wml );
+ 
+ /*
+  * Example with WML file
+  */
  
  // Example for loading xml file
- // tk_wml_parse_file( dirname( __FILE__ ) . '/example.wml' );
+ tk_wml_parse_file( dirname( __FILE__ ) . '/example.xml' );
+ tk_wml_create_textfiles_from_wml_file( dirname( __FILE__ ) . '/example.xml' );
  
- // Creating php file for translations
- tk_wml_create_textfiles( $wml );
  
+ /*
+  * Getting back values from form fields
+  */
  $values = tk_get_values( 'myform' );
 }
 add_action( 'admin_menu', 'init_backend' );
