@@ -37,10 +37,9 @@ class TK_WML_Parser{
 		$this->display= array();
 		
 		// Menu & Pages
-		$functions['menu'] = array( 'title' => '', 'page' => array(), 'slug' => '', 'capability' => 'edit_posts', 'parent' => '',  'icon' => '', 'position' => '', 'return_object' => $return_object );
-		$functions['page'] = array( 'title' => '', 'content' => '', 'headline' => '', 'slug' => '', 'icon' => '' );
+		$functions['menu'] = array( 'id' => '', 'title' => '', 'page' => array(), 'slug' => '', 'capability' => 'edit_posts', 'parent' => '',  'icon' => '', 'position' => '', 'return_object' => $return_object );
+		$functions['page'] = array( 'id' => '', 'title' => '', 'content' => '', 'headline' => '', 'slug' => '', 'icon' => '' );
 		$bound_content['menu'] = 'page';
-		// tk_db_menu( $menu_title, $title = '', $elements = array(), $menu_slug = '', $capability = '', $icon_url = '', $position = '', $return_object = FALSE )
 		
 		// Tabs
 		$functions['tabs'] = array( 'id' =>'', 'tab' => array(), 'return_object' => $return_object );
@@ -272,9 +271,10 @@ class TK_WML_Parser{
 /*
  * Menu functions
  */
-function tk_db_menu( $title = '', $elements = array(), $menu_slug = '', $capability = '', $parent_slug = '', $icon_url = '', $position = '', $return_object = FALSE ){
+function tk_db_menu( $id = '', $title = '', $elements = array(), $menu_slug = '', $capability = '', $parent_slug = '', $icon_url = '', $position = '', $return_object = FALSE ){
 	
 	$args = array(
+			'id' => $id,
 			'menu_title' => $title,
 			'page_title' => $title,
 			'capability' => $capability,
@@ -284,11 +284,10 @@ function tk_db_menu( $title = '', $elements = array(), $menu_slug = '', $capabil
 			'position' => $position,
 			'object_menu' => TRUE
 	);
-	
 	return tk_admin_pages( $elements, $args, $return_object );
 }
-function tk_db_page( $title, $content, $headline = '', $menu_slug = '' , $icon_url = '' ){
-	$page = array( 'menu_title' => $title, 'page_title' => $title, 'content' => $content, 'headline' => $headline, 'menu_slug' => $menu_slug, 'icon_url' => $icon_url );
+function tk_db_page( $id, $title, $content, $headline = '', $menu_slug = '' , $icon_url = '' ){
+	$page = array( 'id' => $id, 'menu_title' => $title, 'page_title' => $title, 'content' => $content, 'headline' => $headline, 'menu_slug' => $menu_slug, 'icon_url' => $icon_url );
 	return $page;
 }
 

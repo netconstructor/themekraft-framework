@@ -51,65 +51,91 @@ class TK_Jqueryui_Tabs extends TK_HTML{
 	 * 
 	 */
 	function get_html(){
+		global $tk_hidden_elements;
 		
-		if( $this->id == '' ){
-			$id = md5( rand() );
-		}else{
-			$id = $this->id;
-		}
-		
-		$html = '<script type="text/javascript">
-		jQuery(document).ready(function($){
-			$( ".' . $id . '" ).tabs();
-		});
-   		</script>';
-		
-		
-		$html.= '<div class="' . $id . '">';
-		
-		$html.= '<ul>';
-		
-		if( $this->id != '' ) $html = apply_filters( 'tk_wp_jqueryui_tabs_before_tabs_' . $id, $html );
-		
-		foreach( $this->elements AS $element ){
-			if( $element['id'] == '' ){	$element_id = md5( $element['title'] ); }else{	$element_id = $element['id']; }
-						
-			if( $element['id'] != '' ) $html = apply_filters( 'tk_wp_jqueryui_tabs_tabs_before_li_' . $element['id'], $html );
-			$html.= '<li><a href="#' . $element_id . '" >';
-			if( $element['id'] != '' ) $html = apply_filters( 'tk_wp_jqueryui_tabs_tabs_title_before_' .$element['id'], $html );
-		
-			if( is_object( $element['title'] ) ){
-				 $html.= $element['title']->get_html();
+		// Creating elements
+		if( !in_array( $this->id, $tk_hidden_elements ) && !$hide_element ){
+			if( $this->id == '' ){
+				$id = md5( rand() );
 			}else{
-				 $html.= $element['title'];
+				$id = $this->id;
 			}
 			
-			if( $element['id'] != '' ) $html = apply_filters( 'tk_wp_jqueryui_tabs_tabs_title_after_' . $element['id'], $html );
-			$html.= '</a></li>';
-			if( $element['id'] != '' ) $html = apply_filters( 'tk_wp_jqueryui_tabs_tabs_after_li_' . $element['id'], $html );
-		}
-		
-		if( $this->id != '' ) $html = apply_filters( 'tk_wp_jqueryui_tabs_after_tabs_' . $id, $html );
-		
-		$html.= '</ul>';
-		
-		foreach( $this->elements AS $element ){
-			if( $element['id'] == '' ){	$element_id = md5( $element['title'] ); }else{	$element_id = $element['id']; }
+			$html = '<script type="text/javascript">
+			jQuery(document).ready(function($){
+				$( ".' . $id . '" ).tabs();
+			});
+	   		</script>';
 			
-			$html.= '<div id="' . $element_id . '" >';
-			if( $element['id'] != '' ) $html = apply_filters( 'tk_wp_jqueryui_tabs_before_content_' . $element['id'], $html );
 			
-			$tkdb = new TK_Display();
-			$html.= $tkdb->get_html( $element['content'] );
-			unset( $tkdb );
+			$html.= '<div class="' . $id . '">';
 			
-			if( $element['id'] != '' ) $html = apply_filters( 'tk_wp_jqueryui_tabs_after_content_' . $element['id'], $html );
+			$html.= '<ul>';
+			
+			if( $this->id != '' ) $html = apply_filters( 'tk_wp_jqueryui_tabs_before_tabs_' . $id, $html );
+			
+			// Creting navigation elements
+			foreach( $this->elements AS $element ){
+					// Show tab
+					if( !in_array( $element['id'], $tk_hidden_elements ) ){
+						if( $element['id'] == '' ){	$element_id = md5( $element['title'] ); }else{	$element_id = $element['id']; }
+									
+						if( $element['id'] != '' ) $html = apply_filters( 'tk_wp_jqueryui_tabs_tabs_before_li_' . $element['id'], $html );
+						$html.= '<li><a href="#' . $element_id . '" >';
+						if( $element['id'] != '' ) $html = apply_filters( 'tk_wp_jqueryui_tabs_tabs_title_before_' .$element['id'], $html );
+					
+						if( is_object( $element['title'] ) ){
+							 $html.= $element['title']->get_html();
+						}else{
+							 $html.= $element['title'];
+						}
+						
+						if( $element['id'] != '' ) $html = apply_filters( 'tk_wp_jqueryui_tabs_tabs_title_after_' . $element['id'], $html );
+						$html.= '</a></li>';
+						if( $element['id'] != '' ) $html = apply_filters( 'tk_wp_jqueryui_tabs_tabs_after_li_' . $element['id'], $html );
+					}
+			}
+			
+			if( $this->id != '' ) $html = apply_filters( 'tk_wp_jqueryui_tabs_after_tabs_' . $id, $html );
+			
+			$html.= '</ul>';
+			
+			// Creting content elements
+			foreach( $this->elements AS $element ){
+				// Show tab content
+				if( !in_array( $element['id'], $tk_hidden_elements ) ){
+					if( $element['id'] == '' ){	$element_id = md5( $element['title'] ); }else{	$element_id = $element['id']; }
+					
+					$html.= '<div id="' . $element_id . '" >';
+					if( $element['id'] != '' ) $html = apply_filters( 'tk_wp_jqueryui_tabs_before_content_' . $element['id'], $html );
+					
+					$tkdb = new TK_Display();
+					$html.= $tkdb->get_html( $element['content'] );
+					unset( $tkdb );
+					
+					if( $element['id'] != '' ) $html = apply_filters( 'tk_wp_jqueryui_tabs_after_content_' . $element['id'], $html );
+					$html.= '</div>';
+					
+				// Hide tab content
+				}else{
+					$tkdb = new TK_Display();
+					$html.= $tkdb->get_html( $element['content'], TRUE );
+					unset( $tkdb );
+				}
+			}
+			
 			$html.= '</div>';
+			
+			return $html;
+			
+		// Hiding elements
+		}else{
+			foreach( $this->elements AS $element ){
+				$tkdb = new TK_Display();
+				$html.= $tkdb->get_html( $element['content'], TRUE );
+				unset( $tkdb );
+			}
 		}
-		
-		$html.= '</div>';
-		
-		return $html;
 	}
 }
 function tk_tabs( $id = '', $elements = array(), $return_object = FALSE ){	

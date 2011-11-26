@@ -106,12 +106,17 @@ function init_backend(){
  // tk_wml_create_textfiles( $wml );
  
  /*
+  * Hiding elemts by id 
+  */
+ tk_hide_element( 's1' );
+ 
+ /*
   * Example with WML file
   */
  
  // Example for loading xml file
- tk_wml_parse_file( dirname( __FILE__ ) . '/example.xml' );
- tk_wml_create_textfiles_from_wml_file( dirname( __FILE__ ) . '/example.xml' );
+ tk_wml_parse_file( dirname( __FILE__ ) . '/hide_test.xml' );
+ // tk_wml_create_textfiles_from_wml_file( dirname( __FILE__ ) . '/example.xml' );
  
  
  /*
