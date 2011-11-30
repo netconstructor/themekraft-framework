@@ -27,7 +27,7 @@ class TK_WP_Form_Checkbox extends TK_Form_Checkbox{
 	 * @param array $args Array of [ $id Id, $extra Extra checkbox code, $option_group Name of optiongroup where checkbox have to be saved ]
 	 */
 	function __construct( $name, $args = array() ){
-		global $post, $tk_form_instance_option_group;
+		global $tk_hidden_elements, $post, $tk_form_instance_option_group;
 		
 		$defaults = array(
 			'id' => '',

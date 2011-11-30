@@ -35,7 +35,7 @@ class TK_Display{
 	 * @param mixed $elements Array / Object of elements which have to be shown
 	 * @return string $html The HTML of the display object
 	 */	
-	function get_html( $elements = '' ) {
+	function get_html( $elements = '', $hide_element = FALSE ) {
 		$html = '';
 		
 		// If element is no array and no object
@@ -52,15 +52,16 @@ class TK_Display{
 				
 				// If subelement is an array
 				if( is_array( $element ) ){
-					 $html.= $this->get_html( $element );
+					 $html.= $this->get_html( $element, $hide_element );
 					
 				// If it's an object
 				}elseif( is_object( $element ) ){
-					 $html.= $element->get_html();
+					 $html.= $element->get_html( $hide_element );
 					 
 				// It's anything else
 				}else{
-					 $html.= $element;
+					if( !$hide_element )
+					 	$html.= $element;
 				}
 			}
 			return $html;

@@ -35,6 +35,7 @@ class TK_Admin_Pages extends TK_HTML{
 	 */
 	function __construct( $args = array() ){
 		$defaults = array(
+			'id' => '',
 			'menu_title' => '',
 			'page_title' => '',
 			'capability' => 'edit_posts',
@@ -59,6 +60,7 @@ class TK_Admin_Pages extends TK_HTML{
 			$this->menu_slug = sanitize_title( $menu_slug );
 		}
 		
+		$this->id = $id;
 		$this->menu_title = $menu_title;
 		$this->page_title = $page_title;
 		$this->capability = $capability;
@@ -71,11 +73,12 @@ class TK_Admin_Pages extends TK_HTML{
 		$count_autoslug = 0;
 	}
 	
-	function add_page( $menu_title, $page_title, $content, $args = array() ){
+	function add_page( $id, $menu_title, $page_title, $content, $args = array() ){
 		
 		$autoslug = 'autoslug_' . $this->menu_slug . '_' . $this->count_autoslug++;
 
 		$defaults = array(
+			'id' => '',
 			'parent_slug' => $this->menu_slug,
 			'headline' => '',
 			'icon_url' => '',			
@@ -89,6 +92,7 @@ class TK_Admin_Pages extends TK_HTML{
 		if( $menu_slug == '' ) $menu_slug =	$autoslug;	
 		
 		$element = array( 
+			'id'=> $id,
 			'parent_slug'=> $parent_slug,
 			'menu_title'=> $menu_title,
 			'page_title' => $page_title, 
@@ -110,51 +114,60 @@ class TK_Admin_Pages extends TK_HTML{
 	 * 
 	 * @return string $html The HTML of the admin page
 	 */
-	function get_html(){
-		global $tkf_text_domain;
+	function get_html( $hide_element = FALSE ){
+		global $tk_hidden_elements, $tkf_text_domain;
 		
-		// If Page title is empty use menu title as page title
-		if( $this->page_title == '' && $this->menu_title != '' ){
-			$this->page_title = $this->menu_title;
-		}	
 		
-		$i = 0; 		
-		foreach( $this->elements AS $element ){
+		
+		if( !in_array( $this->id, $tk_hidden_elements ) && !$hide_element ){
+				
+			// If Page title is empty use menu title as page title
+			if( $this->page_title == '' && $this->menu_title != '' ){
+				$this->page_title = $this->menu_title;
+			}	
 			
-			// Recovering double entry in menu by setting menu_slug of first element
-			if( $i == 0 && substr( $element['menu_slug'], 0, 8 ) == 'autoslug' ){
-				$menu_slug = $this->menu_slug;
-			}else{
-				$menu_slug = sanitize_title( $element['menu_slug'] );
-			}
-
-			$page_object[ $element['menu_slug'] ] = new TK_Admin_Page_Creator( $menu_slug, $element['content'] , $element['headline'] , $element['icon_url'] );
+			$i = 0; 		
+			foreach( $this->elements AS $element ){
 			
-			// Setting up main menu elements if title and capability is given 
-			if( ( $this->menu_title != '' && $this->capability != '' ) && $i == 0  && $this->parent_slug == '' ){
-				if( TRUE == $this->object_menu ){
-					add_object_page( $this->page_title, $this->menu_title, $this->capability, $this->menu_slug, array( $page_object[ $element['menu_slug'] ] , 'create_page' ), $this->icon_url, $this->position );	
+				// Recovering double entry in menu by setting menu_slug of first element
+				if( $i == 0 && substr( $element['menu_slug'], 0, 8 ) == 'autoslug' ){
+					$menu_slug = $this->menu_slug;
 				}else{
-					add_menu_page( $this->page_title, $this->menu_title, $this->capability, $this->menu_slug, array( $page_object[ $element['menu_slug'] ] , 'create_page' ), $this->icon_url, $this->position );
+					$menu_slug = sanitize_title( $element['menu_slug'] );
 				}
+	
+				$page_object[ $element['menu_slug'] ] = new TK_Admin_Page_Creator( $menu_slug, $element['content'] , $element['headline'] , $element['icon_url'] );
+				
+				// Setting up main menu elements if title and capability is given 
+				if( ( $this->menu_title != '' && $this->capability != '' ) && $i == 0  && $this->parent_slug == '' ){
+					if( TRUE == $this->object_menu ){
+						add_object_page( $this->page_title, $this->menu_title, $this->capability, $this->menu_slug, array( $page_object[ $element['menu_slug'] ] , 'create_page' ), $this->icon_url, $this->position );	
+					}else{
+						add_menu_page( $this->page_title, $this->menu_title, $this->capability, $this->menu_slug, array( $page_object[ $element['menu_slug'] ] , 'create_page' ), $this->icon_url, $this->position );
+					}
+				}
+				
+				
+				if( !in_array( $element['id'], $tk_hidden_elements ) ){
+					
+					// If slug of submenu is empty, sanitize title ans use it as slug
+					if( $element['menu_slug'] == '' ){
+						$element['menu_slug'] = sanitize_title( $element['page_title'] );
+					}
+					
+					// Getting parent slug
+					if( $this->parent_slug != '' ){
+						$element['parent_slug'] = $this->parent_slug;
+					}elseif( $element['parent_slug'] == '' ){
+						$element['parent_slug'] = $this->menu_slug;
+					}
+								
+					add_submenu_page( $element['parent_slug'], __( $element['page_title'], $tkf_text_domain ) , __( $element['menu_title'], $tkf_text_domain ), $element['capability'], $menu_slug, array( $page_object[ $element['menu_slug'] ] , 'create_page' ) );
+				}
+
+				$i++;
 			}
-			
-			// If slug of submenu is empty, sanitize title ans use it as slug
-			if( $element['menu_slug'] == '' ){
-				$element['menu_slug'] = sanitize_title( $element['page_title'] );
-			}
-			
-			// Getting parent slug
-			if( $this->parent_slug != '' ){
-				$element['parent_slug'] = $this->parent_slug;
-			}elseif( $element['parent_slug'] == '' ){
-				$element['parent_slug'] = $this->menu_slug;
-			}
-						
-			add_submenu_page( $element['parent_slug'], __( $element['page_title'], $tkf_text_domain ) , __( $element['menu_title'], $tkf_text_domain ), $element['capability'], $menu_slug, array( $page_object[ $element['menu_slug'] ] , 'create_page' ) );
-			
-			$i++;
-		}		
+		}
 	}	
 }
 class TK_Admin_Page_Creator{
@@ -171,7 +184,7 @@ class TK_Admin_Page_Creator{
 	 * 
 	 * @param array $args Array of [ $headline ... ]
 	 */
-	function tk_page_creator( $menu_slug, $content, $headline = '', $icon_url = '' ){
+	function tk_page_creator( $menu_slug, $content, $headline = '', $icon_url = '', $hide_element = FALSE ){
 		$this->__construct( $menu_slug, $content, $headline, $icon_url );
 	}
 	/**
@@ -222,7 +235,7 @@ function tk_admin_pages( $elements = array(), $args = array(), $return_object = 
 			'menu_slug' => $element['menu_slug'],
 			'icon_url' => $element['icon_url'] 
 		);		
-		$tabs->add_page( $element['menu_title'], $element['page_title'], $element['content'], $element['args'] );
+		$tabs->add_page( $element['id'], $element['menu_title'], $element['page_title'], $element['content'], $element['args'] );
 	}
 	
 	if( TRUE == $return_object ){

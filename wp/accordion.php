@@ -69,53 +69,74 @@ class TK_Jqueryui_Accordion extends TK_HTML{
 	 * @return string $html The accordion as html
 	 * 
 	 */
-	function get_html(){
+	function get_html( $hide_element = TRUE ){
+		global $tk_hidden_elements;
 		
-		if( $this->id == '' ){
-			$id = md5( rand() );
-		}else{
-			$id = $this->id;
-		}
-		
-		$html = '<script type="text/javascript">
-		jQuery(document).ready(function($){
-			$( ".' . $id . '" ).accordion({ header: "' . $this->title_tag . '", active: false, autoHeight: false, collapsible:true });
-		});
-   		</script>';
-		
-		if( $this->id != '' ) $html = apply_filters( 'tk_jqueryui_accordion_before_' . $this->id , $html );
-		
-		$html.= '<div class="' . $id . '">';
-		
-		foreach( $this->elements AS $element ){
-			if( $element['id'] == '' ){	$element_id = md5( $element['title'] ); }else{	$element_id = $element['id']; }
+		// Creating elements
+		if( !in_array( $this->id, $tk_hidden_elements ) && !$hide_element ){
 			
-			$html.= '<' . $this->title_tag . ' ' . $element['extra_title']  . '><a href="#">';
-			
-			if( is_object( $element['title'] ) ){
-				 $html.= $element['title']->get_html();
+			if( $this->id == '' ){
+				$id = md5( rand() );
 			}else{
-				 $html.= $element['title'];
+				$id = $this->id;
+			}
+		
+			$html = '<script type="text/javascript">
+			jQuery(document).ready(function($){
+				$( ".' . $id . '" ).accordion({ header: "' . $this->title_tag . '", active: false, autoHeight: false, collapsible:true });
+			});
+	   		</script>';
+			
+			if( $this->id != '' ) $html = apply_filters( 'tk_jqueryui_accordion_before_' . $this->id , $html );
+			
+			$html.= '<div class="' . $id . '">';
+			
+			foreach( $this->elements AS $element ){
+				
+				if( !in_array( $element['id'], $tk_hidden_elements ) ){
+					if( $element['id'] == '' ){	$element_id = md5( $element['title'] ); }else{	$element_id = $element['id']; }
+					
+					$html.= '<' . $this->title_tag . ' ' . $element['extra_title']  . '><a href="#">';
+					
+					if( is_object( $element['title'] ) ){
+						 $html.= $element['title']->get_html();
+					}else{
+						 $html.= $element['title'];
+					}
+					
+					$html.= '</a></' . $this->title_tag . '>';
+					$html.= '<div id="' . $element['id'] . '"' . $element['extra_content']  . '>';
+					
+					if( $this->id != '' ) $html = apply_filters( 'tk_jqueryui_accordion_content_section_before_' . $this->id , $html );
+					if( $element['id'] != '' ) $html = apply_filters( 'tk_jqueryui_accordion_content_section_before_' . $element['id'], $html );
+				
+					$tkdb = new TK_Display();
+					$html.= $tkdb->get_html( $element['content'] );
+					unset( $tkdb );
+					
+					
+					if( $this->id != '' ) $html = apply_filters( 'tk_jqueryui_accordion_content_section_after_' . $this->id , $html );
+					if( $element['id'] != '' ) $html = apply_filters( 'tk_jqueryui_accordion_content_section_after_' . $element['id'], $html );
+		
+					$html.= '</div>';
+					
+				}else{
+					$tkdb = new TK_Display();
+					$html.= $tkdb->get_html( $element['content'], TRUE );
+					unset( $tkdb );
+				}
 			}
 			
-			$html.= '</a></' . $this->title_tag . '>';
-			$html.= '<div id="' . $element['id'] . '"' . $element['extra_content']  . '>';
-			
-			if( $this->id != '' ) $html = apply_filters( 'tk_jqueryui_accordion_content_section_before_' . $this->id , $html );
-			if( $element['id'] != '' ) $html = apply_filters( 'tk_jqueryui_accordion_content_section_before_' . $element['id'], $html );
-		
-			$tkdb = new TK_Display();
-			$html.= $tkdb->get_html( $element['content'] );
-			unset( $tkdb );
-			
-			
-			if( $this->id != '' ) $html = apply_filters( 'tk_jqueryui_accordion_content_section_after_' . $this->id , $html );
-			if( $element['id'] != '' ) $html = apply_filters( 'tk_jqueryui_accordion_content_section_after_' . $element['id'], $html );
-
 			$html.= '</div>';
+			
+		// Hiding elements
+		}else{
+			foreach( $this->elements AS $element ){
+				$tkdb = new TK_Display();
+				$html.= $tkdb->get_html( $element['content'], TRUE );
+				unset( $tkdb );
+			}
 		}
-		
-		$html.= '</div>';
 		
 		if( $this->id != '' ) $html = apply_filters( 'tk_jqueryui_accordion_after_' . $this->id , $html );
 		
