@@ -65,10 +65,12 @@ class TK_Jqueryui{
 		// loading jQuery core
 		wp_enqueue_script( 'jquery-ui' );
 		
+		// echo '|' . plugin_dir_url( __FILE__ ) . '|';
+		
 		if( $css ){
-			wp_enqueue_style( 'jquery-ui-css', plugin_dir_url( __FILE__ ) . 'css/jquery-ui.css' );
-			wp_enqueue_style( 'jquery-colorpicker-css', plugin_dir_url( __FILE__ ) . 'css/colorpicker.css' );
-			wp_enqueue_style( 'tkf-css', plugin_dir_url( __FILE__ ) . 'css/tkf.css' );
+			wp_enqueue_style( 'jquery-ui-css', TKF_URL . '/includes/css/jquery-ui.css' );
+			wp_enqueue_style( 'jquery-colorpicker-css', TKF_URL . '//includescss/colorpicker.css' );
+			wp_enqueue_style( 'tkf-css', TKF_URL . '/includes/css/tkf.css' );
 			wp_enqueue_style( 'thickbox' );
 		}
 		
@@ -165,21 +167,21 @@ class TK_Jqueryui{
 	}
 	
 	function register_components(){
-		$this->add_jqueryui_component( 'jquery-ui-accordion', '3.1.3', plugin_dir_url( __FILE__ ) . 'js/jquery/1.8.9/jquery.ui.accordion.js', '1.8.9' );
-		$this->add_jqueryui_component( 'jquery-ui-accordion', '3.2', plugin_dir_url( __FILE__ ) . 'js/jquery/1.8.12/jquery.ui.accordion.js', '1.8.12' );
-		$this->add_jqueryui_component( 'jquery-ui-accordion', '3.2.1', plugin_dir_url( __FILE__ ) . 'js/jquery/1.8.12/jquery.ui.accordion.js', '1.8.12' );
+		$this->add_jqueryui_component( 'jquery-ui-accordion', '3.1.3', TKF_URL . '/includes/js/jquery/1.8.9/jquery.ui.accordion.js', '1.8.9' );
+		$this->add_jqueryui_component( 'jquery-ui-accordion', '3.2', TKF_URL . '/includes/js/jquery/1.8.12/jquery.ui.accordion.js', '1.8.12' );
+		$this->add_jqueryui_component( 'jquery-ui-accordion', '3.2.1', TKF_URL . '/includes/js/jquery/1.8.12/jquery.ui.accordion.js', '1.8.12' );
 		
-		$this->add_jqueryui_component( 'jquery-ui-autocomplete', '3.1.3', plugin_dir_url( __FILE__ ) . 'js/jquery/1.8.9/jquery.ui.autocomplete.js', '1.8.9' );
-		$this->add_jqueryui_component( 'jquery-ui-autocomplete', '3.2', plugin_dir_url( __FILE__ ) . 'js/jquery/1.8.12/jquery.ui.autocomplete.js', '1.8.12' );
-		$this->add_jqueryui_component( 'jquery-ui-autocomplete', '3.2.1', plugin_dir_url( __FILE__ ) . 'js/jqueryib/1.8.12/jquery.ui.autocomplete.js', '1.8.12' );
+		$this->add_jqueryui_component( 'jquery-ui-autocomplete', '3.1.3', TKF_URL . '/includes/js/jquery/1.8.9/jquery.ui.autocomplete.js', '1.8.9' );
+		$this->add_jqueryui_component( 'jquery-ui-autocomplete', '3.2', TKF_URL . '/includes/js/jquery/1.8.12/jquery.ui.autocomplete.js', '1.8.12' );
+		$this->add_jqueryui_component( 'jquery-ui-autocomplete', '3.2.1', TKF_URL . '/includes/js/jqueryib/1.8.12/jquery.ui.autocomplete.js', '1.8.12' );
 		
-		$this->add_jqueryui_component( 'jquery-colorpicker', '3.1.3', plugin_dir_url( __FILE__ ) . 'js/jquery/colorpicker.js', '1.8.9' );
-		$this->add_jqueryui_component( 'jquery-colorpicker', '3.2', plugin_dir_url( __FILE__ ) . 'js/jquery/colorpicker.js', '1.8.12' );
-		$this->add_jqueryui_component( 'jquery-colorpicker', '3.2.1', plugin_dir_url( __FILE__ ) . 'js/jquery/colorpicker.js', '1.8.12' );
+		$this->add_jqueryui_component( 'jquery-colorpicker', '3.1.3', TKF_URL . '/includes/js/jquery/colorpicker.js', '1.8.9' );
+		$this->add_jqueryui_component( 'jquery-colorpicker', '3.2', TKF_URL . '/includes/js/jquery/colorpicker.js', '1.8.12' );
+		$this->add_jqueryui_component( 'jquery-colorpicker', '3.2.1', TKF_URL . '/includes/js/jquery/colorpicker.js', '1.8.12' );
 
-		$this->add_jqueryui_component( 'jquery-fileuploader', '3.1.3', plugin_dir_url( __FILE__ ) . 'js/jquery/fileuploader.js', '1.8.9' );
-		$this->add_jqueryui_component( 'jquery-fileuploader', '3.2', plugin_dir_url( __FILE__ ) . 'js/jquery/fileuploader.js', '1.8.12' );
-		$this->add_jqueryui_component( 'jquery-fileuploader', '3.2.1', plugin_dir_url( __FILE__ ) . 'js/jquery/fileuploader.js', '1.8.12' );
+		$this->add_jqueryui_component( 'jquery-fileuploader', '3.1.3', TKF_URL . '/includes/js/jquery/fileuploader.js', '1.8.9' );
+		$this->add_jqueryui_component( 'jquery-fileuploader', '3.2', TKF_URL . '/includes/js/jquery/fileuploader.js', '1.8.12' );
+		$this->add_jqueryui_component( 'jquery-fileuploader', '3.2.1', TKF_URL . '/includes/js/jquery/fileuploader.js', '1.8.12' );
 		
 		$this->add_depency( 'jquery-ui-accordion', array( 'jquery-ui-widget' ) );		
 		$this->add_depency( 'jquery-ui-autocomplete', array( 'jquery-ui-widget', 'jquery-ui-position' ) );
