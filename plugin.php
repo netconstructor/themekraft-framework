@@ -19,7 +19,7 @@ function framework_init(){
  require_once( 'loader.php' );
  tk_framework( $args );
 }
-add_action( 'init', 'framework_init' );
+add_action( 'plugins_loaded', 'framework_init' );
  
 function init_backend(){
  /*
