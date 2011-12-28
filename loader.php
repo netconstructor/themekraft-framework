@@ -13,8 +13,32 @@ function tkf_init_010(){
 	require_once( 'core.php' );
 }
 
+// If there is already a framework started
+if( $tkf_version != '' ){
+	
+	// If started framework version is older than this version, remove action from init actionhook
+	if( version_compare( $tkf_version, $this_tkf_version, '<' ) ){
+		$function_name = 'tkf_init_' . str_replace( '.', '', $tkf_version );
+		
+		// Removing functions from init actionhook 
+		if( has_action( 'init', $function_name ) ){
+			remove_action( $tag, $function_name );
+		}
+		
+		// Add own action to actionhook
+		$tkf_version = $this_tkf_version;
+		add_action( 'init', 'tkf_init_' . str_replace( '.', '', $this_tkf_version ), 0 );
+	}
+}else{
+	// Add own action to actionhook
+	$tkf_version = $this_tkf_version;
+	add_action( 'init', 'tkf_init_' . str_replace( '.', '', $this_tkf_version ), 0 );
+}
+
 function tk_framework( $args = array()  ){
-	global $tkf_text_domain, $tkf_text_domain_path, $tkf_text_domain_strings, $tkf_create_textfiles;
+	global $tkf_text_domain, $tkf_text_domain_path, $tkf_text_domain_strings, $tkf_create_textfiles, $tk_hidden_elements;
+	
+	$tk_hidden_elements = array();
 	
 	$defaults = array(
 		'jqueryui_components' => array( 'jquery-fileuploader', 'jquery-ui-tabs', 'jquery-ui-accordion', 'jquery-colorpicker', 'jquery-ui-autocomplete' ),
@@ -22,7 +46,7 @@ function tk_framework( $args = array()  ){
 		'text_domain' => '',
 		'text_domain_path' => '/lang'
 	);
-	
+
 	$args = wp_parse_args($args, $defaults);
 	extract( $args , EXTR_SKIP );
 	
@@ -49,10 +73,10 @@ function tk_framework( $args = array()  ){
 		}
 	}
 	
-	add_action( 'admin_init', 'tk_register_option_groups' );
+	add_action( 'admin_init', 'tk_register_option_groups' ); // should not be here
 	
-	add_action( 'wp_loaded', 'tk_load_framework', 2 );
-	add_action( 'wp_loaded', 'tk_load_jqueryui', 2 );
+	add_action( 'init', 'tk_load_framework', 1 );
+	add_action( 'init', 'tk_load_jqueryui', 1 );
 }
 
 function tk_register_option_groups(){
@@ -63,26 +87,4 @@ function tk_register_option_groups(){
 			tk_register_wp_option_group( $option_group );
 		}
 	}
-}
-
-// If there is already a framework started
-if( $tkf_version != '' ){
-	
-	// If started framework version is older than this version, remove action from init actionhook
-	if( version_compare( $tkf_version, $this_tkf_version, '<' ) ){
-		$function_name = 'tkf_init_' . str_replace( '.', '', $tkf_version );
-		
-		// Removing functions from init actionhook 
-		if( has_action( 'wp_loaded', $function_name ) ){
-			remove_action( $tag, $function_name );
-		}
-		
-		// Add own action to actionhook
-		$tkf_version = $this_tkf_version;
-		add_action( 'wp_loaded', 'tkf_init_' . str_replace( '.', '', $this_tkf_version ), 1 );
-	}
-}else{
-	// Add own action to actionhook
-	$tkf_version = $this_tkf_version;
-	add_action( 'wp_loaded', 'tkf_init_' . str_replace( '.', '', $this_tkf_version ), 1 );
 }
