@@ -36,7 +36,9 @@ if( $tkf_version != '' ){
 }
 
 function tk_framework( $args = array()  ){
-	global $tkf_text_domain, $tkf_text_domain_path, $tkf_text_domain_strings, $tkf_create_textfiles;
+	global $tkf_text_domain, $tkf_text_domain_path, $tkf_text_domain_strings, $tkf_create_textfiles, $tk_hidden_elements;
+	
+	$tk_hidden_elements = array();
 	
 	$defaults = array(
 		'jqueryui_components' => array( 'jquery-fileuploader', 'jquery-ui-tabs', 'jquery-ui-accordion', 'jquery-colorpicker', 'jquery-ui-autocomplete' ),
