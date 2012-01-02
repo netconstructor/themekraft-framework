@@ -40,6 +40,7 @@ class TK_Form_Textfield extends TK_Form_Element{
 		
 		parent::__construct( $args );
 		
+		$this->id = $id;
 		$this->extra = $extra;
 		
 		$this->before_element = $before_element;
