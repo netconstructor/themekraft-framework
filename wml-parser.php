@@ -51,6 +51,11 @@ class TK_WML_Parser{
 		$functions['section'] = array( 'id' => '', 'title' => '', 'content' => '' );
 		$bound_content['accordion'] = 'section';
 		
+		// Autocomplete
+		$functions['autocomplete'] = array( 'name' => '', 'value' => array(), 'label' => '', 'return_object' => $return_object );
+		$functions['value'] = array( 'content' => '' );
+		$bound_content['autocomplete'] = 'value';
+		
 		// Form
 		$functions['form'] = array( 'id' => '', 'name' => '', 'content' => '', 'return_object' => $return_object );
 		
@@ -309,6 +314,29 @@ function tk_db_accordion( $id, $elements = array(), $return_object = TRUE ){
 }
 function tk_db_section( $id, $title, $content = '' ){
 	return array( 'id' => $id, 'title' => $title, 'content' => $content );
+}
+/*
+ * Autocomplete functions
+ */
+function tk_db_autocomplete( $name = '', $values = array(), $label, $return_object = TRUE ){
+	if( trim( $label ) != '' ){
+		
+		tk_add_text_string( $label );
+		tk_add_text_string( $tooltip );
+		
+		$before_element = '<div class="tk_field_row"><div class="tk_field_label"><label for="' . $name . '" title="' . $tooltip . '">' . $label . '</label></div><div class="tk_field">';
+		$after_element = '</div></div>';
+	}	
+	$args = array(
+		'id' => $name,
+		'before_element' => $before_element,
+		'after_element' => $after_element
+	);
+
+	return tk_jqueryui_autocomplete( $name, $values, $args, $return_object );
+}
+function tk_db_value( $value ){
+	return $value;
 }
 
 /*
