@@ -65,7 +65,7 @@ class TK_Form extends TK_HTML{
 		
 		$html = '<form' . $id . $method . ' action="' . $this->action . '" name=' . $this->name . '>';
 		
-		$html = apply_filters( 'tk_form_start_' . $id, $html );
+		$html = apply_filters( 'tk_form_start_' . $this->id, $html );
 		
 		// Adding elements to form
 		foreach( $this->elements AS $element ){
