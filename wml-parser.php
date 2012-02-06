@@ -435,8 +435,11 @@ function tk_db_select( $name, $options, $label, $tooltip, $return_object = TRUE 
 		'before_element' => $before_element,
 		'after_element' => $after_element
 	);
-	return tk_form_select( $name, $options, $args , $return_object );
-}
+	
+	$select = tk_form_select( $name, $options, $args , true );
+	$select->doactions();
+	return $select->get_html();
+	}
 function tk_db_option( $name, $value ){
 	tk_add_text_string( $value );
 	return array( 'name' => $name, 'value' => $value );

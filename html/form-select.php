@@ -86,8 +86,8 @@ class TK_Form_select extends TK_Form_element{
 		if( $this->extra != '' ) $extra = $this->extra;
 		
 		$html = $this->before_element;
-		$html.= '<select' . $id . $name . $size . $extra . ' />';
-		
+		$html.= '<select' . $id . $name . $size . $extra . '>';
+		$options = '';
 		if( count( $this->elements ) > 0 ){
 			foreach( $this->elements AS $element ){
 				$value = '';
@@ -101,24 +101,55 @@ class TK_Form_select extends TK_Form_element{
 					$value =  ' value="' . $element['value'] . '"';
 							
 					if( $this->value == $element['value'] && $element['value'] != '' ){
-						$html.=  '<option' . $value . ' selected' . $extra . '>' . $element['option'] . '</option>';;
+						$options .=  '<option' . $value . ' selected' . $extra . '>' . $element['option'] . '</option>';
 					}else{
-						$html.=  '<option' . $value . $extra . '>' . $element['option'] . '</option>';;
+						$options .=  '<option' . $value . $extra . '>' . $element['option'] . '</option>';
 					}
 				}else{
 					if( $this->value == $element['option'] ){
-						$html.=  '<option' . $value . ' selected' . $extra . '>' . $element['option'] . '</option>';;
+						$options .=  '<option' . $value . ' selected' . $extra . '>' . $element['option'] . '</option>';
 					}else{
-						$html.=  '<option' . $value . $extra . '>' . $element['option'] . '</option>';;
+						$options .=  '<option' . $value . $extra . '>' . $element['option'] . '</option>';
 					}
 				}
 			}
+
 		}
-		
-		$html.= '</select>';
+
+		$options = apply_filters('tk_select_options_filter', $options, $this->id);
+		$html.= $options.'</select>';
 		$html.= $this->after_element;
 		
 		return $html;
 	}	
-	
+
+	public function add_option_action($value, $option_name = ''){
+		// First delete an option with our value if exists
+		$extras='';
+		foreach($this->elements as $key => $element){
+			if($element['value'] == $value){
+				$extras = $element['extras'];
+				unset($this->elements[$key]);
+			}
+		}
+		$this->elements[] = array(
+			'option' => $option_name,
+			'value' => $value,
+			'extras' => $extras,
+		);
+	}
+
+	public function delete_option_action($value){
+		foreach($this->elements as $key => $element){
+			if($element['value'] == $value){
+				unset($this->elements[$key]);
+			}
+		}
+
+	}
+
+	public function doactions(){
+		do_action('tk_select_add_option', $this);
+		do_action('tk_select_delete_option', $this);
+	}
 }
