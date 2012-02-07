@@ -39,10 +39,7 @@
 				<radio name="radiotest" value="2" description="Button 2" />
 				<radio name="radiotest" value="3" description="Button 3" />
 				<select name="myselect" label="Select box" tooltip="Some entries in a dropdown">
-					<option name="First entry" value="first" />
-					<option name="Second entry" value="second" />
-					<option name="Third entry" value="third" />
-					<option name="Fourth entry" value="fourth" />
+
 				</select>
 				<colorpicker name="colorforme" label="Color" tooltip="Select a colour" />
 				<file name="ourfile" label="File" tooltip="Upload your file!" />

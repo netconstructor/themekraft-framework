@@ -68,16 +68,18 @@ class TK_WP_Form_Select extends TK_Form_Select{
 function tk_form_select( $name, $options, $args = array(), $return_object = FALSE ){
 	$select = new TK_WP_Form_Select( $name, $args );
 	
-	foreach ( $options AS $option ){
-		if( !is_array( $option) ){
-			$select->add_option( $option );
-		}else{
-			$option_name = $option['name'];
-			$args = array(
-				'value' => $option['value'],
-				'extra' => $option['extra']
-			);
-			$select->add_option( $option_name, $args );
+	if( is_array( $options ) ){
+		foreach ( $options AS $option ){
+			if( !is_array( $option) ){
+				$select->add_option( $option );
+			}else{
+				$option_name = $option['name'];
+				$args = array(
+					'option_name' => $option['option_name'],
+					'extra' => $option['extra']
+				);
+				$select->add_option( $option['value'], $args );
+			}
 		}
 	}
 	

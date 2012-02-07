@@ -109,13 +109,14 @@ function init_backend(){
   * Hiding elemts by id 
   */
  tk_hide_element( 's1' );
- 
+ tk_select_add_option( 'myselect', '110', 'Svens Police value' );
+ tk_select_delete_option( 'myselect', 'first' );
  /*
   * Example with WML file
   */
  
  // Example for loading xml file
- tk_wml_parse_file( dirname( __FILE__ ) . '/hide_test.xml' );
+ tk_wml_parse_file( dirname( __FILE__ ) . '/example.xml' );
  // tk_wml_create_textfiles_from_wml_file( dirname( __FILE__ ) . '/example.xml' );
  
  
