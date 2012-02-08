@@ -109,8 +109,14 @@ function init_backend(){
   * Hiding elemts by id 
   */
  tk_hide_element( 's1' );
+ 
+ 
  tk_select_add_option( 'myselect', '110', 'Svens Police value' );
  tk_select_delete_option( 'myselect', 'first' );
+ 
+ tk_autocomplete_add_value( 'city', 'Dusseldorf' );
+ tk_autocomplete_delete_value( 'city', 'New York' );
+ 
  /*
   * Example with WML file
   */
