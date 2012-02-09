@@ -11,8 +11,6 @@ Text Domain: tkframework
 Site Wide Only: false
 */
 
-// Schau mal was hier steht
-
 function framework_init(){
  // Registering the form where the data have to be saved
  $args['forms'] = array( 'myform' );
