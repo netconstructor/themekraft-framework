@@ -11,7 +11,7 @@ Text Domain: tkframework
 Site Wide Only: false
 */
 
-// Schau mal was hier steht Ja was soll das?
+// Schau mal was hier steht Ja was soll das?  SO!
 
 function framework_init(){
  // Registering the form where the data have to be saved
