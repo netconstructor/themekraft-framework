@@ -6,7 +6,7 @@ Description: Speed up your wordpress developement with our framework
 Author: Sven Wagener, Sven Lehnert
 Author URI: http://themekraft.com/
 License: GNU GENERAL PUBLIC LICENSE 3.0 http://www.gnu.org/licenses/gpl.txt
-Version: 0.1.0
+Version: 0.1.1
 Text Domain: tkframework
 Site Wide Only: false
 */
