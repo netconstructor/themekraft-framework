@@ -51,3 +51,27 @@ function tk_get_values( $option_group ){
 	$val = new TK_Values( $option_group );
 	return $val->get_values();
 }
+
+function tk_export_values( $option_group, $file_name = 'export.tkf' ){
+	$serialized_val = serialize ( tk_get_values( $option_group ) );
+	
+	header("Content-Type: text/plain");
+	header('Content-Disposition: attachment; filename="' . $file_name . '"');
+	header("Cache-Control: no-cache, must-revalidate"); // HTTP/1.1
+	
+	echo $serialized_val;
+}
+
+function tk_import_values( $option_group, $file ){
+	
+	if( !file_exists( $file ) )
+		return FALSE;
+	
+	$file = fopen( $file, "r" );
+	$unserialized_val = fread( $file, filesize( $file ) );
+	$values = serialize( $unserialized_val );
+	
+	update_option( $option_group, $values );
+	
+	return TRUE;
+}
