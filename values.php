@@ -34,6 +34,10 @@ class TK_Values{
 		return FALSE;
 	}
 	
+	function set_values( $values ){
+		return update_option( $this->option_group, $values );
+	}
+	
 	function get_post_values( $postID = FALSE ){
 		global $post;
 		
@@ -50,6 +54,11 @@ class TK_Values{
 function tk_get_values( $option_group ){
 	$val = new TK_Values( $option_group );
 	return $val->get_values();
+}
+
+function tk_set_values( $option_group, $values ){
+	$val = new TK_Values( $option_group );
+	return $val->set_values( $values );
 }
 
 function tk_export_values( $option_group, $file_name = 'export.tkf' ){
@@ -71,7 +80,5 @@ function tk_import_values( $option_group, $file ){
 	$unserialized_val = fread( $file, filesize( $file ) );
 	$values = serialize( $unserialized_val );
 	
-	update_option( $option_group, $values );
-	
-	return TRUE;
+	return tk_set_values( $option_group, $values );
 }
