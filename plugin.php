@@ -19,6 +19,7 @@ function framework_init(){
  $args['text_domain'] = 'my_text_domain';
  
  require_once( 'loader.php' );
+ 
  tk_framework( $args );
 }
 add_action( 'plugins_loaded', 'framework_init' );
@@ -132,5 +133,9 @@ function init_backend(){
   * Getting back values from form fields
   */
  $values = tk_get_values( 'myform' );
+ 
+ // echo 'Values:<pre>';
+ // print_r( $values );
+ // echo '</pre>';
 }
-add_action( 'admin_menu', 'init_backend' );
+add_action( '_admin_menu', 'init_backend' );

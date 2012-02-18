@@ -117,6 +117,8 @@ function tk_register_wp_option_group( $option_group ){
 function tk_save_wp_metabox_option_group( $post_id ){
 	global $post_option_group;
 	
+	echo 'POG: ' . $post_option_group;
+	
 	// verify if this is an auto save routine. 
 	// If it is our form has not been submitted, so we dont want to do anything
 	if ( defined( 'DOING_AUTOSAVE' ) && DOING_AUTOSAVE ) 

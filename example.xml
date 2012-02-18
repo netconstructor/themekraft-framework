@@ -31,10 +31,10 @@
 		</page>
 		<page title="Forms" headline="Form test">
 			<p>You can also put in Text here like in HTML</p>
-			<form name="form1">
+			<form name="myform">
 
 				<textfield name="name" label="Name:" />
-				<textarea name="name" label="Long text:" />
+				<textarea name="longtext" label="Long text:" />
 
 				<checkbox name="mycheckbox" label="Check this:" description="Checkbox description" />
 				

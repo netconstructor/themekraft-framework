@@ -57,7 +57,9 @@ if( !function_exists( 'tkf_init_010' ) ){
 		
 		if( count( $forms ) > 0  ){
 			global $tk_option_groups;
-			$tk_option_groups = $forms;
+			if( !is_array( $tk_option_groups ) )
+				$tk_option_groups = array();
+			$tk_option_groups = array_merge( $tk_option_groups, $forms );
 		}
 		
 		if( count( $jqueryui_components ) > 0  ){
