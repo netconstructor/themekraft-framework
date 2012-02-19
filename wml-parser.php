@@ -493,6 +493,7 @@ function tk_db_file( $name, $label, $tooltip, $return_object = TRUE ){
 		'before_element' => $before_element,
 		'after_element' => $after_element
 	);
+	
 	return tk_form_fileuploader( $name, $args, $return_object );
 }
 
