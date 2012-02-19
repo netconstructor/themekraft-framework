@@ -63,7 +63,7 @@ class TK_WML_Parser{
 		$functions['textfield'] = array( 'name' => '', 'label' => '', 'tooltip' => '' , 'return_object' => $return_object );
 		$functions['textarea'] = array( 'name' => '', 'label' => '', 'tooltip' => '', 'return_object' => $return_object );
 		$functions['colorpicker'] = array( 'name' => '', 'label' => '', 'tooltip' => '', 'return_object' => $return_object );
-		$functions['file'] = array( 'name' => '', 'label' => '', 'tooltip' => '', 'return_object' => $return_object );
+		$functions['file'] = array( 'name' => '', 'label' => '', 'tooltip' => '', 'delete' => FALSE, 'return_object' => $return_object );
 				
 		$functions['checkbox'] = array( 'name' => '', 'description' => '', 'label' => '', 'tooltip' => '', 'return_object' => $return_object );
 		$functions['radio'] = array( 'name' => '', 'value' => '', 'description' => '', 'label' => '', 'tooltip' => '', 'return_object' => $return_object );
@@ -479,7 +479,7 @@ function tk_db_colorpicker( $name, $label, $tooltip, $return_object = TRUE ){
 	return tk_form_colorpicker( $name, $args, $return_object );
 }
 
-function tk_db_file( $name, $label, $tooltip, $return_object = TRUE ){
+function tk_db_file( $name, $label, $tooltip, $delete = FALSE, $return_object = TRUE ){
 	if( trim( $label ) != '' ){
 		
 		tk_add_text_string( $label );
@@ -487,9 +487,17 @@ function tk_db_file( $name, $label, $tooltip, $return_object = TRUE ){
 		
 		$before_element = '<div class="tk_field_row"><div class="tk_field_label"><label for="' . $name . '" title="' . $tooltip . '">' . $label . '</label></div><div class="tk_field">';
 		$after_element = '</div></div>';
-	}		 
+	}
+	
+	if( $delete == 'FALSE' ){
+		$delete = FALSE;
+	} else {
+		$delete = TRUE;
+	}
+	 
 	$args = array(
 		'id' => $name,
+		'delete' => $delete,
 		'before_element' => $before_element,
 		'after_element' => $after_element
 	);

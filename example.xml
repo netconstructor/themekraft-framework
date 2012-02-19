@@ -57,7 +57,7 @@
 				
 				<colorpicker name="colorforme" label="Color" tooltip="Select a colour" />
 				<file name="ourfile" label="File" tooltip="Upload your file!" />
-				<file name="nextfile" label="File2" tooltip="Upload your file!" />
+				<file name="tempfile" label="File2" tooltip="Upload your file!" id="tempfile" delete="TRUE" />
 				
 				<button name="Save" />
 			</form>
