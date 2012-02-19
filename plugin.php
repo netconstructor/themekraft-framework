@@ -120,6 +120,8 @@ function init_backend(){
  tk_autocomplete_add_value( 'city', 'Dusseldorf' );
  tk_autocomplete_delete_value( 'city', 'New York' );
  
+ add_filter( 'tk_fileupload_tempfile', 'tkf_fileactions', 1, 2 );
+ 
  /*
   * Example with WML file
   */
@@ -139,3 +141,13 @@ function init_backend(){
  // echo '</pre>';
 }
 add_action( '_admin_menu', 'init_backend' );
+
+function tkf_fileactions( $file, $input ){
+	/*
+	echo '<pre>';
+	print_r( $file );
+	echo '</pre>';
+	*/
+	return $file;
+	
+}

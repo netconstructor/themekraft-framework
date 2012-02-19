@@ -489,10 +489,10 @@ function tk_db_file( $name, $label, $tooltip, $delete = FALSE, $return_object = 
 		$after_element = '</div></div>';
 	}
 	
-	if( $delete == 'FALSE' ){
-		$delete = FALSE;
-	} else {
+	if( strtolower( $delete ) == 'true' ){
 		$delete = TRUE;
+	} else {
+		$delete = FALSE;
 	}
 	 
 	$args = array(
