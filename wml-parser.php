@@ -74,6 +74,10 @@ class TK_WML_Parser{
 		
 		$functions['button'] = array( 'name' => '', 'return_object' => $return_object );
 		
+		$functions['export'] = array( 'name' => '', 'forms' => '', 'label' => '', 'file_name' => '', 'tooltip' => '', 'return_object' => $return_object );
+		
+		// tk_db_export( $name, $forms, $label, $file_name,  $tooltip, $return_object = TRUE )
+		
 		$this->bound_content = $bound_content;
 		
 		// Putting all functions in an array
@@ -462,6 +466,32 @@ function tk_db_button( $name, $return_object = TRUE ){
 	return tk_form_button( $name, $args, $return_object );
 }
 
+function tk_db_export( $name, $forms, $label, $file_name,  $tooltip, $return_object = TRUE ){
+	if( trim( $label ) != '' ){
+		
+		tk_add_text_string( $label );
+		tk_add_text_string( $tooltip );
+		
+		$before_element = '<div class="tk_field_row"><div class="tk_field_label"><label for="' . $name . '" title="' . $tooltip . '">' . $label . '</label></div><div class="tk_field">';
+		$after_element = '</div></div>';
+	}
+	
+	$forms = explode( ',', $forms );
+	
+	if( $file_name == '' )
+		$file_name = 'export_' . date( 'Ymdhis', time() ) . '.tkf';
+	
+	$args = array(
+		'id' => $name,
+		'forms' => $forms,
+		'file_name' => $file_name,
+		'before_element' => $before_element,
+		'after_element' => $after_element
+	);
+	
+	return tk_export_button( $name, $args, $return_object );
+}
+
 function tk_db_colorpicker( $name, $label, $tooltip, $return_object = TRUE ){
 	if( trim( $label ) != '' ){
 		
@@ -478,6 +508,8 @@ function tk_db_colorpicker( $name, $label, $tooltip, $return_object = TRUE ){
 	);
 	return tk_form_colorpicker( $name, $args, $return_object );
 }
+
+
 
 function tk_db_file( $name, $label, $tooltip, $delete = FALSE, $return_object = TRUE ){
 	if( trim( $label ) != '' ){

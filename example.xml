@@ -59,8 +59,12 @@
 				<file name="ourfile" label="File" tooltip="Upload your file!" />
 				<file name="tempfile" label="File2" tooltip="Upload your file!" id="tempfile" delete="true" />
 				
+				<export name="Export settings" label="Export" forms="myform" />
+				
 				<button name="Save" />
+				
 			</form>
+			
 		</page>
 		<page title="Nested HTML" headline="Usind HTML in WML">
 			<p>As you can see,you can use HTML in WML.</p>

@@ -61,14 +61,21 @@ function tk_set_values( $option_group, $values ){
 	return $val->set_values( $values );
 }
 
-function tk_export_values( $option_group, $file_name = 'export.tkf' ){
-	$serialized_val = serialize ( tk_get_values( $option_group ) );
-	
+function tk_export_values( $option_groups ){
+	foreach( $option_groups AS $option_group ){
+		$serialized_val.= sprintf( "%x", serialize ( tk_get_values( $option_group ) ) );
+	}
+	return $serialized_val;
+}
+
+function tk_download_export_values( $option_groups, $file_name = 'export.tkf' ){
 	header("Content-Type: text/plain");
 	header('Content-Disposition: attachment; filename="' . $file_name . '"');
 	header("Cache-Control: no-cache, must-revalidate"); // HTTP/1.1
 	
-	echo $serialized_val;
+	echo tk_export_values( $option_groups );
+	
+	exit;
 }
 
 function tk_import_values( $option_group, $file ){
