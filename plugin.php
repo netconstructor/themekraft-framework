@@ -136,11 +136,8 @@ function init_backend(){
   */
  $values = tk_get_values( 'myform' );
  
- // echo 'Values:<pre>';
- // print_r( $values );
- // echo '</pre>';
 }
-add_action( '_admin_menu', 'init_backend' );
+add_action( 'admin_menu', 'init_backend' );
 
 function tkf_fileactions( $file, $input ){
 	/*
@@ -151,3 +148,4 @@ function tkf_fileactions( $file, $input ){
 	return $file;
 	
 }
+

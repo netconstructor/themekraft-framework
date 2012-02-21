@@ -37,7 +37,7 @@ class TK_WML_Parser{
 		$this->display= array();
 		
 		// Menu & Pages
-		$functions['menu'] = array( 'id' => '', 'title' => '', 'page' => array(), 'slug' => '', 'capability' => 'edit_posts', 'parent' => '',  'icon' => '', 'position' => '', 'return_object' => $return_object );
+		$functions['menu'] = array( 'id' => '', 'title' => '', 'page' => array(), 'slug' => '', 'capability' => 'edit_posts', 'parent_slug' => '',  'icon' => '', 'position' => '', 'return_object' => $return_object );
 		$functions['page'] = array( 'id' => '', 'title' => '', 'content' => '', 'headline' => '', 'slug' => '', 'icon' => '' );
 		$bound_content['menu'] = 'page';
 		

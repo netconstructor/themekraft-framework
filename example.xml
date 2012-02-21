@@ -1,6 +1,6 @@
 <?xml version="1.0" ?>
 <wml>
-	<menu title="Custom Menu">
+	<menu title="Custom Menu" parent_slug="themes.php">
 		<page title="Tabs" headline="Tab test">
 			<p>You can also put in Text here like in HTML</p>
 			<tabs>
