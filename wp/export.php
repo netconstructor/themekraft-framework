@@ -8,7 +8,7 @@ class TK_Export_Button extends TK_WP_Form_Button{
 	 * @package Themekraft Framework
 	 * @since 0.1.0
 	 * 
-	 * @param array $args Array of [ $id Id, $name Name, $value Value, $submit use submit, $extra Extra checkbox code   ]
+	 * @param array $args Array of [ $value Value, $args   ]
 	 */
 	function tk_export_button( $value, $args = array() ){
 		$this->__construct( $value, $args );
@@ -20,7 +20,7 @@ class TK_Export_Button extends TK_WP_Form_Button{
 	 * @package Themekraft Framework
 	 * @since 0.1.0
 	 * 
-	 * @param array $args Array of [ $id Id, $name Name, $value Value, $submit use submit, $extra Extra checkbox code   ]
+	 * @param array $args Array of  [ $value Value, $args   ]
 	 */
 	function __construct( $value, $args = array() ){
 		global $tk_form_instance_option_group;
@@ -35,9 +35,7 @@ class TK_Export_Button extends TK_WP_Form_Button{
 			'after_element' => ''
 		);
 		
-		// echo '<br /><br />Value: ' . $value;
-		
-		add_filter( 'sanitize_option_' . $tk_form_instance_option_group . '_values', array( $this , 'validate_actions' ) );
+		add_filter( 'sanitize_option_' . $tk_form_instance_option_group . '_values', array( $this , 'validate_actions' ), 9999 );
 		
 		$args = wp_parse_args($args, $defaults);
 		extract( $args , EXTR_SKIP );
@@ -54,7 +52,7 @@ class TK_Export_Button extends TK_WP_Form_Button{
 	
 	function validate_actions( $input ){
 		global $tk_form_instance_option_group;
-		
+
 		if( $input[ $this->lookup_name ] != '' ){
 			tk_download_export_values( $this->forms, $this->file_name );
 			$input = get_option( $tk_form_instance_option_group . '_values' );
@@ -63,6 +61,26 @@ class TK_Export_Button extends TK_WP_Form_Button{
 	}
 	
 }
+
+function tk_export_values( $option_groups ){
+	
+	foreach( $option_groups AS $option_group ){
+		$values = serialize ( (array) tk_get_values( $option_group ) );
+		$serialized_val.= $values ;
+	}
+	return $serialized_val;
+}
+
+function tk_download_export_values( $option_groups, $file_name = 'export.tkf' ){
+	header("Content-Type: text/plain");
+	header('Content-Disposition: attachment; filename="' . $file_name . '"');
+	header("Cache-Control: no-cache, must-revalidate"); // HTTP/1.1
+	
+	echo tk_export_values( $option_groups );
+	
+	exit;
+}
+
 function tk_export_button( $value, $args, $return_object = FALSE  ){
 	$export_button = new TK_Export_Button( $value, $args );
 	

@@ -29,13 +29,13 @@ class TK_Values{
 		$values = get_option( $this->option_group  . '_values' );
 		
 		if( $values != '' )
-			return (object) $values;
+			return $values;
 			 
 		return FALSE;
 	}
 	
 	function set_values( $values ){
-		return update_option( $this->option_group, $values );
+		return update_option( $this->option_group . '_values', $values );
 	}
 	
 	function get_post_values( $postID = FALSE ){
@@ -51,6 +51,19 @@ class TK_Values{
 	}
 }
 
+function tk_encrypt_string( $string ){
+	for( $i = 0; $i < strlen( $string ) ; $i++ ){
+		$string_encrypted.= chr( $string[$i] );
+	}
+	return $string_encrypted;
+}
+function tk_decrypt_string( $string ){
+	for( $i=0 ; $i < strlen( $string ); $i++ ){
+		$string_decrypted.= ord( $string[$i] );
+	}
+	return $string_decrypted;
+}
+
 function tk_get_values( $option_group ){
 	$val = new TK_Values( $option_group );
 	return $val->get_values();
@@ -59,33 +72,4 @@ function tk_get_values( $option_group ){
 function tk_set_values( $option_group, $values ){
 	$val = new TK_Values( $option_group );
 	return $val->set_values( $values );
-}
-
-function tk_export_values( $option_groups ){
-	foreach( $option_groups AS $option_group ){
-		$serialized_val.= sprintf( "%x", serialize ( tk_get_values( $option_group ) ) );
-	}
-	return $serialized_val;
-}
-
-function tk_download_export_values( $option_groups, $file_name = 'export.tkf' ){
-	header("Content-Type: text/plain");
-	header('Content-Disposition: attachment; filename="' . $file_name . '"');
-	header("Cache-Control: no-cache, must-revalidate"); // HTTP/1.1
-	
-	echo tk_export_values( $option_groups );
-	
-	exit;
-}
-
-function tk_import_values( $option_group, $file ){
-	
-	if( !file_exists( $file ) )
-		return FALSE;
-	
-	$file = fopen( $file, "r" );
-	$unserialized_val = fread( $file, filesize( $file ) );
-	$values = serialize( $unserialized_val );
-	
-	return tk_set_values( $option_group, $values );
 }

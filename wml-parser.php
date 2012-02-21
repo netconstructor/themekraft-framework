@@ -73,7 +73,8 @@ class TK_WML_Parser{
 		$bound_content['select'] = 'option';		
 		
 		$functions['button'] = array( 'name' => '', 'return_object' => $return_object );
-		
+
+		$functions['import'] = array( 'name' => '', 'label' => '', 'tooltip' => '', 'return_object' => $return_object );
 		$functions['export'] = array( 'name' => '', 'forms' => '', 'label' => '', 'file_name' => '', 'tooltip' => '', 'return_object' => $return_object );
 		
 		// tk_db_export( $name, $forms, $label, $file_name,  $tooltip, $return_object = TRUE )
@@ -464,6 +465,25 @@ function tk_db_button( $name, $return_object = TRUE ){
 		'after_element' => $after_element
 	);
 	return tk_form_button( $name, $args, $return_object );
+}
+
+function tk_db_import( $name, $label, $tooltip, $return_object = TRUE ){
+	if( trim( $label ) != '' ){
+		
+		tk_add_text_string( $label );
+		tk_add_text_string( $tooltip );
+		
+		$before_element = '<div class="tk_field_row"><div class="tk_field_label"><label for="' . $name . '" title="' . $tooltip . '">' . $label . '</label></div><div class="tk_field">';
+		$after_element = '</div></div>';
+	}
+	
+	$args = array(
+		'id' => $name,
+		'before_element' => $before_element,
+		'after_element' => $after_element
+	);
+	
+	return tk_import_button( $name, $args, $return_object );
 }
 
 function tk_db_export( $name, $forms, $label, $file_name,  $tooltip, $return_object = TRUE ){

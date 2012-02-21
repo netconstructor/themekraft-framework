@@ -56,10 +56,11 @@
 				</autocomplete>
 				
 				<colorpicker name="colorforme" label="Color" tooltip="Select a colour" />
-				<file name="ourfile" label="File" tooltip="Upload your file!" />
-				<file name="tempfile" label="File2" tooltip="Upload your file!" id="tempfile" delete="true" />
+				
+				<br /><br />
 				
 				<export name="Export settings" label="Export" forms="myform" />
+				<import name="Import settings" label="Import" />
 				
 				<button name="Save" />
 				
