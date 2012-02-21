@@ -89,7 +89,8 @@ class TK_Admin_Pages extends TK_HTML{
 		$args = wp_parse_args($args, $defaults);
 		extract( $args , EXTR_SKIP );
 		
-		if( $menu_slug == '' ) $menu_slug =	$autoslug;	
+		if( $menu_slug == '' ) $menu_slug =	$autoslug;
+		if( $this->parent_slug != '' ) $parent_slug = $this->parent_slug;
 		
 		$element = array( 
 			'id'=> $id,
@@ -116,8 +117,6 @@ class TK_Admin_Pages extends TK_HTML{
 	 */
 	function get_html( $hide_element = FALSE ){
 		global $tk_hidden_elements, $tkf_text_domain;
-		
-		
 		
 		if( !in_array( $this->id, $tk_hidden_elements ) && !$hide_element ){
 				
@@ -161,8 +160,15 @@ class TK_Admin_Pages extends TK_HTML{
 					}elseif( $element['parent_slug'] == '' ){
 						$element['parent_slug'] = $this->menu_slug;
 					}
-								
-					add_submenu_page( $element['parent_slug'], __( $element['page_title'], $tkf_text_domain ) , __( $element['menu_title'], $tkf_text_domain ), $element['capability'], $menu_slug, array( $page_object[ $element['menu_slug'] ] , 'create_page' ) );
+					
+					add_submenu_page( 
+						$element['parent_slug'], 
+						__( $element['page_title'], $tkf_text_domain ) , 
+						__( $element['menu_title'], $tkf_text_domain ), 
+						$element['capability'],
+						$menu_slug, 
+						array( $page_object[ $element['menu_slug'] ] , 'create_page' ) 
+						);
 				}
 
 				$i++;

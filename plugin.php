@@ -19,6 +19,7 @@ function framework_init(){
  $args['text_domain'] = 'my_text_domain';
  
  require_once( 'loader.php' );
+ 
  tk_framework( $args );
 }
 add_action( 'plugins_loaded', 'framework_init' );
@@ -119,6 +120,8 @@ function init_backend(){
  tk_autocomplete_add_value( 'city', 'Dusseldorf' );
  tk_autocomplete_delete_value( 'city', 'New York' );
  
+ add_filter( 'tk_fileupload_tempfile', 'tkf_fileactions', 1, 2 );
+ 
  /*
   * Example with WML file
   */
@@ -132,5 +135,17 @@ function init_backend(){
   * Getting back values from form fields
   */
  $values = tk_get_values( 'myform' );
+ 
 }
 add_action( 'admin_menu', 'init_backend' );
+
+function tkf_fileactions( $file, $input ){
+	/*
+	echo '<pre>';
+	print_r( $file );
+	echo '</pre>';
+	*/
+	return $file;
+	
+}
+

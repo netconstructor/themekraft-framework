@@ -37,7 +37,7 @@ class TK_WML_Parser{
 		$this->display= array();
 		
 		// Menu & Pages
-		$functions['menu'] = array( 'id' => '', 'title' => '', 'page' => array(), 'slug' => '', 'capability' => 'edit_posts', 'parent' => '',  'icon' => '', 'position' => '', 'return_object' => $return_object );
+		$functions['menu'] = array( 'id' => '', 'title' => '', 'page' => array(), 'slug' => '', 'capability' => 'edit_posts', 'parent_slug' => '',  'icon' => '', 'position' => '', 'return_object' => $return_object );
 		$functions['page'] = array( 'id' => '', 'title' => '', 'content' => '', 'headline' => '', 'slug' => '', 'icon' => '' );
 		$bound_content['menu'] = 'page';
 		
@@ -63,7 +63,7 @@ class TK_WML_Parser{
 		$functions['textfield'] = array( 'name' => '', 'label' => '', 'tooltip' => '' , 'return_object' => $return_object );
 		$functions['textarea'] = array( 'name' => '', 'label' => '', 'tooltip' => '', 'return_object' => $return_object );
 		$functions['colorpicker'] = array( 'name' => '', 'label' => '', 'tooltip' => '', 'return_object' => $return_object );
-		$functions['file'] = array( 'name' => '', 'label' => '', 'tooltip' => '', 'return_object' => $return_object );
+		$functions['file'] = array( 'name' => '', 'label' => '', 'tooltip' => '', 'delete' => FALSE, 'return_object' => $return_object );
 				
 		$functions['checkbox'] = array( 'name' => '', 'description' => '', 'label' => '', 'tooltip' => '', 'return_object' => $return_object );
 		$functions['radio'] = array( 'name' => '', 'value' => '', 'description' => '', 'label' => '', 'tooltip' => '', 'return_object' => $return_object );
@@ -73,6 +73,11 @@ class TK_WML_Parser{
 		$bound_content['select'] = 'option';		
 		
 		$functions['button'] = array( 'name' => '', 'return_object' => $return_object );
+
+		$functions['import'] = array( 'name' => '', 'label' => '', 'tooltip' => '', 'return_object' => $return_object );
+		$functions['export'] = array( 'name' => '', 'forms' => '', 'label' => '', 'file_name' => '', 'tooltip' => '', 'return_object' => $return_object );
+		
+		// tk_db_export( $name, $forms, $label, $file_name,  $tooltip, $return_object = TRUE )
 		
 		$this->bound_content = $bound_content;
 		
@@ -462,6 +467,51 @@ function tk_db_button( $name, $return_object = TRUE ){
 	return tk_form_button( $name, $args, $return_object );
 }
 
+function tk_db_import( $name, $label, $tooltip, $return_object = TRUE ){
+	if( trim( $label ) != '' ){
+		
+		tk_add_text_string( $label );
+		tk_add_text_string( $tooltip );
+		
+		$before_element = '<div class="tk_field_row"><div class="tk_field_label"><label for="' . $name . '" title="' . $tooltip . '">' . $label . '</label></div><div class="tk_field">';
+		$after_element = '</div></div>';
+	}
+	
+	$args = array(
+		'id' => $name,
+		'before_element' => $before_element,
+		'after_element' => $after_element
+	);
+	
+	return tk_import_button( $name, $args, $return_object );
+}
+
+function tk_db_export( $name, $forms, $label, $file_name,  $tooltip, $return_object = TRUE ){
+	if( trim( $label ) != '' ){
+		
+		tk_add_text_string( $label );
+		tk_add_text_string( $tooltip );
+		
+		$before_element = '<div class="tk_field_row"><div class="tk_field_label"><label for="' . $name . '" title="' . $tooltip . '">' . $label . '</label></div><div class="tk_field">';
+		$after_element = '</div></div>';
+	}
+	
+	$forms = explode( ',', $forms );
+	
+	if( $file_name == '' )
+		$file_name = 'export_' . date( 'Ymdhis', time() ) . '.tkf';
+	
+	$args = array(
+		'id' => $name,
+		'forms' => $forms,
+		'file_name' => $file_name,
+		'before_element' => $before_element,
+		'after_element' => $after_element
+	);
+	
+	return tk_export_button( $name, $args, $return_object );
+}
+
 function tk_db_colorpicker( $name, $label, $tooltip, $return_object = TRUE ){
 	if( trim( $label ) != '' ){
 		
@@ -479,7 +529,9 @@ function tk_db_colorpicker( $name, $label, $tooltip, $return_object = TRUE ){
 	return tk_form_colorpicker( $name, $args, $return_object );
 }
 
-function tk_db_file( $name, $label, $tooltip, $return_object = TRUE ){
+
+
+function tk_db_file( $name, $label, $tooltip, $delete = FALSE, $return_object = TRUE ){
 	if( trim( $label ) != '' ){
 		
 		tk_add_text_string( $label );
@@ -487,12 +539,21 @@ function tk_db_file( $name, $label, $tooltip, $return_object = TRUE ){
 		
 		$before_element = '<div class="tk_field_row"><div class="tk_field_label"><label for="' . $name . '" title="' . $tooltip . '">' . $label . '</label></div><div class="tk_field">';
 		$after_element = '</div></div>';
-	}		 
+	}
+	
+	if( strtolower( $delete ) == 'true' ){
+		$delete = TRUE;
+	} else {
+		$delete = FALSE;
+	}
+	 
 	$args = array(
 		'id' => $name,
+		'delete' => $delete,
 		'before_element' => $before_element,
 		'after_element' => $after_element
 	);
+	
 	return tk_form_fileuploader( $name, $args, $return_object );
 }
 

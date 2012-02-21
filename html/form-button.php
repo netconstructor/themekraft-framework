@@ -39,6 +39,7 @@ class TK_Form_Button extends TK_Form_Element{
 		$args = wp_parse_args($args, $defaults);
 		extract( $args , EXTR_SKIP );
 		
+		$args['name'] = $name;	
 		$args['value'] = $value;	
 		parent::__construct( $args );
 		

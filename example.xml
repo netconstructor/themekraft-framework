@@ -1,6 +1,6 @@
 <?xml version="1.0" ?>
 <wml>
-	<menu title="Custom Menu">
+	<menu title="Custom Menu" parent_slug="themes.php">
 		<page title="Tabs" headline="Tab test">
 			<p>You can also put in Text here like in HTML</p>
 			<tabs>
@@ -31,10 +31,10 @@
 		</page>
 		<page title="Forms" headline="Form test">
 			<p>You can also put in Text here like in HTML</p>
-			<form name="form1">
+			<form name="myform">
 
 				<textfield name="name" label="Name:" />
-				<textarea name="name" label="Long text:" />
+				<textarea name="longtext" label="Long text:" />
 
 				<checkbox name="mycheckbox" label="Check this:" description="Checkbox description" />
 				
@@ -56,10 +56,16 @@
 				</autocomplete>
 				
 				<colorpicker name="colorforme" label="Color" tooltip="Select a colour" />
-				<file name="ourfile" label="File" tooltip="Upload your file!" />
+				
+				<br /><br />
+				
+				<export name="Export settings" label="Export" forms="myform" />
+				<import name="Import settings" label="Import" />
 				
 				<button name="Save" />
+				
 			</form>
+			
 		</page>
 		<page title="Nested HTML" headline="Usind HTML in WML">
 			<p>As you can see,you can use HTML in WML.</p>
