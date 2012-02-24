@@ -152,6 +152,13 @@ function tk_accordion( $id, $elements, $return_object = false ){
 	$accordion = new TK_Jqueryui_Accordion( $id );	
 	
 	foreach ( $elements AS $element ){
+		
+		if( !isset( $element['extra_title'] ) )
+			$element['extra_title'] = '';
+		
+		if( !isset( $element['extra_content'] ) )
+			$element['extra_content'] = '';
+		
 		$args = array(
 			'extra_title' => $element['extra_title'],
 			'extra_content' => $element['extra_content']

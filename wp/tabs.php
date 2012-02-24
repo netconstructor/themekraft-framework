@@ -54,7 +54,7 @@ class TK_Jqueryui_Tabs extends TK_HTML{
 		global $tk_hidden_elements;
 		
 		// Creating elements
-		if( !in_array( $this->id, $tk_hidden_elements ) && !$hide_element ){
+		if( !in_array( $this->id, $tk_hidden_elements ) ){
 			if( $this->id == '' ){
 				$id = md5( rand() );
 			}else{

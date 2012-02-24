@@ -59,6 +59,11 @@ class TK_Form_Button extends TK_Form_Element{
 	 * @return string $html The HTML of button
 	 */
 	function get_html(){
+		$id = '';
+		$name = '';
+		$value = '';
+		$extra = '';
+		
 		if( $this->id != '' ) $id = ' id="' . $this->id . '"';
 		if( $this->name != '' ) $name = ' name="' . $this->name . '"';
 		if( $this->value != '' ) $value = ' value="' . $this->value . '"';

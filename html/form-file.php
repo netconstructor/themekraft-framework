@@ -36,12 +36,18 @@ class TK_Fileuploader{
 
 		$this->name = $name;
 		
+		$this->extra = $extra;
+		
 		$this->before_element = $before_element;
 		$this->after_element = $after_element;
 
 	}
 	
 	function get_html(){
+		$id = '';
+		$name = '';
+		$extra = '';
+		
 		if( $this->id != '' ) $id = ' id="' . $this->id . '"';
 		if( $this->name != '' ) $name = ' name="' . $this->name . '"';
 		if( $this->extra != '' ) $extra = $this->extra;

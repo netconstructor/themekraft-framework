@@ -29,7 +29,7 @@ class TK_Values{
 		$values = get_option( $this->option_group  . '_values' );
 		
 		if( $values != '' )
-			return $values;
+			return (object) $values;
 			 
 		return FALSE;
 	}
