@@ -73,7 +73,18 @@ function tk_form_select( $name, $options, $args = array(), $return_object = FALS
 			if( !is_array( $option) ){
 				$select->add_option( $option );
 			}else{
-				$option_name = $option['name'];
+				if( !isset( $option['name'] ) )
+					$option['name'] = '';
+				
+				if( !isset( $option['option_name'] ) )
+					$option['option_name']  = '';
+				
+				if( !isset( $option['extra'] ) )
+					$option['extra']  = '';
+				
+				if( !isset( $option['value'] ) )
+					$option['value']  = '';
+				
 				$args = array(
 					'option_name' => $option['option_name'],
 					'extra' => $option['extra']

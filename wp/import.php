@@ -43,7 +43,6 @@ class TK_Import_Button extends TK_WP_Fileuploader{
 		$this->id = $id;
 		$this->delete = TRUE;
 		$this->insert_attachement = FALSE;
-		$this->insert_attachement = $insert_attachement;
 		
 		$this->done_import = FALSE;
 		
@@ -67,7 +66,7 @@ class TK_Import_Button extends TK_WP_Fileuploader{
 
 	function get_html(){
 
-		$import_button = tk_form_button( __( 'Import settings' ), array( 'name' => 'import_settings' ) ); 
+		$import_button = tk_form_button( __( 'Import settings', 'tkf' ), array( 'name' => 'import_settings' ) ); 
 		$this->after_element = $import_button . $this->after_element;
 		$html = parent::get_html();
 		
@@ -79,8 +78,7 @@ function tk_import_values( $option_group, $file_name ){
 	if( !file_exists( $file_name ) )
 		return FALSE;
 	
-	$file = fopen( $file_name, "r" );
-	$file_data = fread( $file, filesize( $file_name ) );
+	$file_data = implode ( '', file ( $file_name ) );
 	
 	$values = unserialize( $file_data );
 	

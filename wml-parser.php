@@ -108,7 +108,7 @@ class TK_WML_Parser{
 		
 		$doc = new DOMDocument();
 		if ( !file_exists( $source ) ){
-			$this->errstr = '<strong>' . __( 'WML Document error: ' ) . '</strong>' .  __( 'File not found! Be sure, the full document path is given.' );
+			$this->errstr = '<strong>' . __( 'WML Document error: ', 'tkf' ) . '</strong>' .  __( 'File not found! Be sure, the full document path is given.', 'tkf' );
 			add_action( 'all_admin_notices', array( $this, 'error_box' ), 1 );
 			return FALSE;
 		}
@@ -134,10 +134,10 @@ class TK_WML_Parser{
 	
 	function wml_error($errno, $errstr, $errfile, $errline){		
 	    if ( $errno == E_WARNING && ( substr_count( $errstr,"DOMDocument::loadXML()" ) > 0 ) ){
-	       	$this->errstr = '<strong>' . __( 'WML Document error: ' ) . '</strong>' . substr( $errstr, 79, 1000 );
+	       	$this->errstr = '<strong>' . __( 'WML Document error: ', 'tkf' ) . '</strong>' . substr( $errstr, 79, 1000 );
 			add_action( 'all_admin_notices', array( $this, 'error_box' ), 1 );
 	    }elseif ( $errno == E_WARNING && ( substr_count( $errstr,"DOMDocument::load()" ) > 0 ) ){
-	    	$this->errstr = '<strong>' . __( 'WML Document error: ' ) . '</strong>' . substr( $errstr, 70, 1000 );
+	    	$this->errstr = '<strong>' . __( 'WML Document error: ', 'tkf' ) . '</strong>' . substr( $errstr, 70, 1000 );
 			add_action( 'all_admin_notices', array( $this, 'error_box' ), 1 );	    	
 	    }
 	    else
@@ -150,7 +150,7 @@ class TK_WML_Parser{
 
 
 	function tk_obj_from_node( $node, $function_name = FALSE, $is_html = FALSE ){
-		global $tkf_create_textfiles;
+		global $tkf_create_textfiles, $tkf_text_domain;
 		
 		// Getting node values
 		$node_name = $node->nodeName;
@@ -215,7 +215,8 @@ class TK_WML_Parser{
 			$function_result = call_user_func_array( 'tk_db_' . $function_name , $params );
 			return $function_result;
 		}elseif( $is_html ){
-			return $params['content'];
+			if( isset( $params['content'] ) )
+				return $params['content'];
 		}else{
 			return $params;
 		}
@@ -227,13 +228,19 @@ class TK_WML_Parser{
 		foreach( $this->functions[ $function_name ] AS $key => $function_params ){
 			
 			// If function was bound to content or has no content
-			if( $params[ $key ] == '' ){
+			if( !isset( $params[ $key ] ) ){
 				// If function was bound to content
-				if( $this->bound_content[ $function_name ] != '' && $key == $this->bound_content[ $function_name ] ){
-					$params_new[ $this->bound_content[ $function_name ] ] = $params[ 'content' ];
+				
+				if( isset( $this->bound_content[ $function_name ] ) ){
+					
+					if( $this->bound_content[ $function_name ] != '' && $key == $this->bound_content[ $function_name ] ){
+						$params_new[ $this->bound_content[ $function_name ] ] = $params[ 'content' ];
+					}else{
+						// Rewrite key to function name
+						$params_new[ $key ] = $this->functions[ $function_name ][ $key ];
+					}
 				}else{
-					// Rewrite key to function name
-					$params_new[ $key ] = $this->functions[ $function_name ][ $key ];
+					$params_new[ $key ] = '';
 				}
 
 			// Getting content from set param
@@ -249,7 +256,7 @@ class TK_WML_Parser{
 		return $db->get_html( $this->display );
 	}
 	
-	function write_text_files( $file_src = FALSE ){
+	function download_text_files( $file_src = FALSE ){
 		global $tkf_text_domain, $tkf_text_domain_strings;
 		
 		$file_content = '<?php ' . chr(10) . chr(10);
@@ -267,15 +274,13 @@ class TK_WML_Parser{
 			$file_src = dirname( __FILE__ ) . '/langfile_' . md5( time() ) . '.php';
 		}
 		
-		if( $file = fopen( $file_src, 'w' ) ){
-			fwrite( $file, $file_content ); 
-			fclose( $file );
-		}else{
-			$this->errstr = '<strong>' . __( 'Texdomain creation error: ' ) . '</strong> Can´t create text file';
-			add_action( 'all_admin_notices', array( $this, 'error_box' ), 1 );
-			return FALSE;
-		}
-		return TRUE;						
+		header("Content-Type: text/plain");
+		header('Content-Disposition: attachment; filename="language_strings.php"');
+		header("Cache-Control: no-cache, must-revalidate"); // HTTP/1.1
+		
+		echo $file_content;
+		
+		exit;				
 	}
 }
 /*
@@ -460,9 +465,7 @@ function tk_db_button( $name, $return_object = TRUE ){
 	tk_add_text_string( $name );
 	
 	$args = array(
-		'id' => $name,
-		'before_element' => $before_element,
-		'after_element' => $after_element
+		'id' => $name
 	);
 	return tk_form_button( $name, $args, $return_object );
 }
@@ -582,7 +585,7 @@ function tk_wml_create_textfiles( $wml, $destination_src = FALSE ){
 	if( !empty( $wml ) ){
 		$wml_parser = new TK_WML_Parser( TRUE, TRUE );	
 		$wml_parser->load_wml( $wml );
-		return $wml_parser->write_text_files( $destination_src );
+		return $wml_parser->download_text_files( $destination_src );
 	}else{
 		return false;
 	}
@@ -594,7 +597,7 @@ function tk_wml_create_textfiles_from_wml_file( $source, $destination_src = FALS
 	
 	$wml_parser = new TK_WML_Parser();	
 	$wml_parser->load_wml_file( $source );
-	return $wml_parser->write_text_files( $destination_src );
+	return $wml_parser->download_text_files( $destination_src );
 }
 function tk_add_text_string( $string ){
 	global $tkf_text_domain_strings, $tkf_text_domain, $tkf_create_textfiles;

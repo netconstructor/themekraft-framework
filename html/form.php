@@ -60,6 +60,9 @@ class TK_Form extends TK_HTML{
 		// Adding method to the form
 		$method_str = ' method="' . $this->method . '"';
 		
+		$id_str = '';
+		$name_str = '';
+		
 		if( $this->id != '' ) $id_str = ' id="' . $this->id . '"';
 		if( $this->name != '' ) $name_str = ' name="' . $this->name . '"';
 		
@@ -74,7 +77,7 @@ class TK_Form extends TK_HTML{
 			unset( $tkdb );
 		}
 		
-		$html = apply_filters( 'tk_form_end_' . $id, $html );
+		$html = apply_filters( 'tk_form_end_' . $this->id, $html );
 				
 		$html.='</form>';
 		

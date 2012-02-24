@@ -82,6 +82,11 @@ class TK_Form_select extends TK_Form_element{
 		
 		$this->merge_option_elements();
 		
+		$id = '';
+		$name = '';
+		$size = '';
+		$extra = '';
+		
 		if( $this->id != '' ) $id = ' id="' . $this->id . '"';
 		if( $this->name != '' ) $name = ' name="' . $this->name . '"';
 		if( $this->size != '' ) $size = ' size="' . $this->size . '"';		
@@ -125,6 +130,9 @@ class TK_Form_select extends TK_Form_element{
 		
 		global $tk_select_option_elements;
 		
+		if( !isset( $tk_select_option_elements[ $this->id ]  ) )
+			return false;
+		
 		if( is_array( $tk_select_option_elements[ $this->id ] ) ){
 			
 			foreach( $tk_select_option_elements[ $this->id ] AS $element ){
@@ -137,6 +145,7 @@ class TK_Form_select extends TK_Form_element{
 					
 			}
 		}
+
 	}
 	// $element = array( 'option_name' => $option_name, 'extra' => $extra );
 }
